@@ -1,0 +1,183 @@
+/* VIEW Home */
+
+@media (min-width: 768px) {
+  .login-page-form {
+    min-height: 100vh !important;
+    background-image: url(../img/home-img.jpg);
+  }
+}
+@media (min-width: 769px) {
+  .login-page-custom {
+    border-top-right-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+  }
+}
+
+#title-login-page {
+  font-family: Montserrat;
+  color: rgb(247, 196, 42);
+  text-align: center;
+  padding: 1% 0;
+  font-size: 2rem;
+}
+
+.login-page-form form {
+  background-color: #ceedc7;
+}
+
+/* home-page */
+
+#title {
+  font-family: Montserrat;
+  background-color: #205d67;
+  color: antiquewhite;
+  text-align: center;
+  padding: 1% 0;
+}
+
+.header-title {
+  font-weight: 700;
+  font-size: 3rem;
+  letter-spacing: 3px;
+  display: inline;
+  padding-left: 1%;
+}
+
+#navigation-bar {
+  background-color: #cffde1;
+  font-family: Ubuntu;
+}
+
+.navbar-nav {
+  margin: 1% auto;
+}
+
+.nav-item {
+  padding: 0 30px;
+}
+
+.nav-icon {
+  padding: 0 5px 0;
+}
+
+.home-page-wall {
+  background-image: url("../img/home-img.jpg");
+  text-align: center;
+  padding: 10% 0%;
+}
+
+.home-page-quote {
+  padding: 0 2%;
+  letter-spacing: 6px;
+  font-weight: 400;
+  font-size: 2.5rem;
+  font-family: Montserrat;
+}
+
+/* footer */
+
+footer {
+  background-color: #fed049;
+  text-align: center;
+  height: 30px;
+  position: static;
+  bottom: 0;
+  width: 100%;
+}
+
+/* expenses */
+
+.header-section {
+  text-align: center;
+  font-family: Montserrat;
+  font-weight: 400;
+  font-size: 2.5rem;
+  padding: 2% 0;
+  background-color: antiquewhite;
+  margin-bottom: 0;
+  letter-spacing: 3px;
+}
+
+form {
+  background-color: antiquewhite;
+  margin: -16px 0;
+  padding-bottom: 1%;
+}
+
+.form-group {
+  background-color: #ceedc7; /*CFFDE1*/
+  margin: 1% auto;
+  width: 25%;
+  text-align: left;
+  padding: 1% 1%;
+}
+
+.form-control {
+  text-align: left;
+}
+
+.expenses-buttons {
+  margin: 1% auto;
+  width: 25%;
+  padding: 1% 1%;
+  text-align: center;
+}
+
+.input-container {
+  display: flex;
+  width: 100%;
+}
+
+.icon {
+  padding: 10px;
+  background: dodgerblue;
+  color: white;
+  min-width: 50px;
+  text-align: center;
+  border-radius: 12%;
+}
+
+/* balance */
+
+.cards-container {
+  text-align: center;
+  font-family: Montserrat;
+  background-color: antiquewhite;
+}
+.card {
+  background-color: #ceedc7;
+  margin: 0 1%;
+  display: inline-block;
+}
+
+.header-incomes {
+  color: #3e7c17;
+  font-size: 2rem;
+  letter-spacing: 3px;
+}
+
+.header-expenses {
+  color: #dc3535;
+  font-size: 2rem;
+  letter-spacing: 3px;
+}
+
+.header-balance {
+  color: #3c79f5;
+  font-size: 2rem;
+  letter-spacing: 3px;
+}
+
+.card-title {
+  text-align: left;
+}
+
+.card-text {
+  text-align: left;
+}
+
+.dropdown {
+  text-align: right;
+  padding: 1% 1% 0;
+  background-color: antiquewhite;
+}
