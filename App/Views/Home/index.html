@@ -45,18 +45,19 @@
 
                 <form class="was-validated">
                   <div class="input-container mb-4">
-                    <i class="fa-solid fa-envelope icon"></i>
+                    <span><i class="fa-solid fa-envelope icon"></i></span>
                     <input
                       type="email"
                       id="email"
                       class="form-control"
                       placeholder="Podaj e-mail aby się zalogować"
                       required
+                      autofocus
                     />
                   </div>
 
                   <div class="input-container mb-4">
-                    <i class="fa-solid fa-lock icon"></i>
+                    <span><i class="fa-solid fa-lock icon"></i></span>
                     <input
                       type="password"
                       id="password"
@@ -64,6 +65,24 @@
                       placeholder="Podaj hasło aby się zalogować"
                       required
                     />
+                  </div>
+
+                  <div class="input-container mb-4">
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="remember_me"
+                        {%
+                        if
+                        remember_me
+                        %}
+                        checked="checked"
+                        {%
+                        endif
+                        %}
+                      />
+                      Zapamiętaj mnie
+                    </label>
                   </div>
 
                   <div class="text-center pt-1 mb-5 pb-1">
@@ -81,7 +100,7 @@
                   >
                     <p class="mb-0 me-2 mr-3">Nowy użytkownik?</p>
                     <a
-                      href="register-only.html"
+                      href="/signup/new"
                       type="button"
                       class="btn btn-outline-success"
                     >

@@ -125,7 +125,18 @@ form {
 
 .input-container {
   display: flex;
+  align-items: center;
   width: 100%;
+  position: relative;
+}
+
+.input-group-append {
+  position: absolute;
+  left: 93%;
+}
+
+.eye-icon {
+  cursor: pointer;
 }
 
 .icon {
