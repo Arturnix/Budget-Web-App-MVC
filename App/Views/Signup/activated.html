@@ -1,11 +1,24 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}Zaloguj się! Twój budżet{% endblock
+%} {% block body %}
 
-{% block title %}Sign up{% endblock %}
+<section class="h-100 login-page-form">
+  <div class="container py-5 h-100">
+    <div
+      class="row d-flex justify-content-center align-items-center h-100"
+      id="successSignupMessage"
+    >
+      <h1><br />Zacznij skutecznie zarządzać swoim budżetem!</h1>
 
-{% block body %}
-
-    <h1>Sign up</h1>
-
-    <p>Success! Your account is now active. You can now <a href="/login">log in</a>.</p>
+      <p>
+        <br /><br />
+        Super! Twóje konto jest już aktywne. Możesz się
+        <a href="/" type="button" class="btn btn-outline-primary">
+          zalogować
+        </a>
+        <br /><br />
+      </p>
+    </div>
+  </div>
+</section>
 
 {% endblock %}
