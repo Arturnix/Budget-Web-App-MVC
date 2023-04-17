@@ -9,9 +9,8 @@ endblock %} {% block footer %}
     /**
      * Validate the form
      */
+
     $("#formSignup").validate({
-      submitHandler: function(form) {
-      errorClass: "text-danger",
       rules: {
         name: {
           required: true,
@@ -37,7 +36,7 @@ endblock %} {% block footer %}
         email: {
           required: "Pole wymagane",
           email: "Podaj poprawny adres email",
-          remote: "Email already taken",
+          remote: "Dla podanego adresu email przypisane jest już inne konto",
         },
         password: {
           required: "Pole wymagane",
@@ -46,13 +45,13 @@ endblock %} {% block footer %}
           validPassword: "Hasło musi zawierać przynajmniej 1 literę i 1 cyfrę",
         },
       },
+
+      errorClass: "text-danger",
       errorPlacement: function ($error, $element) {
         var name = $element.attr("name");
 
         $("#error" + name).append($error);
       },
-      form.submit();
-    },
     });
   });
 </script>
@@ -62,14 +61,7 @@ endblock %} {% block footer %}
   <img src="/img/favicon.ico" alt="Arturnix icon" /> Arturnix.
 </footer>
 
-{% endblock %} {% block body %} {% if user.errors is not empty %}
-<p>Errors:</p>
-<ul>
-  {% for error in user.errors %}
-  <li>{{ error }}</li>
-  {% endfor %}
-</ul>
-{% endif %}
+{% endblock %} {% block body %}
 
 <!-- register -->
 
@@ -118,7 +110,7 @@ endblock %} {% block footer %}
                     </div>
                     <input
                       type="text"
-                      id="inputName"
+                      id="name"
                       name="name"
                       autofocus
                       value="{{ user.name }}"
@@ -128,6 +120,7 @@ endblock %} {% block footer %}
                     />
                   </div>
                   <small id="errorname"></small>
+                  <span>{{ user.errors.name }}</span>
 
                   <div class="input-container mb-2">
                     <div class="input-group-prepend">
@@ -135,7 +128,7 @@ endblock %} {% block footer %}
                     </div>
                     <input
                       type="email"
-                      id="inputEmail"
+                      id="email"
                       name="email"
                       value="{{ user.email }}"
                       class="form-control"
@@ -144,6 +137,7 @@ endblock %} {% block footer %}
                     />
                   </div>
                   <small id="erroremail"></small>
+                  <span>{{ user.errors.email }}</span>
 
                   <div class="input-container mb-2">
                     <div class="input-group-prepend">
@@ -168,19 +162,20 @@ endblock %} {% block footer %}
                     </div>
                   </div>
                   <small id="errorpassword"></small>
+                  <span>{{ user.errors.password }}</span>
 
                   <div
                     class="g-recaptcha"
                     data-sitekey="6LeIjoolAAAAAJYjakdywVW3q52SSCFOYqmlse11"
                   ></div>
+                  <small class="text-danger">{{ user.errors.captcha }}</small>
 
                   <div class="text-center mt-3">
-                    <button
+                    <input
                       type="submit"
                       class="login-btn btn btn-success btn-block mb-3"
-                    >
-                      Zarejestruj się
-                    </button>
+                      value="Zarejestruj się"
+                    />
                   </div>
                 </form>
 
