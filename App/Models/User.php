@@ -13,9 +13,10 @@ use \Core\View;
  *
  * PHP version 7.0
  */
+
+ #[\AllowDynamicProperties]
 class User extends \Core\Model
 {
-
     public $id;
     public $name;
     public $email;
@@ -95,32 +96,42 @@ class User extends \Core\Model
     {
         // Name
         if ($this->name == '') {
-            $this->errors[] = 'Name is required';
+            $this->errors['name'] = 'Imię jest wymagane';
         }
 
         // email address
         if (filter_var($this->email, FILTER_VALIDATE_EMAIL) === false) {
-            $this->errors[] = 'Invalid email';
+            $this->errors['email'] = 'Podaj poprawny adres email';
         }
         if (static::emailExists($this->email, $this->id ?? null)) {
-            $this->errors[] = 'email already taken';
+            $this->errors['email'] = 'Dla podanego adresu email przypisane jest już inne konto';
         }
 
         // Password
         if (isset($this->password)) {
 
             if (strlen($this->password) < 6 || strlen($this->password) > 20) {
-                $this->errors[] = 'Please enter at least 6 to 20 characters for the password';
+                $this->errors['password'] = 'Hasło musi składać się z 6 do 20 znaków';
             }
 
             if (preg_match('/.*[a-z]+.*/i', $this->password) == 0) {
-                $this->errors[] = 'Password needs at least one letter';
+                $this->errors['password'] = 'Hasło musi zawierać literę';
             }
 
             if (preg_match('/.*\d+.*/i', $this->password) == 0) {
-                $this->errors[] = 'Password needs at least one number';
+                $this->errors['password'] = 'Hasło musi zawierać cyfrę';
             }
         }
+        
+        //reCAPTCHA
+        $checkCaptcha = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.CAPTCHA_Config::CAPTCHA_SECRET_KEY.'&response='.$_POST['g-recaptcha-response']);
+		$checkCaptchaResponse = json_decode($checkCaptcha);
+
+        if(!($checkCaptchaResponse->success)) {
+		
+			$this->errors['captcha'] = "Potwierdź, że nie jesteś botem";
+		}
+
     }
 
     /**

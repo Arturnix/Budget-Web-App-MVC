@@ -192,3 +192,19 @@ form {
   padding: 1% 1% 0;
   background-color: antiquewhite;
 }
+
+#successSignupMessage {
+  font-family: Montserrat;
+  background-color: rgb(240, 192, 72);
+  border-radius: 10px 100px / 120px;
+  padding: 2%;
+}
+
+#successSignupMessage > h1 {
+  letter-spacing: 3px;
+}
+
+#successSignupMessage > p {
+  letter-spacing: 2px;
+  margin: auto;
+}
