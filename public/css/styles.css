@@ -193,6 +193,8 @@ form {
   background-color: antiquewhite;
 }
 
+/* Signup messages */
+
 #successSignupMessage {
   font-family: Montserrat;
   background-color: rgb(240, 192, 72);
@@ -207,4 +209,27 @@ form {
 #successSignupMessage > p {
   letter-spacing: 2px;
   margin: auto;
+}
+
+/* Flash messages */
+
+.alert {
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+}
+.alert-info {
+  background-color: #d9edf7;
+  justify-content: center;
+  text-align: center;
+}
+.alert-success {
+  background-color: #dff0d8;
+  justify-content: center;
+  text-align: center;
+}
+.alert-warning {
+  background-color: #fbb7b7;
+  color: black;
+  text-align: center;
 }

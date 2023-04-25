@@ -1,0 +1,120 @@
+{% extends "base.html" %} {% block body %}
+
+<!-- register -->
+
+<section class="h-100 login-page-form">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-xl-11">
+        <div class="card rounded-3 text-black">
+          <div class="row g-0">
+            <div class="col-lg-6 d-flex align-items-center login-page-custom">
+              <div class="px-3 py-4 p-md-5 mx-md-4">
+                <header>
+                  <div id="title-login-page">
+                    <img
+                      class="header-budget-img"
+                      src="img/budget.png"
+                      alt="budget-img"
+                    />
+                    <h4 class="mb-4 mt-2">
+                      <strong
+                        >Zaplanuj swój budżet i zacznij oszczędzać!</strong
+                      >
+                    </h4>
+                  </div>
+
+                  <p class="medium mb-0">
+                    Prowadzenie szczegółowego zapisu obortu własnymi finansami
+                    to pierwszy krok do stworzenia sobie możliwości aby spełniać
+                    marzenia. <br />Aktualizuj stan przychodów i wydatków oraz
+                    monitoruj bilans finansowy z dowolnego okresu.
+                  </p>
+                </header>
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div class="card-body p-md-5 mx-md-4">
+                <div class="text-center">
+                  <h4 class="mt-1 mb-5 pb-1">
+                    Zaloguj się jesli posiadasz już konto lub zarejestruj się
+                    jeśli jesteś nowym użytkownikiem
+                  </h4>
+                </div>
+
+                <form class="was-validated">
+                  <div class="input-container mb-4">
+                    <span><i class="fa-solid fa-envelope icon"></i></span>
+                    <input
+                      type="email"
+                      id="email"
+                      class="form-control"
+                      placeholder="Podaj e-mail aby się zalogować"
+                      required
+                      autofocus
+                    />
+                  </div>
+
+                  <div class="input-container mb-4">
+                    <span><i class="fa-solid fa-lock icon"></i></span>
+                    <input
+                      type="password"
+                      id="password"
+                      class="form-control"
+                      placeholder="Podaj hasło aby się zalogować"
+                      required
+                    />
+                  </div>
+
+                  <div class="input-container mb-4">
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="remember_me"
+                        {%
+                        if
+                        remember_me
+                        %}
+                        checked="checked"
+                        {%
+                        endif
+                        %}
+                      />
+                      Zapamiętaj mnie
+                    </label>
+                  </div>
+
+                  <div class="text-center pt-1 mb-5 pb-1">
+                    <a
+                      href="home.html"
+                      class="login-btn btn btn-primary btn-block mb-3"
+                      type="button"
+                    >
+                      Zaloguj się
+                    </a>
+                  </div>
+
+                  <div
+                    class="d-flex align-items-center justify-content-center pb-4"
+                  >
+                    <p class="mb-0 me-2 mr-3">Nowy użytkownik?</p>
+                    <a
+                      href="/signup/new"
+                      type="button"
+                      class="btn btn-outline-success"
+                    >
+                      Zarejestruj się
+                    </a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
