@@ -37,6 +37,16 @@ class Auth
     }
 
     /**
+     * Check whether the user is logged in
+     *
+     * @return bool
+     */
+	 public static function isLoggedIn()
+	 {
+		 return isset($_SESSION['user_id']);
+	 }
+
+    /**
      * Logout the user
      *
      * @return void
@@ -84,7 +94,7 @@ class Auth
      */
     public static function getReturnToPage()
     {
-        return $_SESSION['return_to'] ?? '/';
+        return $_SESSION['return_to'] ?? '/home/index';
     }
 
     /**

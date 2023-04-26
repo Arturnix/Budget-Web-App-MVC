@@ -43,7 +43,11 @@
                   </h4>
                 </div>
 
-                <form class="was-validated" action="login/create" method="post">
+                <form
+                  class="was-validated"
+                  action="/login/create"
+                  method="post"
+                >
                   <div class="input-container mb-4">
                     <span><i class="fa-solid fa-envelope icon"></i></span>
                     <input
@@ -52,6 +56,7 @@
                       id="email"
                       class="form-control"
                       placeholder="Podaj e-mail aby się zalogować"
+                      value="{{ email }}"
                       required
                       autofocus
                     />

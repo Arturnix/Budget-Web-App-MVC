@@ -22,7 +22,15 @@ class Login extends \Core\Controller
      */
     public function newAction()
     {
+        if(Auth::isLoggedIn()) {
+
+			$this->redirect('/home/index');
+
+		} else {
+
         View::renderTemplate('Login/new.html');
+
+        }
     }
 
     /**
@@ -43,6 +51,7 @@ class Login extends \Core\Controller
             Flash::addMessage('Zalogowałeś się!');
 
             $this->redirect(Auth::getReturnToPage());
+            //$this->redirect('/home/index');
 
         } else {
 
