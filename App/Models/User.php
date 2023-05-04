@@ -308,7 +308,7 @@ class User extends \Core\Model
         $text = View::getTemplate('Password/reset_email.txt', ['url' => $url]);
         $html = View::getTemplate('Password/reset_email.html', ['url' => $url]);
 
-        Mail::send($this->email, 'Password reset', $text, $html);
+        Mail::send($this->email, 'Twój Budżet - Reset hasła', $text, $html);
     }
 
     /**
