@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% block title %}Reset hasła{% endblock %} {% block
+body %}
+
+<section class="reset-password-fit">
+  <br />
+  <form method="post" action="/password/request-reset">
+    <div class="reset-password">
+      <label for="inputEmail"
+        >Podaj adres email dla swojego konta aby zresetować hasło:
+        <hr
+      /></label>
+
+      <input
+        type="email"
+        id="inputEmail"
+        name="email"
+        placeholder="Email address"
+        autofocus
+        required
+        class="form-control"
+      />
+      <div class="d-flex align-items-center justify-content-center my-3">
+        <button type="submit" class="btn btn-warning mr-5">Reset hasła</button>
+        <a href="/" type="button" class="btn btn-outline-primary ml-5">
+          Anuluj
+        </a>
+      </div>
+      <hr />
+    </div>
+  </form>
+</section>
+
+{% endblock %}

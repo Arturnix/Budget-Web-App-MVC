@@ -70,5 +70,29 @@ block body %} {% if current_user %} Hello {{ current_user.name }}.
 </div>
 
 {% else %}
-<a href="/signup/new">Sign up</a> or <a href="/login">log in</a>. {% endif %} {%
-endblock %}
+<section class="h-100 login-page-form">
+  <div class="container py-5 h-100">
+    <div
+      class="row d-flex align-items-center justify-content-center h-100"
+      id="accessDeniedMessage"
+    >
+      <h1><br />Strona dostępna tylko dla zalogowanych użytkowników!</h1>
+
+      <p>
+        <br /><br />
+        Aby zacząć zarządzać swoim budżetem...<br /><br />
+      </p>
+    </div>
+    <div class="d-flex align-items-center justify-content-center">
+      <p class="my-5 me-2 mr-3"><b>Przejdź do strony logowania</b></p>
+      <a href="/login" type="button" class="btn btn-primary"> Zaloguj się </a>
+    </div>
+    <div class="d-flex align-items-center justify-content-center">
+      <p class="my-2 me-2 mr-3"><b>Jeśli nie masz jeszcze konta</b></p>
+      <a href="/signup/new" type="button" class="btn btn-success">
+        Zarejestruj się
+      </a>
+    </div>
+  </div>
+</section>
+{% endif %} {% endblock %}

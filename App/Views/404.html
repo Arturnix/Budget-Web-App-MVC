@@ -1,10 +1,16 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}Page not found{% endblock %} {% block
+body %}
 
-{% block title %}Page not found{% endblock %}
-
-{% block body %}
-
-    <h1>Page not found</h1>
-    <p>Sorry, that page doesn't exist.</p>
+<section class="reset-password-fit">
+  <div class="container py-3">
+    <div id="accessDeniedMessage">
+      <h1>
+        Nie znaleziono strony
+        <br />
+      </h1>
+      <p>Przepraszamy, strona nie istnieje.</p>
+    </div>
+  </div>
+</section>
 
 {% endblock %}

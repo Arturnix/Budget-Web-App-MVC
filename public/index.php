@@ -25,7 +25,6 @@ set_exception_handler('Core\Error::exceptionHandler');
  */
 session_start();
 
-
 /**
  * Routing
  */

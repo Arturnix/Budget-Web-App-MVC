@@ -22,6 +22,7 @@ class Login extends \Core\Controller
      */
     public function newAction()
     {
+        
         if(Auth::isLoggedIn()) {
 
 			$this->redirect('/home/index');

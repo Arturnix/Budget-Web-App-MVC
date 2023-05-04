@@ -1,0 +1,19 @@
+{% extends 'base.html' %} {% block title %}Token wygasł{% endblock %} {% block
+body %}
+
+<section class="reset-password-fit">
+  <div class="container py-3">
+    <div id="accessDeniedMessage">
+      <h1>
+        Próba resetu hasła
+        <br />
+      </h1>
+      <p>
+        Link do resetu hasła jest niepoprawny lub wygasł. Kliknij
+        <a href="/password/forgot">tutaj</a> aby otrzymać nowy.
+      </p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

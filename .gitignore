@@ -4,3 +4,5 @@ composer.lock
 
 App/PHPMailer_Config.php
 App/CAPTCHA_Config.php
+
+/logs

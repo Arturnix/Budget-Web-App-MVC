@@ -135,6 +135,11 @@ form {
   left: 93%;
 }
 
+.input-group-append-reset {
+  position: absolute;
+  left: 91%;
+}
+
 .eye-icon {
   cursor: pointer;
 }
@@ -211,6 +216,23 @@ form {
   margin: auto;
 }
 
+#accessDeniedMessage {
+  font-family: Montserrat;
+  background-color: rgb(254, 133, 133);
+  border-radius: 10px 100px / 120px;
+  padding: 2%;
+}
+
+#accessDeniedMessage > h1 {
+  letter-spacing: 3px;
+  font-size: 2rem;
+}
+
+#accessDeniedMessage > p {
+  letter-spacing: 2px;
+  margin: auto;
+}
+
 /* Flash messages */
 
 .alert {
@@ -232,4 +254,19 @@ form {
   background-color: #fbb7b7;
   color: black;
   text-align: center;
+}
+
+/* Reset password */
+
+.reset-password {
+  background-color: #ceedc7; /*CFFDE1*/
+  margin: 1% auto;
+  width: 25%;
+  text-align: left;
+  padding: 3%;
+}
+
+.reset-password-fit {
+  min-height: 100vh !important;
+  background-color: antiquewhite;
 }
