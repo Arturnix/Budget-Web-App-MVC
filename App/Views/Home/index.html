@@ -1,7 +1,5 @@
 {% extends 'base.html' %} {% block title %}Ogarnij swój budżet!{% endblock %} {%
-block body %} {% if current_user %} Hello {{ current_user.name }}.
-
-<a href="/logout">Log out</a>
+block body %}
 
 <header>
   <div id="title">
@@ -51,7 +49,7 @@ block body %} {% if current_user %} Hello {{ current_user.name }}.
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="register-login.html"
+          <a class="nav-link" href="/logout"
             ><i class="nav-icon fa-solid fa-arrow-up-right-from-square"></i
             >Wyloguj się</a
           >
@@ -63,6 +61,11 @@ block body %} {% if current_user %} Hello {{ current_user.name }}.
 
 <div class="home-page-wall">
   <h2>
+    <span class="home-page-quote"
+      >{% if current_user %} {{ current_user.name }}:<wbr
+    /></span>
+    <br />
+    <br />
     <span class="home-page-quote">Zarabiaj.<wbr /></span
     ><span class="home-page-quote">Oszczędzaj.<wbr /></span
     ><span class="home-page-quote">Inwestuj...</span>
