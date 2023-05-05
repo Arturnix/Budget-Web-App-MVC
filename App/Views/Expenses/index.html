@@ -1,0 +1,217 @@
+{% extends 'base.html' %} {% block title %}Ogarnij swój budżet!{% endblock %} {%
+block body %} {% if current_user %}
+
+    <!-- CSS Stylesheets -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+
+    <!-- Font Awesome -->
+    <script
+      src="https://kit.fontawesome.com/5f0ef8cba2.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Bootstrap Scripts -->
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Ubuntu&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- datapicker -->
+    <link href="/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="/js/bootstrap-datepicker.min.js"></script>
+    <script src="/js/bootstrap-datepicker.pl.min.js"></script>
+  </head>
+
+    <header>
+      <div id="title">
+        <img class="header-budget-img" src="/img/budget.png" alt="budget-img" />
+        <h1 class="header-title">Zaplanuj swój budżet i zacznij oszczędzać!</h1>
+      </div>
+
+      <nav id="navigation-bar" class="navbar navbar-expand-lg navbar-light">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/home/index"
+                ><i class="nav-icon fa-solid fa-house-chimney"></i>Strona
+                główna</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"
+                ><i class="nav-icon fa-solid fa-sack-dollar"></i>Dodaj
+                przychód</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/expenses/index"
+                ><i class="nav-icon fa-solid fa-cash-register"></i>Dodaj
+                wydatek</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/balance/index"
+                ><i class="nav-icon fa-solid fa-scale-unbalanced"></i>Przeglądaj
+                bilans</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"
+                ><i class="nav-icon fa-solid fa-screwdriver-wrench"></i
+                >Ustawienia</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout"
+                ><i class="nav-icon fa-solid fa-arrow-up-right-from-square"></i
+                >Wyloguj się</a
+              >
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <!-- expenses section  -->
+    <h2 class="header-section">Wprowadź dane nowego wydatku:</h2>
+    <form>
+      <div class="form-group">
+        <label>Kwota wydatku:</label>
+        <div class="input-container">
+          <i class="fa-sharp fa-solid fa-coins icon"></i>
+          <input
+            class="form-control"
+            placeholder="Podaj kwotę wydatku"
+            type="number"
+            min="0"
+            step="0.01"
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Data wydatku:</label>
+        <div class="input-container date" id="datepicker">
+          <div class="input-group-addon">
+            <i class="fa-regular fa-calendar-days icon"></i>
+          </div>
+          <input
+            id="todays-date"
+            onkeydown="return false"
+            class="form-control"
+            placeholder="Wybierz datę z kalendarza"
+          />
+          <div class="input-group-addon">
+            <span class="glyphicon glyphicon-th"></span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Metoda płatności:</label>
+        <br />
+        <select class="form-control">
+          <option hidden>Wybierz metodę płatności</option>
+          <option>Karta debetowa</option>
+          <option>Gotówka</option>
+          <option>Karta kredytowa</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Cel wydatku:</label>
+        <br />
+        <select class="form-control">
+          <option hidden>Wybierz cel wydatku</option>
+          <option>Jedzenie</option>
+          <option>Mieszkanie</option>
+          <option>Transport</option>
+          <option>Telekomunikacja</option>
+          <option>Opieka zdrowotna</option>
+          <option>Ubranie</option>
+          <option>Higiena</option>
+          <option>Dzieci</option>
+          <option>Rozrywka</option>
+          <option>Wycieczka</option>
+          <option>Szkolenia</option>
+          <option>Książki</option>
+          <option>Na złotą jesień, czyli emeryturę</option>
+          <option>Spłata długów</option>
+          <option>Darowizna</option>
+          <option>Inne wydatki</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Komentarz:</label>
+        <div class="input-container">
+          <i class="fa-solid fa-pen icon"></i>
+          <input class="form-control" placeholder="Dodaj komentarz..." />
+        </div>
+      </div>
+      <div class="form-group btn-toolbar justify-content-between">
+        <button type="button" class="btn-group btn btn-success button-left">
+          Dodaj
+        </button>
+        <a
+          class="btn-group btn btn-danger button-right"
+          role="button"
+          href="/home/index"
+          >Anuluj</a
+        >
+      </div>
+    </form>
+
+    <script type="text/javascript">
+      $("#datepicker").datepicker({
+        format: "yyyy-mm-dd",
+        startDate: "2000-01-01",
+        endDate: "+2m -1d",
+        language: "pl",
+        autoclose: true,
+        todayBtn: "linked",
+        todayHighlight: true,
+      });
+    </script>
+    <script type="text/javascript">
+      var today = new Date();
+      var dd = ("0" + today.getDate()).slice(-2);
+      var mm = ("0" + (today.getMonth() + 1)).slice(-2);
+      var yyyy = today.getFullYear();
+      today = yyyy + "-" + mm + "-" + dd;
+      $("#todays-date").attr("value", today);
+    </script>
+
+{% endif %} {% endblock %}
