@@ -1,15 +1,40 @@
 /* VIEW Home */
 
-@media (min-width: 768px) {
+/*@media (min-width: 768px) {
   .login-page-form {
     min-height: 100vh !important;
     background-image: url(../img/home-img.jpg);
   }
+}*/
+
+.login-page-form {
+  min-height: 100vh !important;
+  background-image: url(../img/more-leaves-on-green.png);
 }
-@media (min-width: 769px) {
+
+/*@media (min-width: 769px) {
   .login-page-custom {
     border-top-right-radius: 0.3rem;
     border-bottom-right-radius: 0.3rem;
+  }
+}*/
+
+.login-page-custom {
+  border-top-right-radius: 0.3rem;
+  border-bottom-right-radius: 0.3rem;
+}
+
+@media screen and (max-width: 768px) {
+  #budgetImg {
+    max-width: 40%;
+    max-height: 40%;
+  }
+  #title > .header-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    display: block;
+    padding-left: 1%;
   }
 }
 
@@ -58,10 +83,12 @@
 
 .nav-icon {
   padding: 0 5px 0;
+  color: rgb(242, 72, 151);
+  /*color: rgb(255, 178, 71);*/
 }
 
 .home-page-wall {
-  background-image: url("../img/home-img.jpg");
+  background-image: url("../img/more-leaves-on-green.png");
   text-align: center;
   padding: 10% 0%;
 }

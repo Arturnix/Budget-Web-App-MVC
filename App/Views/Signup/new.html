@@ -54,10 +54,14 @@ endblock %} {% block footer %}
       },
     });
   });
+
+  function onSubmit(token) {
+    document.getElementById("formSignup").submit();
+  }
 </script>
 
 <footer>
-  © 2022
+  © 2023
   <img src="/img/favicon.ico" alt="Arturnix icon" /> Arturnix.
 </footer>
 
@@ -77,6 +81,7 @@ endblock %} {% block footer %}
                   <div id="title-login-page">
                     <img
                       class="header-budget-img"
+                      id="budgetImg"
                       src="/img/budget.png"
                       alt="budget-img"
                     />
@@ -120,7 +125,7 @@ endblock %} {% block footer %}
                     />
                   </div>
                   <small id="errorname"></small>
-                  <span>{{ user.errors.name }}</span>
+                  <small class="text-danger">{{ user.errors.name }}</small>
 
                   <div class="input-container mb-2">
                     <div class="input-group-prepend">
@@ -137,7 +142,7 @@ endblock %} {% block footer %}
                     />
                   </div>
                   <small id="erroremail"></small>
-                  <span>{{ user.errors.email }}</span>
+                  <small class="text-danger">{{ user.errors.email }}</small>
 
                   <div class="input-container mb-2">
                     <div class="input-group-prepend">
@@ -162,20 +167,34 @@ endblock %} {% block footer %}
                     </div>
                   </div>
                   <small id="errorpassword"></small>
-                  <span>{{ user.errors.password }}</span>
+                  <small class="text-danger">{{ user.errors.password }}</small>
 
-                  <div
+                  <!-- <div
                     class="g-recaptcha"
-                    data-sitekey="6LeIjoolAAAAAJYjakdywVW3q52SSCFOYqmlse11"
+                    data-sitekey="6Lc9J70mAAAAADhwxqGNgQ7u6RAbmrfaN6bWdLsB"
                   ></div>
-                  <small class="text-danger">{{ user.errors.captcha }}</small>
+                  <small class="text-danger">{{ user.errors.captcha }}</small> -->
 
                   <div class="text-center mt-3">
+                    <!-- <button
+                      class="g-recaptcha login-btn btn btn-success btn-block mb-3"
+                      data-sitekey="6Lc9J70mAAAAADhwxqGNgQ7u6RAbmrfaN6bWdLsB"
+                      data-callback="onSubmit"
+                      data-action="submit"
+                    >
+                      Zarejestruj się
+                    </button> -->
+                    <!-- <small class="text-danger">{{ user.errors.captcha }}</small> -->
+
                     <input
                       type="submit"
-                      class="login-btn btn btn-success btn-block mb-3"
+                      class="g-recaptcha login-btn btn btn-success btn-block mb-3"
+                      data-sitekey="6Lc9J70mAAAAADhwxqGNgQ7u6RAbmrfaN6bWdLsB"
+                      data-callback="onSubmit"
+                      data-action="submit"
                       value="Zarejestruj się"
                     />
+                    <small class="text-danger">{{ user.errors.captcha }}</small>
                   </div>
                 </form>
 

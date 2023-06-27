@@ -17,7 +17,7 @@ use \Core\View;
  #[\AllowDynamicProperties]
 class User extends \Core\Model
 {
-    public $id;
+    /*public $id;
     public $name;
     public $email;
     public $password;
@@ -30,7 +30,7 @@ class User extends \Core\Model
     public $activation_token;
     public $hashed_token;
     public $activation_hash;
-    public $is_active;
+    public $is_active;*/
 
     /**
      * Error messages
@@ -106,7 +106,7 @@ class User extends \Core\Model
         if (static::emailExists($this->email, $this->id ?? null)) {
             $this->errors['email'] = 'Dla podanego adresu email przypisane jest już inne konto';
         }
-
+     
         // Password
         if (isset($this->password)) {
 
@@ -129,7 +129,7 @@ class User extends \Core\Model
 
         if(!($checkCaptchaResponse->success)) {
 		
-			$this->errors['captcha'] = "Potwierdź, że nie jesteś botem";
+			$this->errors['captcha'] = "Blokada Captcha";
 		}
 
     }
