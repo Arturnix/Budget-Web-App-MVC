@@ -3,7 +3,7 @@
 /*@media (min-width: 768px) {
   .login-page-form {
     min-height: 100vh !important;
-    background-image: url(../img/home-img.jpg);
+    background-image: url(../img/more-leaves-on-green.png);
   }
 }*/
 
@@ -24,7 +24,7 @@
   border-bottom-right-radius: 0.3rem;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1280px) {
   #budgetImg {
     max-width: 40%;
     max-height: 40%;
@@ -93,6 +93,12 @@
   padding: 10% 0%;
 }
 
+@media screen and (max-width: 1280px) {
+  .home-page-wall {
+    min-height: 68vh;
+  }
+}
+
 .home-page-quote {
   padding: 0 2%;
   letter-spacing: 6px;
@@ -137,6 +143,12 @@ form {
   width: 25%;
   text-align: left;
   padding: 1% 1%;
+}
+
+@media screen and (max-width: 991px) {
+  .form-group {
+    width: 75%;
+  }
 }
 
 .form-control {
@@ -264,7 +276,8 @@ form {
 
 .alert {
   position: fixed;
-  width: 100%;
+  right: 25%;
+  width: 50%;
   z-index: 1;
 }
 .alert-info {
@@ -283,6 +296,16 @@ form {
   text-align: center;
 }
 
+.btn-close {
+  left: 57%;
+}
+
+@media screen and (max-width: 768px) {
+  .btn-close {
+    left: auto;
+  }
+}
+
 /* Reset password */
 
 .reset-password {
@@ -291,6 +314,12 @@ form {
   width: 25%;
   text-align: left;
   padding: 3%;
+}
+
+@media screen and (max-width: 991px) {
+  .reset-password {
+    width: 75%;
+  }
 }
 
 .reset-password-fit {
