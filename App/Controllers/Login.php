@@ -52,7 +52,6 @@ class Login extends \Core\Controller
             Flash::addMessage('Zalogowałeś się!');
 
             $this->redirect(Auth::getReturnToPage());
-            //$this->redirect('/home/index');
 
         } else {
 

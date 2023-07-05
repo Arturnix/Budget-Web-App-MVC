@@ -29,6 +29,8 @@ class View
         } else {
             throw new \Exception("$file not found");
         }
+
+        var_dump($args);
     }
 
     /**
@@ -41,7 +43,7 @@ class View
      */
     public static function renderTemplate($template, $args = [])
     {
-        echo static::getTemplate($template, $args);        
+        echo static::getTemplate($template, $args);   
     }
 
     /**
