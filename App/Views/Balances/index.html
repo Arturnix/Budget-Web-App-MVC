@@ -128,6 +128,25 @@ body %} {% if current_user %}
     <div class="card-body">
       <h5 class="card-title">Bieżący miesiąc</h5>
 
+      <ul id="incomeHeader">
+
+        {% for expenseCategoryId in expenseCategoryIds %}
+        <li>{{ expenseCategoryId.name }}: 
+         {% for expenseCategorySum in expensesSumCategoriesId %} 
+         {% if expenseCategoryId.id == expenseCategorySum.expense_category_assigned_to_user_id %}
+         <span class="expenseSumColor">{{ expenseCategorySum.amount }}</span> zł</li>
+         {% endif %} {% endfor %}
+          
+        <ul id="incomesList">
+          {% for expenseAmount in expensesAmount %} {% if expenseCategoryId.id ==
+            expenseAmount.expense_category_assigned_to_user_id %}
+          <li>{{ expenseAmount.date_of_expense }} {{ expenseAmount.expense_comment }} {{ expenseAmount.amount }} zł</li>
+          {% endif %} {% endfor %}
+        </ul>
+      </br>
+        {% endfor %}
+      </ul>
+
     </div>
   </div>
 

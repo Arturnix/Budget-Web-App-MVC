@@ -217,6 +217,11 @@ form {
   font-weight: 600;
 }
 
+.expenseSumColor {
+  color: #dc3535;
+  font-weight: 600;
+}
+
 .card {
   background-color: #ceedc7;
   margin: 0 1%;

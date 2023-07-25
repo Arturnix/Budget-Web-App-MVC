@@ -41,7 +41,7 @@ class Balance extends \Core\Model
      * 
      * @return array
      */
-    public static function getIncomes () {
+    public static function getIncomes() {
 
         $sql = 'SELECT income_category_assigned_to_user_id, amount, income_comment, date_of_income FROM incomes
                 WHERE user_id = :loggedUserId
@@ -64,7 +64,7 @@ class Balance extends \Core\Model
      * 
      * @return array
      */
-    public static function getIncomeCategories () {
+    public static function getIncomeCategories() {
 
         $sql = 'SELECT * FROM incomes_category_default';
 
@@ -78,7 +78,7 @@ class Balance extends \Core\Model
         return $incomeId = $stmt->fetchAll();
     }
 
-    public static function getIncomeCategoriesId () {
+    public static function getIncomeCategoriesId() {
 
         $sql = 'SELECT id FROM incomes_category_default';
 
@@ -92,7 +92,7 @@ class Balance extends \Core\Model
         return $incomeId = $stmt->fetchAll();
     }
 
-    public static function getIncomeForCategoryId () {
+    public static function getIncomeForCategoryId() {
 
         $incomeSumForCategoryId = [];
         $incomeCategoryId = Balance::getIncomeCategoriesId();
@@ -124,7 +124,7 @@ class Balance extends \Core\Model
      * 
      * @return array
      */
-    public static function getExpenses () {
+    public static function getExpenses() {
 
         $sql = 'SELECT expense_category_assigned_to_user_id, amount, expense_comment, date_of_expense FROM expenses
                 WHERE user_id = :loggedUserId
@@ -147,7 +147,7 @@ class Balance extends \Core\Model
      * 
      * @return array
      */
-    public static function getExpenseCategories () {
+    public static function getExpenseCategories() {
 
         $sql = 'SELECT * FROM expenses_category_default';
 
@@ -160,5 +160,46 @@ class Balance extends \Core\Model
 
         return $incomeId = $stmt->fetchAll();
     }
+
+    public static function getExpenseCategoriesId() {
+
+        $sql = 'SELECT id FROM expenses_category_default';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->setFetchMode(PDO::FETCH_COLUMN, 0);
+
+        $stmt->execute();
+
+        return $incomeId = $stmt->fetchAll();
+    }
+
+    public static function getExpenseForCategoryId() {
+
+        $expenseSumForCategoryId = [];
+        $expenseCategoryId = Balance::getExpenseCategoriesId();
+
+        foreach ($expenseCategoryId as $id) {
+
+            $sql = 'SELECT expense_category_assigned_to_user_id, SUM(amount) as amount FROM expenses 
+            WHERE expense_category_assigned_to_user_id = :id AND user_id = :loggedUserId';
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+            $stmt->execute();
+
+            $expenseSumForCategoryId[] = $stmt->fetch();
+
+        }
+
+        return $expenseSumForCategoryId;
+        }
 
 }

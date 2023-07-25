@@ -35,11 +35,12 @@ class Balances extends \Core\Controller
         ]);*/
 
         View::renderTemplate('Balances/index.html', [
-            'categoryIds' => Balance::getIncomeCategories(),
             'incomesAmount' => Balance::getIncomes(),
+            'categoryIds' => Balance::getIncomeCategories(),
             'incomesSumCategoriesId' => Balance::getIncomeForCategoryId(),
             'expensesAmount' => Balance::getExpenses(),
-            'expenseCategoryIds' => Balance::getExpenseCategories()
+            'expenseCategoryIds' => Balance::getExpenseCategories(),
+            'expensesSumCategoriesId' => Balance::getExpenseForCategoryId(),
         ]);
     }
 
