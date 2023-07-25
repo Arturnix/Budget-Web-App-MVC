@@ -198,11 +198,28 @@ form {
   text-align: center;
   font-family: Montserrat;
   background-color: antiquewhite;
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
 }
+
+#incomeHeader {
+  text-align: end;
+}
+
+#incomesList {
+  font-size: small;
+  text-align: start;
+}
+
+.incomeSumColor {
+  color: #3e7c17;
+  font-weight: 600;
+}
+
 .card {
   background-color: #ceedc7;
   margin: 0 1%;
-  display: inline-block;
 }
 
 .header-incomes {
@@ -224,10 +241,6 @@ form {
 }
 
 .card-title {
-  text-align: left;
-}
-
-.card-text {
   text-align: left;
 }
 

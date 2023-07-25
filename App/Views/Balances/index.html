@@ -1,0 +1,173 @@
+{% extends 'base.html' %} {% block title %}Twój bilans{% endblock %} {% block
+body %} {% if current_user %}
+
+<header>
+  <div id="title">
+    <img
+      class="header-budget-img"
+      id="budgetImg"
+      src="/img/budget.png"
+      alt="budget-img"
+    />
+
+    <h1 class="header-title">Zaplanuj swój budżet i zacznij oszczędzać!</h1>
+  </div>
+
+  <nav id="navigation-bar" class="navbar navbar-expand-lg navbar-light">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/home/index"
+            ><i class="nav-icon fa-solid fa-house-chimney"></i>Strona główna</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/incomes/index"
+            ><i class="nav-icon fa-solid fa-sack-dollar"></i>Dodaj przychód</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/expenses/index"
+            ><i class="nav-icon fa-solid fa-cash-register"></i>Dodaj wydatek</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/balances/index"
+            ><i class="nav-icon fa-solid fa-scale-unbalanced"></i>Przeglądaj
+            bilans</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"
+            ><i class="nav-icon fa-solid fa-screwdriver-wrench"></i
+            >Ustawienia</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout"
+            ><i class="nav-icon fa-solid fa-arrow-up-right-from-square"></i
+            >Wyloguj się</a
+          >
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<!-- balance section -->
+<aside>
+  <nav>
+    <div class="dropdown">
+      <button
+        class="btn btn-info dropdown-toggle"
+        type="button"
+        id="dropdownMenuButton"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        Okres bilansu
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="/balances/show">Bieżący miesiąc</a>
+        <a class="dropdown-item" href="#">Poprzedni miesiąc</a>
+        <a class="dropdown-item" href="#">Bieżący rok</a>
+        <a class="dropdown-item" href="#">Wybierz sam</a>
+      </div>
+    </div>
+  </nav>
+</aside>
+
+<h2 class="header-section">Bilans - bieżący miesiąc:</h2>
+
+<div class="cards-container">
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <h3 class="header-incomes">Przychody</h3>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Bieżący miesiąc</h5>
+
+      <ul id="incomeHeader">
+        {% for categoryId in categoryIds %}
+        <li>{{ categoryId.name }}: 
+         {% for incomeCategorySum in incomesSumCategoriesId %} 
+         {% if categoryId.id == incomeCategorySum.income_category_assigned_to_user_id %}
+         <span class="incomeSumColor">{{ incomeCategorySum.amount }}</span> zł</li>
+          {% endif %} {% endfor %}
+          
+        <ul id="incomesList">
+          {% for incomeAmount in incomesAmount %} {% if categoryId.id ==
+          incomeAmount.income_category_assigned_to_user_id %}
+          <li>{{ incomeAmount.date_of_income }} {{ incomeAmount.income_comment }} {{ incomeAmount.amount }} zł</li>
+          {% endif %} {% endfor %}
+        </ul>
+      </br>
+        {% endfor %}
+      </ul>
+
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <h3 class="header-expenses">Wydatki</h3>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Bieżący miesiąc</h5>
+
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <h3 class="header-balance">Bilans</h3>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Bieżący miesiąc</h5>
+      
+    </div>
+  </div>
+</div>
+
+{% else %}
+
+<section class="h-100 login-page-form">
+  <div class="container py-5 h-100">
+    <div
+      class="row d-flex align-items-center justify-content-center h-100"
+      id="accessDeniedMessage"
+    >
+      <h1><br />Strona dostępna tylko dla zalogowanych użytkowników!</h1>
+
+      <p>
+        <br /><br />
+        Aby zacząć zarządzać swoim budżetem...<br /><br />
+      </p>
+    </div>
+    <div class="d-flex align-items-center justify-content-center">
+      <p class="my-5 me-2 mr-3"><b>Przejdź do strony logowania</b></p>
+      <a href="/login" type="button" class="btn btn-primary"> Zaloguj się </a>
+    </div>
+    <div class="d-flex align-items-center justify-content-center">
+      <p class="my-2 me-2 mr-3"><b>Jeśli nie masz jeszcze konta</b></p>
+      <a href="/signup/new" type="button" class="btn btn-success">
+        Zarejestruj się
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endif %} {% endblock %}

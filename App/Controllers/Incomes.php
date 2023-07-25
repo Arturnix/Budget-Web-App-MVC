@@ -44,6 +44,7 @@ class Incomes extends \Core\Controller
 
             Flash::addMessage('Dodano nowy przychód');
             $this->redirect('/incomes/index');
+            var_dump($newIncomeData);
 
         } else {
 
