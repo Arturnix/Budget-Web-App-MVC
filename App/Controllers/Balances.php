@@ -25,6 +25,7 @@ class Balances extends \Core\Controller
        /*var_dump(Balance::getIncomeForCategoryId());*/
 
        /*var_dump(Balance::getIncomeCategories());*/
+       
 
        /*var_dump(Balance::getExpenseCategories());*/
 

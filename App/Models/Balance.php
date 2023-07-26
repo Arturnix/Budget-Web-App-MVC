@@ -66,10 +66,15 @@ class Balance extends \Core\Model
      */
     public static function getIncomeCategories() {
 
-        $sql = 'SELECT * FROM incomes_category_default';
+        $sql = 'SELECT DISTINCT incomes_category_default.name, incomes_category_default.id FROM incomes_category_default
+                INNER JOIN incomes ON incomes_category_default.id = incomes.income_category_assigned_to_user_id
+                WHERE incomes.user_id = :loggedUserId
+                ORDER BY incomes_category_default.id asc';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
 
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
@@ -149,10 +154,15 @@ class Balance extends \Core\Model
      */
     public static function getExpenseCategories() {
 
-        $sql = 'SELECT * FROM expenses_category_default';
+        $sql = 'SELECT DISTINCT expenses_category_default.name, expenses_category_default.id FROM expenses_category_default
+                INNER JOIN expenses ON expenses_category_default.id = expenses.expense_category_assigned_to_user_id
+                WHERE expenses.user_id = :loggedUserId
+                ORDER BY expenses_category_default.id asc';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
 
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
 

@@ -203,13 +203,14 @@ form {
   align-items: baseline;
 }
 
-#incomeHeader {
+.balanceHeader {
   text-align: end;
 }
 
-#incomesList {
+.balanceList {
   font-size: small;
   text-align: start;
+  list-style-type: none;
 }
 
 .incomeSumColor {
@@ -217,8 +218,18 @@ form {
   font-weight: 600;
 }
 
+.incomeColor {
+  color: rgb(30, 56, 30);
+  font-weight: 600;
+}
+
 .expenseSumColor {
   color: #dc3535;
+  font-weight: 600;
+}
+
+.expenseColor {
+  color: rgb(155, 35, 35);
   font-weight: 600;
 }
 

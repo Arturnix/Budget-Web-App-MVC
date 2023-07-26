@@ -100,18 +100,22 @@ body %} {% if current_user %}
     <div class="card-body">
       <h5 class="card-title">Bieżący miesiąc</h5>
 
-      <ul id="incomeHeader">
+      <ul class="balanceHeader">
+
         {% for categoryId in categoryIds %}
-        <li>{{ categoryId.name }}: 
+
+        <li class="mb-3">{{ categoryId.name }}: 
          {% for incomeCategorySum in incomesSumCategoriesId %} 
          {% if categoryId.id == incomeCategorySum.income_category_assigned_to_user_id %}
          <span class="incomeSumColor">{{ incomeCategorySum.amount }}</span> zł</li>
           {% endif %} {% endfor %}
+
+        
           
-        <ul id="incomesList">
+        <ul class="balanceList">
           {% for incomeAmount in incomesAmount %} {% if categoryId.id ==
           incomeAmount.income_category_assigned_to_user_id %}
-          <li>{{ incomeAmount.date_of_income }} {{ incomeAmount.income_comment }} {{ incomeAmount.amount }} zł</li>
+          <li class="mb-1">{{ incomeAmount.date_of_income }} {{ incomeAmount.income_comment }} <span class="incomeColor">{{ incomeAmount.amount }}</span> zł</li>
           {% endif %} {% endfor %}
         </ul>
       </br>
@@ -128,19 +132,20 @@ body %} {% if current_user %}
     <div class="card-body">
       <h5 class="card-title">Bieżący miesiąc</h5>
 
-      <ul id="incomeHeader">
+      <ul class="balanceHeader">
 
         {% for expenseCategoryId in expenseCategoryIds %}
-        <li>{{ expenseCategoryId.name }}: 
+
+        <li class="mb-3">{{ expenseCategoryId.name }}: 
          {% for expenseCategorySum in expensesSumCategoriesId %} 
          {% if expenseCategoryId.id == expenseCategorySum.expense_category_assigned_to_user_id %}
          <span class="expenseSumColor">{{ expenseCategorySum.amount }}</span> zł</li>
          {% endif %} {% endfor %}
           
-        <ul id="incomesList">
+        <ul class="balanceList">
           {% for expenseAmount in expensesAmount %} {% if expenseCategoryId.id ==
             expenseAmount.expense_category_assigned_to_user_id %}
-          <li>{{ expenseAmount.date_of_expense }} {{ expenseAmount.expense_comment }} {{ expenseAmount.amount }} zł</li>
+          <li class="mb-1">{{ expenseAmount.date_of_expense }} {{ expenseAmount.expense_comment }} <span class="expenseColor">{{ expenseAmount.amount }}</span> zł</li>
           {% endif %} {% endfor %}
         </ul>
       </br>
