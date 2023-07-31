@@ -158,6 +158,11 @@ body %} {% if current_user %}
     <div class="card-body">
 
       <p>Bilans: <span class="balanceColor">{{ balance }}</span> zł</p>
+      {% if balance >= 0 %}
+        <p class="balanceColorPlus">Gratulacje. Świetnie zarządzasz finansami!</p>
+      {% else %}
+        <p class="balanceColorMinus">Uważaj, wpadasz w długi!</p>
+      {% endif %}
       
     </div>
   </div>

@@ -238,6 +238,16 @@ form {
   font-weight: 600;
 }
 
+.balanceColorPlus {
+  color: #3e7c17;
+  /*font-weight: 600;*/
+}
+
+.balanceColorMinus {
+  color: #dc3535;
+  /*font-weight: 600;*/
+}
+
 .card {
   background-color: #ceedc7;
   margin: 0 1%;
