@@ -41,16 +41,67 @@ class Balance extends \Core\Model
      * 
      * @return array
      */
-    public static function getIncomes() {
+    public static function getIncomesCurrentMonth() {
+
+        $dateStart = date('Y-m-01');
+        $dateEnd = date('Y-m-t');
 
         $sql = 'SELECT income_category_assigned_to_user_id, amount, income_comment, date_of_income FROM incomes
-                WHERE user_id = :loggedUserId
-                ORDER BY date_of_income asc';
+                WHERE user_id = :loggedUserId AND date_of_income BETWEEN :dateStart AND :dateEnd
+                ORDER BY date_of_income ASC';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
         $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+        $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $stmt->execute();
+
+        return $incomes = $stmt->fetchAll();
+    }
+
+    public static function getIncomesPreviousMonth() {
+
+        $dateStart = date('Y-m-d', strtotime(date('Y-m')." -1 month"));
+        $dateEnd = date('Y-m-t', strtotime(date('Y-m')." -1 month"));
+
+        $sql = 'SELECT income_category_assigned_to_user_id, amount, income_comment, date_of_income FROM incomes
+                WHERE user_id = :loggedUserId AND date_of_income BETWEEN :dateStart AND :dateEnd
+                ORDER BY date_of_income ASC';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+        $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $stmt->execute();
+
+        return $incomes = $stmt->fetchAll();
+    }
+
+    public static function getIncomesCurrentYear() {
+
+        $dateStart = date('Y-m-d', strtotime('first day of january this year'));
+        $dateEnd = date('Y-m-d', strtotime('last day of december this year'));
+
+        $sql = 'SELECT income_category_assigned_to_user_id, amount, income_comment, date_of_income FROM incomes
+                WHERE user_id = :loggedUserId AND date_of_income BETWEEN :dateStart AND :dateEnd
+                ORDER BY date_of_income ASC';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+        $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
 
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
@@ -64,24 +115,78 @@ class Balance extends \Core\Model
      * 
      * @return array
      */
-    public static function getIncomeCategories() {
+    //Sprawdzić czy tutaj potrzeba daty
+        public static function getIncomeCategoriesCurrentMonth() {
 
-        $sql = 'SELECT DISTINCT incomes_category_default.name, incomes_category_default.id FROM incomes_category_default
-                INNER JOIN incomes ON incomes_category_default.id = incomes.income_category_assigned_to_user_id
-                WHERE incomes.user_id = :loggedUserId
-                ORDER BY incomes_category_default.id asc';
+            $dateStart = date('Y-m-01');
+            $dateEnd = date('Y-m-t');
 
-        $db = static::getDB();
-        $stmt = $db->prepare($sql);
+            $sql = 'SELECT DISTINCT incomes_category_default.name, incomes_category_default.id FROM incomes_category_default
+                    INNER JOIN incomes ON incomes_category_default.id = incomes.income_category_assigned_to_user_id
+                    WHERE incomes.user_id = :loggedUserId AND date_of_income BETWEEN :dateStart AND :dateEnd
+                    ORDER BY incomes.amount DESC';
+    
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+    
+            $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+            $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+    
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    
+            $stmt->execute();
+    
+            return $incomeId = $stmt->fetchAll();
+        }
 
-        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        public static function getIncomeCategoriesPreviousMonth() {
 
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $dateStart = date('Y-m-d', strtotime(date('Y-m')." -1 month"));
+            $dateEnd = date('Y-m-t', strtotime(date('Y-m')." -1 month"));
 
-        $stmt->execute();
+            $sql = 'SELECT DISTINCT incomes_category_default.name, incomes_category_default.id FROM incomes_category_default
+                    INNER JOIN incomes ON incomes_category_default.id = incomes.income_category_assigned_to_user_id
+                    WHERE incomes.user_id = :loggedUserId AND date_of_income BETWEEN :dateStart AND :dateEnd
+                    ORDER BY incomes.amount DESC';
+    
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+    
+            $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+            $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+    
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    
+            $stmt->execute();
+    
+            return $incomeId = $stmt->fetchAll();
+        }
 
-        return $incomeId = $stmt->fetchAll();
-    }
+        public static function getIncomeCategoriesCurrentYear() {
+
+            $dateStart = date('Y-m-d', strtotime('first day of january this year'));
+            $dateEnd = date('Y-m-d', strtotime('last day of december this year'));
+
+            $sql = 'SELECT DISTINCT incomes_category_default.name, incomes_category_default.id FROM incomes_category_default
+                    INNER JOIN incomes ON incomes_category_default.id = incomes.income_category_assigned_to_user_id
+                    WHERE incomes.user_id = :loggedUserId AND date_of_income BETWEEN :dateStart AND :dateEnd
+                    ORDER BY incomes.amount DESC';
+    
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+    
+            $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+            $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+    
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    
+            $stmt->execute();
+    
+            return $incomeId = $stmt->fetchAll();
+        }
 
     public static function getIncomeCategoriesId() {
 
@@ -97,31 +202,100 @@ class Balance extends \Core\Model
         return $incomeId = $stmt->fetchAll();
     }
 
-    public static function getIncomeForCategoryId() {
+        public static function getIncomeForCategoryIdCurrentMonth() {
 
-        $incomeSumForCategoryId = [];
-        $incomeCategoryId = Balance::getIncomeCategoriesId();
+            $dateStart = date('Y-m-01');
+            $dateEnd = date('Y-m-t');
 
-        foreach ($incomeCategoryId as $id) {
-
-            $sql = 'SELECT income_category_assigned_to_user_id, SUM(amount) as amount FROM incomes 
-            WHERE income_category_assigned_to_user_id = :id AND user_id = :loggedUserId';
-
-            $db = static::getDB();
-            $stmt = $db->prepare($sql);
-
-            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-            $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
-
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-            $stmt->execute();
-
-            $incomeSumForCategoryId[] = $stmt->fetch();
-
+            $incomeSumForCategoryId = [];
+            $incomeCategoryId = Balance::getIncomeCategoriesId();
+    
+            foreach ($incomeCategoryId as $id) {
+    
+                $sql = 'SELECT income_category_assigned_to_user_id, SUM(amount) as amount FROM incomes 
+                WHERE income_category_assigned_to_user_id = :id AND user_id = :loggedUserId AND date_of_income BETWEEN :dateStart AND :dateEnd';
+    
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+    
+                $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+                $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+                $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+                $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+    
+                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    
+                $stmt->execute();
+    
+                $incomeSumForCategoryId[] = $stmt->fetch();
+    
+            }
+    
+            return $incomeSumForCategoryId;
         }
 
-        return $incomeSumForCategoryId;
+        public static function getIncomeForCategoryIdPreviousMonth() {
+
+            $dateStart = date('Y-m-d', strtotime(date('Y-m')." -1 month"));
+            $dateEnd = date('Y-m-t', strtotime(date('Y-m')." -1 month"));
+
+            $incomeSumForCategoryId = [];
+            $incomeCategoryId = Balance::getIncomeCategoriesId();
+    
+            foreach ($incomeCategoryId as $id) {
+    
+                $sql = 'SELECT income_category_assigned_to_user_id, SUM(amount) as amount FROM incomes 
+                WHERE income_category_assigned_to_user_id = :id AND user_id = :loggedUserId AND date_of_income BETWEEN :dateStart AND :dateEnd';
+    
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+    
+                $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+                $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+                $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+                $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+    
+                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    
+                $stmt->execute();
+    
+                $incomeSumForCategoryId[] = $stmt->fetch();
+    
+            }
+    
+            return $incomeSumForCategoryId;
+        }
+
+        public static function getIncomeForCategoryIdCurrentYear() {
+
+            $dateStart = date('Y-m-d', strtotime('first day of january this year'));
+            $dateEnd = date('Y-m-d', strtotime('last day of december this year'));
+
+            $incomeSumForCategoryId = [];
+            $incomeCategoryId = Balance::getIncomeCategoriesId();
+    
+            foreach ($incomeCategoryId as $id) {
+    
+                $sql = 'SELECT income_category_assigned_to_user_id, SUM(amount) as amount FROM incomes 
+                WHERE income_category_assigned_to_user_id = :id AND user_id = :loggedUserId AND date_of_income BETWEEN :dateStart AND :dateEnd';
+    
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+    
+                $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+                $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+                $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+                $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+    
+                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    
+                $stmt->execute();
+    
+                $incomeSumForCategoryId[] = $stmt->fetch();
+    
+            }
+    
+            return $incomeSumForCategoryId;
         }
     
     /**
@@ -129,16 +303,67 @@ class Balance extends \Core\Model
      * 
      * @return array
      */
-    public static function getExpenses() {
+    public static function getExpensesCurrentMonth() {
+
+        $dateStart = date('Y-m-01');
+        $dateEnd = date('Y-m-t');
 
         $sql = 'SELECT expense_category_assigned_to_user_id, amount, expense_comment, date_of_expense FROM expenses
-                WHERE user_id = :loggedUserId
-                ORDER BY date_of_expense asc';
+                WHERE user_id = :loggedUserId AND date_of_expense BETWEEN :dateStart AND :dateEnd
+                ORDER BY date_of_expense ASC';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
         $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+        $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $stmt->execute();
+
+        return $incomes = $stmt->fetchAll();
+    }
+
+    public static function getExpensesPreviousMonth() {
+
+        $dateStart = date('Y-m-d', strtotime(date('Y-m')." -1 month"));
+        $dateEnd = date('Y-m-t', strtotime(date('Y-m')." -1 month"));
+
+        $sql = 'SELECT expense_category_assigned_to_user_id, amount, expense_comment, date_of_expense FROM expenses
+                WHERE user_id = :loggedUserId AND date_of_expense BETWEEN :dateStart AND :dateEnd
+                ORDER BY date_of_expense ASC';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+        $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $stmt->execute();
+
+        return $incomes = $stmt->fetchAll();
+    }
+
+    public static function getExpensesCurrentYear() {
+
+        $dateStart = date('Y-m-d', strtotime('first day of january this year'));
+        $dateEnd = date('Y-m-d', strtotime('last day of december this year'));
+
+        $sql = 'SELECT expense_category_assigned_to_user_id, amount, expense_comment, date_of_expense FROM expenses
+                WHERE user_id = :loggedUserId AND date_of_expense BETWEEN :dateStart AND :dateEnd
+                ORDER BY date_of_expense ASC';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+        $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
 
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
@@ -152,17 +377,70 @@ class Balance extends \Core\Model
      * 
      * @return array
      */
-    public static function getExpenseCategories() {
+    public static function getExpenseCategoriesCurrentMonth() {
+
+        $dateStart = date('Y-m-01');
+        $dateEnd = date('Y-m-t');
 
         $sql = 'SELECT DISTINCT expenses_category_default.name, expenses_category_default.id FROM expenses_category_default
                 INNER JOIN expenses ON expenses_category_default.id = expenses.expense_category_assigned_to_user_id
-                WHERE expenses.user_id = :loggedUserId
-                ORDER BY expenses_category_default.id asc';
+                WHERE expenses.user_id = :loggedUserId AND date_of_expense BETWEEN :dateStart AND :dateEnd
+                ORDER BY expenses.amount DESC';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
         $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+        $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $stmt->execute();
+
+        return $incomeId = $stmt->fetchAll();
+    }
+
+    public static function getExpenseCategoriesPreviousMonth() {
+
+        $dateStart = date('Y-m-d', strtotime(date('Y-m')." -1 month"));
+        $dateEnd = date('Y-m-t', strtotime(date('Y-m')." -1 month"));
+
+        $sql = 'SELECT DISTINCT expenses_category_default.name, expenses_category_default.id FROM expenses_category_default
+                INNER JOIN expenses ON expenses_category_default.id = expenses.expense_category_assigned_to_user_id
+                WHERE expenses.user_id = :loggedUserId AND date_of_expense BETWEEN :dateStart AND :dateEnd
+                ORDER BY expenses.amount DESC';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+        $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $stmt->execute();
+
+        return $incomeId = $stmt->fetchAll();
+    }
+
+    public static function getExpenseCategoriesCurrentYear() {
+
+        $dateStart = date('Y-m-d', strtotime('first day of january this year'));
+        $dateEnd = date('Y-m-d', strtotime('last day of december this year'));
+
+        $sql = 'SELECT DISTINCT expenses_category_default.name, expenses_category_default.id FROM expenses_category_default
+                INNER JOIN expenses ON expenses_category_default.id = expenses.expense_category_assigned_to_user_id
+                WHERE expenses.user_id = :loggedUserId AND date_of_expense BETWEEN :dateStart AND :dateEnd
+                ORDER BY expenses.amount DESC';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+        $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
 
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
@@ -185,31 +463,238 @@ class Balance extends \Core\Model
         return $incomeId = $stmt->fetchAll();
     }
 
-    public static function getExpenseForCategoryId() {
+        public static function getExpenseForCategoryIdCurrentMonth() {
 
-        $expenseSumForCategoryId = [];
-        $expenseCategoryId = Balance::getExpenseCategoriesId();
+            $dateStart = date('Y-m-01');
+            $dateEnd = date('Y-m-t');
 
-        foreach ($expenseCategoryId as $id) {
+            $expenseSumForCategoryId = [];
+            $expenseCategoryId = Balance::getExpenseCategoriesId();
+    
+            foreach ($expenseCategoryId as $id) {
+    
+                $sql = 'SELECT expense_category_assigned_to_user_id, SUM(amount) as amount FROM expenses 
+                WHERE expense_category_assigned_to_user_id = :id AND user_id = :loggedUserId AND date_of_expense BETWEEN :dateStart AND :dateEnd';
+    
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+    
+                $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+                $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+                $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+                $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+    
+                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    
+                $stmt->execute();
+    
+                $expenseSumForCategoryId[] = $stmt->fetch();
+    
+            }
+    
+            return $expenseSumForCategoryId;
+            }
 
-            $sql = 'SELECT expense_category_assigned_to_user_id, SUM(amount) as amount FROM expenses 
-            WHERE expense_category_assigned_to_user_id = :id AND user_id = :loggedUserId';
+        public static function getExpenseForCategoryIdPreviousMonth() {
+
+            $dateStart = date('Y-m-d', strtotime(date('Y-m')." -1 month"));
+            $dateEnd = date('Y-m-t', strtotime(date('Y-m')." -1 month"));
+
+            $expenseSumForCategoryId = [];
+            $expenseCategoryId = Balance::getExpenseCategoriesId();
+    
+            foreach ($expenseCategoryId as $id) {
+    
+                $sql = 'SELECT expense_category_assigned_to_user_id, SUM(amount) as amount FROM expenses 
+                WHERE expense_category_assigned_to_user_id = :id AND user_id = :loggedUserId AND date_of_expense BETWEEN :dateStart AND :dateEnd';
+    
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+    
+                $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+                $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+                $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+                $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+    
+                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    
+                $stmt->execute();
+    
+                $expenseSumForCategoryId[] = $stmt->fetch();
+    
+            }
+    
+            return $expenseSumForCategoryId;
+            }
+
+            public static function getExpenseForCategoryIdCurrentYear() {
+
+                $dateStart = date('Y-m-d', strtotime('first day of january this year'));
+                $dateEnd = date('Y-m-d', strtotime('last day of december this year'));
+    
+                $expenseSumForCategoryId = [];
+                $expenseCategoryId = Balance::getExpenseCategoriesId();
+        
+                foreach ($expenseCategoryId as $id) {
+        
+                    $sql = 'SELECT expense_category_assigned_to_user_id, SUM(amount) as amount FROM expenses 
+                    WHERE expense_category_assigned_to_user_id = :id AND user_id = :loggedUserId AND date_of_expense BETWEEN :dateStart AND :dateEnd';
+        
+                    $db = static::getDB();
+                    $stmt = $db->prepare($sql);
+        
+                    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+                    $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+                    $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+                    $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+        
+                    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        
+                    $stmt->execute();
+        
+                    $expenseSumForCategoryId[] = $stmt->fetch();
+        
+                }
+        
+                return $expenseSumForCategoryId;
+                }
+
+        public static function calculateBalanceCurrentMonth() {
+
+            $dateStart = date('Y-m-01');
+            $dateEnd = date('Y-m-t');
+
+            $sql = 'SELECT SUM(amount) as amount FROM expenses 
+            WHERE user_id = :loggedUserId AND date_of_expense BETWEEN :dateStart AND :dateEnd';
 
             $db = static::getDB();
             $stmt = $db->prepare($sql);
 
-            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
             $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+            $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
 
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_NUM);
 
             $stmt->execute();
 
-            $expenseSumForCategoryId[] = $stmt->fetch();
+            $expensesSum = $stmt->fetch();
+            $expensesSum = floatval($expensesSum[0]);
+            var_dump($expensesSum);
 
+            $sql = 'SELECT SUM(amount) as amount FROM incomes 
+            WHERE user_id = :loggedUserId AND date_of_income BETWEEN :dateStart AND :dateEnd';
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+            $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+
+            $stmt->setFetchMode(PDO::FETCH_NUM);
+
+            $stmt->execute();
+
+            $incomesSum = $stmt->fetch();
+            $incomesSum = floatval($incomesSum[0]);
+            var_dump($incomesSum);
+           
+            $balance = $incomesSum - $expensesSum;
+
+            return $balance;
         }
 
-        return $expenseSumForCategoryId;
+        public static function calculateBalancePreviousMonth() {
+
+            $dateStart = date('Y-m-d', strtotime(date('Y-m')." -1 month"));
+            $dateEnd = date('Y-m-t', strtotime(date('Y-m')." -1 month"));
+
+            $sql = 'SELECT SUM(amount) as amount FROM expenses 
+            WHERE user_id = :loggedUserId AND date_of_expense BETWEEN :dateStart AND :dateEnd';
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+            $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+
+            $stmt->setFetchMode(PDO::FETCH_NUM);
+
+            $stmt->execute();
+
+            $expensesSum = $stmt->fetch();
+            $expensesSum = floatval($expensesSum[0]);
+            var_dump($expensesSum);
+
+            $sql = 'SELECT SUM(amount) as amount FROM incomes 
+            WHERE user_id = :loggedUserId AND date_of_income BETWEEN :dateStart AND :dateEnd';
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+            $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+
+            $stmt->setFetchMode(PDO::FETCH_NUM);
+
+            $stmt->execute();
+
+            $incomesSum = $stmt->fetch();
+            $incomesSum = floatval($incomesSum[0]);
+            var_dump($incomesSum);
+           
+            $balance = $incomesSum - $expensesSum;
+
+            return $balance;
+        }
+
+        public static function calculateBalanceCurrentYear() {
+
+            $dateStart = date('Y-m-d', strtotime('first day of january this year'));
+            $dateEnd = date('Y-m-d', strtotime('last day of december this year'));
+
+            $sql = 'SELECT SUM(amount) as amount FROM expenses 
+            WHERE user_id = :loggedUserId AND date_of_expense BETWEEN :dateStart AND :dateEnd';
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+            $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+
+            $stmt->setFetchMode(PDO::FETCH_NUM);
+
+            $stmt->execute();
+
+            $expensesSum = $stmt->fetch();
+            $expensesSum = floatval($expensesSum[0]);
+            var_dump($expensesSum);
+
+            $sql = 'SELECT SUM(amount) as amount FROM incomes 
+            WHERE user_id = :loggedUserId AND date_of_income BETWEEN :dateStart AND :dateEnd';
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+            $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+
+            $stmt->setFetchMode(PDO::FETCH_NUM);
+
+            $stmt->execute();
+
+            $incomesSum = $stmt->fetch();
+            $incomesSum = floatval($incomesSum[0]);
+            var_dump($incomesSum);
+           
+            $balance = $incomesSum - $expensesSum;
+
+            return $balance;
         }
 
 }

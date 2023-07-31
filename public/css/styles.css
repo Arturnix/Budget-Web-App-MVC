@@ -233,6 +233,11 @@ form {
   font-weight: 600;
 }
 
+.balanceColor {
+  color: #3c79f5;
+  font-weight: 600;
+}
+
 .card {
   background-color: #ceedc7;
   margin: 0 1%;

@@ -80,16 +80,16 @@ body %} {% if current_user %}
         Okres bilansu
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="/balances/show">Bieżący miesiąc</a>
-        <a class="dropdown-item" href="#">Poprzedni miesiąc</a>
-        <a class="dropdown-item" href="#">Bieżący rok</a>
+        <a class="dropdown-item" href="/balances/index">Bieżący miesiąc</a>
+        <a class="dropdown-item" href="/balances/previousMonth">Poprzedni miesiąc</a>
+        <a class="dropdown-item" href="/balances/currentYear">Bieżący rok</a>
         <a class="dropdown-item" href="#">Wybierz sam</a>
       </div>
     </div>
   </nav>
 </aside>
 
-<h2 class="header-section">Bilans - bieżący miesiąc:</h2>
+<h2 class="header-section">Bilans - {{ timePeriod }}:</h2>
 
 <div class="cards-container">
 
@@ -98,7 +98,6 @@ body %} {% if current_user %}
       <h3 class="header-incomes">Przychody</h3>
     </div>
     <div class="card-body">
-      <h5 class="card-title">Bieżący miesiąc</h5>
 
       <ul class="balanceHeader">
 
@@ -110,8 +109,6 @@ body %} {% if current_user %}
          <span class="incomeSumColor">{{ incomeCategorySum.amount }}</span> zł</li>
           {% endif %} {% endfor %}
 
-        
-          
         <ul class="balanceList">
           {% for incomeAmount in incomesAmount %} {% if categoryId.id ==
           incomeAmount.income_category_assigned_to_user_id %}
@@ -130,7 +127,6 @@ body %} {% if current_user %}
       <h3 class="header-expenses">Wydatki</h3>
     </div>
     <div class="card-body">
-      <h5 class="card-title">Bieżący miesiąc</h5>
 
       <ul class="balanceHeader">
 
@@ -160,7 +156,8 @@ body %} {% if current_user %}
       <h3 class="header-balance">Bilans</h3>
     </div>
     <div class="card-body">
-      <h5 class="card-title">Bieżący miesiąc</h5>
+
+      <p>Bilans: <span class="balanceColor">{{ balance }}</span> zł</p>
       
     </div>
   </div>
