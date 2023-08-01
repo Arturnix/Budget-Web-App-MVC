@@ -99,6 +99,11 @@ body %} {% if current_user %}
     </div>
     <div class="card-body">
 
+      {% if incomesAmount is empty %}
+      <p>Brak dodanych przychodów w zadanym okresie</p>
+
+      {% else %}
+
       <ul class="balanceHeader">
 
         {% for categoryId in categoryIds %}
@@ -119,6 +124,8 @@ body %} {% if current_user %}
         {% endfor %}
       </ul>
 
+      {% endif %}
+
     </div>
   </div>
 
@@ -127,6 +134,11 @@ body %} {% if current_user %}
       <h3 class="header-expenses">Wydatki</h3>
     </div>
     <div class="card-body">
+
+      {% if expensesAmount is empty %}
+      <p>Brak dodanych wydatków w zadanym okresie</p>
+
+      {% else %}
 
       <ul class="balanceHeader">
 
@@ -148,6 +160,8 @@ body %} {% if current_user %}
         {% endfor %}
       </ul>
 
+      {% endif %}
+
     </div>
   </div>
 
@@ -157,7 +171,7 @@ body %} {% if current_user %}
     </div>
     <div class="card-body">
 
-      {% if expensesAmount is not empty and incomesAmount is not empty %}
+      {% if expensesAmount is not empty or incomesAmount is not empty %}
       <p>Bilans: <span class="balanceColor">{{ balance }}</span> zł</p>
       {% if balance >= 0 %}
         <p class="balanceColorPlus">Gratulacje. Świetnie zarządzasz finansami!</p>
@@ -169,7 +183,6 @@ body %} {% if current_user %}
       <p>Dodaj przychody i wydatki aby obliczyć bilans</p>
       {% endif %}
 
-      
     </div>
   </div>
 </div>
