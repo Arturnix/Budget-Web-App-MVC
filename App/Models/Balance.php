@@ -39,6 +39,9 @@ class Balance extends \Core\Model
     /**
      * Get user incomes from database
      * 
+     * @param string $dateStart as an parameter for sql query to pick records from specific time period
+     * @param string $dateEnd as an parameter for sql query to pick records from specific time period
+     * 
      * @return array
      */
     public static function getIncomes($dateStart, $dateEnd) {
@@ -64,6 +67,9 @@ class Balance extends \Core\Model
      /**
      * Get incomes category names from database
      * 
+     * @param string $dateStart as an parameter for sql query to pick records from specific time period
+     * @param string $dateEnd as an parameter for sql query to pick records from specific time period
+     * 
      * @return array
      */
     //Sprawdzić czy tutaj potrzeba daty
@@ -88,7 +94,15 @@ class Balance extends \Core\Model
         return $incomeId = $stmt->fetchAll();
     }
 
-    public static function getIncomeCategoriesId() {
+     /**
+     * Get incomes category ids from database
+     * 
+     * @param string $dateStart as an parameter for sql query to pick records from specific time period
+     * @param string $dateEnd as an parameter for sql query to pick records from specific time period
+     * 
+     * @return array
+     */
+    private static function getIncomeCategoriesId() {
 
         $sql = 'SELECT id FROM incomes_category_default';
 
@@ -99,9 +113,17 @@ class Balance extends \Core\Model
 
         $stmt->execute();
 
-        return $incomeId = $stmt->fetchAll();
+        return $stmt->fetchAll();
     }
 
+    /**
+     * Get incomes amount for specific categories from database
+     * 
+     * @param string $dateStart as an parameter for sql query to pick records from specific time period
+     * @param string $dateEnd as an parameter for sql query to pick records from specific time period
+     * 
+     * @return array
+     */
     public static function getIncomeForCategoryId($dateStart, $dateEnd) {
 
         $incomeSumForCategoryId = [];
@@ -134,6 +156,9 @@ class Balance extends \Core\Model
     /**
      * Get user expenses from database
      * 
+     * @param string $dateStart as an parameter for sql query to pick records from specific time period
+     * @param string $dateEnd as an parameter for sql query to pick records from specific time period
+     * 
      * @return array
      */
     public static function getExpenses($dateStart, $dateEnd) {
@@ -159,6 +184,9 @@ class Balance extends \Core\Model
     /**
      * Get expenses category names from database
      * 
+     * @param string $dateStart as an parameter for sql query to pick records from specific time period
+     * @param string $dateEnd as an parameter for sql query to pick records from specific time period
+     * 
      * @return array
      */
     public static function getExpenseCategories($dateStart, $dateEnd) {
@@ -182,7 +210,15 @@ class Balance extends \Core\Model
         return $incomeId = $stmt->fetchAll();
     }
 
-    public static function getExpenseCategoriesId() {
+     /**
+     * Get expenses category ids from database
+     * 
+     * @param string $dateStart as an parameter for sql query to pick records from specific time period
+     * @param string $dateEnd as an parameter for sql query to pick records from specific time period
+     * 
+     * @return array
+     */
+    private static function getExpenseCategoriesId() {
 
         $sql = 'SELECT id FROM expenses_category_default';
 
@@ -193,9 +229,17 @@ class Balance extends \Core\Model
 
         $stmt->execute();
 
-        return $incomeId = $stmt->fetchAll();
+        return $stmt->fetchAll();
     }
 
+     /**
+     * Get expenses amount for specific categories from database
+     * 
+     * @param string $dateStart as an parameter for sql query to pick records from specific time period
+     * @param string $dateEnd as an parameter for sql query to pick records from specific time period
+     * 
+     * @return array
+     */
     public static function getExpenseForCategoryId($dateStart, $dateEnd) {
 
         $expenseSumForCategoryId = [];
@@ -225,27 +269,18 @@ class Balance extends \Core\Model
         return $expenseSumForCategoryId;
     }
 
-        public static function calculateBalance($dateStart, $dateEnd) {
+    /**
+     * Get total incomes sum 
+     * 
+     * @param string $dateStart as an parameter for sql query to pick records from specific time period
+     * @param string $dateEnd as an parameter for sql query to pick records from specific time period
+     * 
+     * @return float
+     */
+    private static function getIncomesSum($dateStart, $dateEnd) {
 
-            $sql = 'SELECT SUM(amount) as amount FROM expenses 
-            WHERE user_id = :loggedUserId AND date_of_expense BETWEEN :dateStart AND :dateEnd';
-
-            $db = static::getDB();
-            $stmt = $db->prepare($sql);
-
-            $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
-            $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
-            $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
-
-            $stmt->setFetchMode(PDO::FETCH_NUM);
-
-            $stmt->execute();
-
-            $expensesSum = $stmt->fetch();
-            $expensesSum = floatval($expensesSum[0]);
-
-            $sql = 'SELECT SUM(amount) as amount FROM incomes 
-            WHERE user_id = :loggedUserId AND date_of_income BETWEEN :dateStart AND :dateEnd';
+        $sql = 'SELECT SUM(amount) as amount FROM incomes 
+                WHERE user_id = :loggedUserId AND date_of_income BETWEEN :dateStart AND :dateEnd';
 
             $db = static::getDB();
             $stmt = $db->prepare($sql);
@@ -259,11 +294,54 @@ class Balance extends \Core\Model
             $stmt->execute();
 
             $incomesSum = $stmt->fetch();
-            $incomesSum = floatval($incomesSum[0]);
+
+            return floatval($incomesSum[0]);
+    }
+
+    /**
+     * Get total expenses sum 
+     * 
+     * @param string $dateStart as an parameter for sql query to pick records from specific time period
+     * @param string $dateEnd as an parameter for sql query to pick records from specific time period
+     * 
+     * @return float
+     */
+    private static function getExpensesSum($dateStart, $dateEnd) {
+
+        $sql = 'SELECT SUM(amount) as amount FROM expenses 
+                WHERE user_id = :loggedUserId AND date_of_expense BETWEEN :dateStart AND :dateEnd';
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+
+                $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+                $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+                $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+
+                $stmt->setFetchMode(PDO::FETCH_NUM);
+
+                $stmt->execute();
+
+                $expensesSum = $stmt->fetch();
+
+                return floatval($expensesSum[0]);
+    }
+
+    /**
+     * Calculate balance
+     * 
+     * @param string $dateStart as an parameter for sql query to pick records from specific time period
+     * @param string $dateEnd as an parameter for sql query to pick records from specific time period
+     * 
+     * @return float
+     */
+        public static function calculateBalance($dateStart, $dateEnd) {
+
+            $incomesSum = Balance::getIncomesSum($dateStart, $dateEnd);
+            $expensesSum = Balance::getExpensesSum($dateStart, $dateEnd);
            
             $balance = $incomesSum - $expensesSum;
 
             return $balance;
         }
-
 }
