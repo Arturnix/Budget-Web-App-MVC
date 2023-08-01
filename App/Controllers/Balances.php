@@ -15,21 +15,24 @@ class Balances extends \Core\Controller
 {
 
     /**
-     * Show the index page: set for current month
+     * Show the index page: balance set for current month
      *
      * @return void
      */
     public function indexAction()
     {
+        $dateStart = date('Y-m-01');
+        $dateEnd = date('Y-m-t');
+
         View::renderTemplate('Balances/index.html', [
             'timePeriod' => "bieżący miesiąc",
-            'incomesAmount' => Balance::getIncomesCurrentMonth(),
-            'categoryIds' => Balance::getIncomeCategoriesCurrentMonth(),
-            'incomesSumCategoriesId' => Balance::getIncomeForCategoryIdCurrentMonth(),
-            'expensesAmount' => Balance::getExpensesCurrentMonth(),
-            'expenseCategoryIds' => Balance::getExpenseCategoriesCurrentMonth(),
-            'expensesSumCategoriesId' => Balance::getExpenseForCategoryIdCurrentMonth(),
-            'balance' => Balance::calculateBalanceCurrentMonth()
+            'incomesAmount' => Balance::getIncomes($dateStart, $dateEnd),
+            'categoryIds' => Balance::getIncomeCategories($dateStart, $dateEnd),
+            'incomesSumCategoriesId' => Balance::getIncomeForCategoryId($dateStart, $dateEnd),
+            'expensesAmount' => Balance::getExpenses($dateStart, $dateEnd),
+            'expenseCategoryIds' => Balance::getExpenseCategories($dateStart, $dateEnd),
+            'expensesSumCategoriesId' => Balance::getExpenseForCategoryId($dateStart, $dateEnd),
+            'balance' => Balance::calculateBalance($dateStart, $dateEnd)
         ]);
     }
 
@@ -38,17 +41,20 @@ class Balances extends \Core\Controller
      * 
      * @return void
      */
-    public function previousMonthAction() {
+    public function showPreviousMonthAction() {
+
+        $dateStart = date('Y-m-d', strtotime(date('Y-m')." -1 month"));
+        $dateEnd = date('Y-m-t', strtotime(date('Y-m')." -1 month"));
 
         View::renderTemplate('Balances/index.html', [
             'timePeriod' => "poprzedni miesiąc",
-            'incomesAmount' => Balance::getIncomesPreviousMonth(),
-            'categoryIds' => Balance::getIncomeCategoriesPreviousMonth(),
-            'incomesSumCategoriesId' => Balance::getIncomeForCategoryIdPreviousMonth(),
-            'expensesAmount' => Balance::getExpensesPreviousMonth(),
-            'expenseCategoryIds' => Balance::getExpenseCategoriesPreviousMonth(),
-            'expensesSumCategoriesId' => Balance::getExpenseForCategoryIdPreviousMonth(),
-            'balance' => Balance::calculateBalancePreviousMonth()
+            'incomesAmount' => Balance::getIncomes($dateStart, $dateEnd),
+            'categoryIds' => Balance::getIncomeCategories($dateStart, $dateEnd),
+            'incomesSumCategoriesId' => Balance::getIncomeForCategoryId($dateStart, $dateEnd),
+            'expensesAmount' => Balance::getExpenses($dateStart, $dateEnd),
+            'expenseCategoryIds' => Balance::getExpenseCategories($dateStart, $dateEnd),
+            'expensesSumCategoriesId' => Balance::getExpenseForCategoryId($dateStart, $dateEnd),
+            'balance' => Balance::calculateBalance($dateStart, $dateEnd)
         ]);
     }
 
@@ -57,17 +63,20 @@ class Balances extends \Core\Controller
      * 
      * @return void
      */
-    public function currentYearAction() {
+    public function showCurrentYearAction() {
+
+        $dateStart = date('Y-m-d', strtotime('first day of january this year'));
+        $dateEnd = date('Y-m-d', strtotime('last day of december this year'));
 
         View::renderTemplate('Balances/index.html', [
             'timePeriod' => "bieżący rok",
-            'incomesAmount' => Balance::getIncomesCurrentYear(),
-            'categoryIds' => Balance::getIncomeCategoriesCurrentYear(),
-            'incomesSumCategoriesId' => Balance::getIncomeForCategoryIdCurrentYear(),
-            'expensesAmount' => Balance::getExpensesCurrentYear(),
-            'expenseCategoryIds' => Balance::getExpenseCategoriesCurrentYear(),
-            'expensesSumCategoriesId' => Balance::getExpenseForCategoryIdCurrentYear(),
-            'balance' => Balance::calculateBalanceCurrentYear()
+            'incomesAmount' => Balance::getIncomes($dateStart, $dateEnd),
+            'categoryIds' => Balance::getIncomeCategories($dateStart, $dateEnd),
+            'incomesSumCategoriesId' => Balance::getIncomeForCategoryId($dateStart, $dateEnd),
+            'expensesAmount' => Balance::getExpenses($dateStart, $dateEnd),
+            'expenseCategoryIds' => Balance::getExpenseCategories($dateStart, $dateEnd),
+            'expensesSumCategoriesId' => Balance::getExpenseForCategoryId($dateStart, $dateEnd),
+            'balance' => Balance::calculateBalance($dateStart, $dateEnd)
         ]);
     }
 }

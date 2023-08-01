@@ -81,8 +81,8 @@ body %} {% if current_user %}
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <a class="dropdown-item" href="/balances/index">Bieżący miesiąc</a>
-        <a class="dropdown-item" href="/balances/previousMonth">Poprzedni miesiąc</a>
-        <a class="dropdown-item" href="/balances/currentYear">Bieżący rok</a>
+        <a class="dropdown-item" href="/balances/showPreviousMonth">Poprzedni miesiąc</a>
+        <a class="dropdown-item" href="/balances/showCurrentYear">Bieżący rok</a>
         <a class="dropdown-item" href="#">Wybierz sam</a>
       </div>
     </div>
@@ -157,12 +157,18 @@ body %} {% if current_user %}
     </div>
     <div class="card-body">
 
+      {% if expensesAmount is not empty and incomesAmount is not empty %}
       <p>Bilans: <span class="balanceColor">{{ balance }}</span> zł</p>
       {% if balance >= 0 %}
         <p class="balanceColorPlus">Gratulacje. Świetnie zarządzasz finansami!</p>
       {% else %}
         <p class="balanceColorMinus">Uważaj, wpadasz w długi!</p>
       {% endif %}
+
+      {% else %}
+      <p>Dodaj przychody i wydatki aby obliczyć bilans</p>
+      {% endif %}
+
       
     </div>
   </div>
