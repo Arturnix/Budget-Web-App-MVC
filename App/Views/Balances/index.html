@@ -1,6 +1,15 @@
 {% extends 'base.html' %} {% block title %}Twój bilans{% endblock %} {% block
 body %} {% if current_user %}
 
+    <!-- datapicker -->
+    <link href="/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="/js/bootstrap-datepicker.min.js"></script> 
+    <!-- <script src="/js/bootstrap-datepicker.pl.min.js"></script> -->
+
+    
+
+  </head>
+
 <header>
   <div id="title">
     <img
@@ -83,11 +92,107 @@ body %} {% if current_user %}
         <a class="dropdown-item" href="/balances/index">Bieżący miesiąc</a>
         <a class="dropdown-item" href="/balances/showPreviousMonth">Poprzedni miesiąc</a>
         <a class="dropdown-item" href="/balances/showCurrentYear">Bieżący rok</a>
-        <a class="dropdown-item" href="#">Wybierz sam</a>
+        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#myModal" href="#">Wybierz sam</a>
       </div>
     </div>
   </nav>
 </aside>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Wybierz okres dla wyświetlenia bilansu</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form action="/balances/showRange" method="post">
+
+          <div class="form-group-modal mt-4 mb-4">
+            <label for="balanceDateStart">Bilans od:</label>
+            <div class="input-container date" id="datepickerStart">
+              <div class="input-group-addon">
+                <i class="fa-regular fa-calendar-days icon"></i>
+              </div>
+              <input
+                id="balanceDateStart"
+                name="balanceDateStart"
+                onkeydown="return false"
+                class="form-control mb-2 mt-2"
+                placeholder="Wybierz datę z kalendarza"
+                required
+              />
+              <div class="input-group-addon">
+                <span class="glyphicon glyphicon-th"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group-modal mt-4 mb-4">
+            <label for="balanceDateEnd">Bilans do:</label>
+            <div class="input-container date" id="datepickerEnd">
+              <div class="input-group-addon">
+                <i class="fa-regular fa-calendar-days icon"></i>
+              </div>
+              <input
+                id="balanceDateEnd"
+                name="balanceDateEnd"
+                onkeydown="return false"
+                class="form-control mb-2 mt-2"
+                placeholder="Wybierz datę z kalendarza"
+                required
+              />
+              <div class="input-group-addon">
+                <span class="glyphicon glyphicon-th"></span>
+              </div>
+            </div>
+          </div>
+
+      </div>
+      <div class="modal-footer">
+        <div class="btn-toolbar justify-content-left mb-3">
+          <button type="submit" class="btn-group btn btn-success">
+            Wybierz zakres
+          </button>
+          
+        </div>
+      </div>
+     </form>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $("#datepickerStart").datepicker({
+    format: "yyyy-mm-dd",
+    startDate: "2000-01-01",
+    endDate: "+2m -1d",
+    language: "pl",
+    autoclose: true,
+    todayBtn: "linked",
+    todayHighlight: true,
+  });
+  $("#datepickerEnd").datepicker({
+    format: "yyyy-mm-dd",
+    startDate: "2000-01-01",
+    endDate: "+2m -1d",
+    language: "pl",
+    autoclose: true,
+    todayBtn: "linked",
+    todayHighlight: true,
+  });
+</script>
+<script type="text/javascript">
+  var today = new Date();
+  var dd = ("0" + today.getDate()).slice(-2);
+  var mm = ("0" + (today.getMonth() + 1)).slice(-2);
+  var yyyy = today.getFullYear();
+  today = yyyy + "-" + mm + "-" + dd;
+ /* $("#balanceDateStart").attr("value", today);
+  $("#balanceDateEnd").attr("value", today);*/
+</script>
 
 <h2 class="header-section">Bilans - {{ timePeriod }}:</h2>
 

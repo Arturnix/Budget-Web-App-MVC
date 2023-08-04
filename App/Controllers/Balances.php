@@ -79,4 +79,31 @@ class Balances extends \Core\Controller
             'balance' => Balance::calculateBalance($dateStart, $dateEnd)
         ]);
     }
+
+    /**
+     * Show incomes and expenses from specific time period: user defined range
+     * 
+     * @return void
+     */
+    public function showRangeAction() {
+
+        $dateStart = $_POST['balanceDateStart'];
+        $dateEnd = $_POST['balanceDateEnd'];
+
+        if ($dateStart > $dateEnd) {
+            $dateStart = $_POST['balanceDateEnd'];
+            $dateEnd = $_POST['balanceDateStart'];
+        }
+
+        View::renderTemplate('Balances/index.html', [
+            'timePeriod' => "zakres wybrany przez użytkonika",
+            'incomesAmount' => Balance::getIncomes($dateStart, $dateEnd),
+            'categoryIds' => Balance::getIncomeCategories($dateStart, $dateEnd),
+            'incomesSumCategoriesId' => Balance::getIncomeForCategoryId($dateStart, $dateEnd),
+            'expensesAmount' => Balance::getExpenses($dateStart, $dateEnd),
+            'expenseCategoryIds' => Balance::getExpenseCategories($dateStart, $dateEnd),
+            'expensesSumCategoriesId' => Balance::getExpenseForCategoryId($dateStart, $dateEnd),
+            'balance' => Balance::calculateBalance($dateStart, $dateEnd)
+        ]);
+    }
 }

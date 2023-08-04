@@ -135,7 +135,7 @@ form {
   background-color: antiquewhite;
   margin: -16px 0;
   padding-bottom: 1%;
-  min-height: 100vh;
+  /*min-height: 100vh;*/
 }
 
 .form-group {
@@ -144,6 +144,18 @@ form {
   width: 25%;
   text-align: left;
   padding: 1% 1%;
+}
+
+.form-group-modal {
+  background-color: #ceedc7; /*CFFDE1*/
+  margin: 1% auto;
+  width: 75%;
+  text-align: left;
+  padding: 1% 1%;
+}
+
+.modal-content {
+  background-color: antiquewhite;
 }
 
 @media screen and (max-width: 991px) {
