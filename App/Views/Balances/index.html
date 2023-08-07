@@ -6,6 +6,8 @@ body %} {% if current_user %}
     <script src="/js/bootstrap-datepicker.min.js"></script> 
     <!-- <script src="/js/bootstrap-datepicker.pl.min.js"></script> -->
 
+    <!-- doughnut chart-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     
 
   </head>
@@ -289,6 +291,78 @@ body %} {% if current_user %}
       {% endif %}
 
     </div>
+
+    {% if expenseNameSum is not empty %}
+
+     <!-- doughnut chart-->
+  <div>
+
+    <canvas id="myChart" class="mb-4" style="width:100%;max-width:700px"></canvas>
+
+  </div>
+
+  <script>
+
+    var expensesName = JSON.parse('{{ expenseNameSum | json_encode | raw }}');
+    var expeneseNames = [];
+
+    var expensesAmounts = JSON.parse('{{ expenseNameSum | json_encode | raw }}');
+    var expensesSum = [];
+
+    for(var i = 0; i < expensesName.length; i++){
+      expeneseNames[i] = expensesName[i]['name'];
+     }
+
+    for(var i = 0; i < expensesAmounts.length; i++){
+      expensesSum[i] = expensesAmounts[i]['amount'];
+    }
+
+    var barColors = [
+      "#b91d47",
+      "#00aba9",
+      "#2b5797",
+      "#e8c3b9",
+      "#1e7145",
+      "#b97145",
+      "#08c3a2",
+      "#2b5797",
+      "#e8c3b9",
+      "#12b530",
+      "#e8ca32",
+      "#00aba9",
+      "#575797",
+      "#3a2119",
+      "#3b9957",
+      "#aba900",
+      "#c3b022"
+    ];
+    
+    new Chart("myChart", {
+      type: "doughnut",
+      data: {
+        labels: expeneseNames,
+        datasets: [{
+          backgroundColor: barColors,
+          data: expensesSum
+        }]
+      },
+      options: {
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+        title: {
+          display: true,
+          text: "Twoje wydatki z wybranego okresu"
+        }
+      }
+    });
+  
+    </script>
+
+    {% endif %}
+
   </div>
 </div>
 

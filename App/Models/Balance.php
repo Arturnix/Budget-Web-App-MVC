@@ -97,9 +97,6 @@ class Balance extends \Core\Model
      /**
      * Get incomes category ids from database
      * 
-     * @param string $dateStart as an parameter for sql query to pick records from specific time period
-     * @param string $dateEnd as an parameter for sql query to pick records from specific time period
-     * 
      * @return array
      */
     private static function getIncomeCategoriesId() {
@@ -212,9 +209,6 @@ class Balance extends \Core\Model
 
      /**
      * Get expenses category ids from database
-     * 
-     * @param string $dateStart as an parameter for sql query to pick records from specific time period
-     * @param string $dateEnd as an parameter for sql query to pick records from specific time period
      * 
      * @return array
      */
@@ -343,5 +337,64 @@ class Balance extends \Core\Model
             $balance = $incomesSum - $expensesSum;
 
             return $balance;
+        }
+
+        /*public static function getExpensesNames() {
+
+        $sql = 'SELECT name FROM expenses_category_default';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->setFetchMode(PDO::FETCH_COLUMN, 0);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+        }*/
+
+        private static function filterNameNull($array) {
+
+            $sumNotNull = [];
+
+            foreach($array as $record) {
+                if($record['name']) {
+                    array_push($sumNotNull, $record);
+                }
+            }
+
+            return $sumNotNull;
+        }
+
+        public static function getNameAndSumExpenses($dateStart, $dateEnd) {
+
+            $expenseSumForCategoryId = [];
+            $expenseCategoryId = Balance::getExpenseCategoriesId();
+    
+            foreach ($expenseCategoryId as $id) {
+
+                $sql = 'SELECT DISTINCT expenses_category_default.name, SUM(expenses.amount) as amount FROM expenses_category_default
+                INNER JOIN expenses ON expenses_category_default.id = expenses.expense_category_assigned_to_user_id
+                WHERE expenses.expense_category_assigned_to_user_id = :id AND expenses.user_id = :loggedUserId AND date_of_expense BETWEEN :dateStart AND :dateEnd
+                ORDER BY amount DESC';
+    
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+    
+                $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+                $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+                $stmt->bindValue(':dateStart', $dateStart, PDO::PARAM_STR);
+                $stmt->bindValue(':dateEnd', $dateEnd, PDO::PARAM_STR);
+    
+                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    
+                $stmt->execute();
+    
+                $expenseSumForCategoryId[] = $stmt->fetch();
+
+                $sumNotNull = Balance::filterNameNull($expenseSumForCategoryId);
+            }
+    
+            return $sumNotNull;
         }
 }

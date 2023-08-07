@@ -32,7 +32,8 @@ class Balances extends \Core\Controller
             'expensesAmount' => Balance::getExpenses($dateStart, $dateEnd),
             'expenseCategoryIds' => Balance::getExpenseCategories($dateStart, $dateEnd),
             'expensesSumCategoriesId' => Balance::getExpenseForCategoryId($dateStart, $dateEnd),
-            'balance' => Balance::calculateBalance($dateStart, $dateEnd)
+            'balance' => Balance::calculateBalance($dateStart, $dateEnd),
+            'expenseNameSum' => Balance::getNameAndSumExpenses($dateStart, $dateEnd)
         ]);
     }
 
@@ -54,7 +55,8 @@ class Balances extends \Core\Controller
             'expensesAmount' => Balance::getExpenses($dateStart, $dateEnd),
             'expenseCategoryIds' => Balance::getExpenseCategories($dateStart, $dateEnd),
             'expensesSumCategoriesId' => Balance::getExpenseForCategoryId($dateStart, $dateEnd),
-            'balance' => Balance::calculateBalance($dateStart, $dateEnd)
+            'balance' => Balance::calculateBalance($dateStart, $dateEnd),
+            'expenseNameSum' => Balance::getNameAndSumExpenses($dateStart, $dateEnd)
         ]);
     }
 
@@ -76,7 +78,8 @@ class Balances extends \Core\Controller
             'expensesAmount' => Balance::getExpenses($dateStart, $dateEnd),
             'expenseCategoryIds' => Balance::getExpenseCategories($dateStart, $dateEnd),
             'expensesSumCategoriesId' => Balance::getExpenseForCategoryId($dateStart, $dateEnd),
-            'balance' => Balance::calculateBalance($dateStart, $dateEnd)
+            'balance' => Balance::calculateBalance($dateStart, $dateEnd),
+            'expenseNameSum' => Balance::getNameAndSumExpenses($dateStart, $dateEnd)
         ]);
     }
 
@@ -103,7 +106,8 @@ class Balances extends \Core\Controller
             'expensesAmount' => Balance::getExpenses($dateStart, $dateEnd),
             'expenseCategoryIds' => Balance::getExpenseCategories($dateStart, $dateEnd),
             'expensesSumCategoriesId' => Balance::getExpenseForCategoryId($dateStart, $dateEnd),
-            'balance' => Balance::calculateBalance($dateStart, $dateEnd)
+            'balance' => Balance::calculateBalance($dateStart, $dateEnd),
+            'expenseNameSum' => Balance::getNameAndSumExpenses($dateStart, $dateEnd)
         ]);
     }
 }
