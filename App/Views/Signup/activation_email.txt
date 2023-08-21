@@ -1,5 +1,6 @@
 Account activation
 
-Thank you for signing up. Please click the following link to activate your account:
+Thank you for signing up on www.budget.artur-zgodka.profesjonalnyprogramista.pl. 
+Please click the following link to activate your account:
 
 {{ url }}

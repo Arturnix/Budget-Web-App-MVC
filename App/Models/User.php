@@ -17,21 +17,7 @@ use \Core\View;
  #[\AllowDynamicProperties]
 class User extends \Core\Model
 {
-    /*public $id;
-    public $name;
-    public $email;
-    public $password;
-    public $password_hash;
-    public $remember_token;
-    public $expiry_timestamp;
-    public $password_reset_hash;
-    public $password_reset_expires_at;
-    public $password_reset_token;
-    public $activation_token;
-    public $hashed_token;
-    public $activation_hash;
-    public $is_active;*/
-
+    
     /**
      * Error messages
      *

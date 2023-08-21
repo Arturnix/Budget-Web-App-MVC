@@ -7,10 +7,6 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 use App\PHPMailer_Config;
 
-//require 'vendor/PHPMailer/src/Exception.php';
-//require 'vendor/PHPMailer/src/PHPMailer.php';
-//require 'vendor/PHPMailer/src/SMTP.php';
-
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 class Mail {
@@ -21,7 +17,6 @@ $mail = new PHPMailer(true);
 
 try {
 
-    //$mail->SMTPDebug = SMTP::DEBUG_SERVER;  
     $mail->IsHTML(true);
     $mail->CharSet = "text/html; charset=UTF-8;";
     $mail->isSMTP();
@@ -34,19 +29,16 @@ try {
 
     $mail->setFrom('testujmailer@wp.pl');
     $mail->addAddress($to);
-    //$mail->addReplyTo('info@example.com', 'Information');
     $mail->Subject = $subject;
     $mail->Body = $html;
     $mail->AltBody  =  $text;
 
     $mail->send();
 
-    //echo 'Message sent';
-
 } catch (Exception $e) {
 
     echo 'Message not sent: ', $mail->ErrorInfo;
 
-}
-}
+        }
+    }   
 }

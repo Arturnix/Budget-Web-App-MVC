@@ -1,23 +1,9 @@
 /* VIEW Home */
 
-/*@media (min-width: 768px) {
-  .login-page-form {
-    min-height: 100vh !important;
-    background-image: url(../img/more-leaves-on-green.png);
-  }
-}*/
-
 .login-page-form {
   min-height: 100vh !important;
   background-image: url(../img/more-leaves-on-green.png);
 }
-
-/*@media (min-width: 769px) {
-  .login-page-custom {
-    border-top-right-radius: 0.3rem;
-    border-bottom-right-radius: 0.3rem;
-  }
-}*/
 
 .login-page-custom {
   border-top-right-radius: 0.3rem;
@@ -84,7 +70,6 @@
 .nav-icon {
   padding: 0 5px 0;
   color: rgb(242, 72, 151);
-  /*color: rgb(255, 178, 71);*/
 }
 
 .home-page-wall {
@@ -135,11 +120,10 @@ form {
   background-color: antiquewhite;
   margin: -16px 0;
   padding-bottom: 1%;
-  /*min-height: 100vh;*/
 }
 
 .form-group {
-  background-color: #ceedc7; /*CFFDE1*/
+  background-color: #ceedc7;
   margin: 1% auto;
   width: 25%;
   text-align: left;
@@ -147,7 +131,7 @@ form {
 }
 
 .form-group-modal {
-  background-color: #ceedc7; /*CFFDE1*/
+  background-color: #ceedc7;
   margin: 1% auto;
   width: 75%;
   text-align: left;
@@ -260,12 +244,10 @@ form {
 
 .balanceColorPlus {
   color: #3e7c17;
-  /*font-weight: 600;*/
 }
 
 .balanceColorMinus {
   color: #dc3535;
-  /*font-weight: 600;*/
 }
 
 .card {
@@ -364,16 +346,10 @@ form {
   left: auto;
 }
 
-/*@media screen and (max-width: 768px) {
-  .btn-close {
-    left: auto;
-  }
-}*/
-
 /* Reset password */
 
 .reset-password {
-  background-color: #ceedc7; /*CFFDE1*/
+  background-color: #ceedc7;
   margin: 1% auto;
   width: 25%;
   text-align: left;
