@@ -9,4 +9,4 @@ Email: guest@test.com
 
 Password: Test123!
 
-There is also implemented account activation mailig mechanics when creating new user account and reset password functionality for acitve users.
+There are also implemented account activation mailig mechanics when creating new user account and reset password functionality for acitve users.
