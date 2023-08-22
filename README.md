@@ -8,3 +8,5 @@ Try it using guest account on https://www.budget.artur-zgodka.profesjonalnyprogr
 Email: guest@test.com
 
 Password: Test123!
+
+There is also implemented account activation mailig mechanics when creating new user account and reset password functionality for acitve users.
