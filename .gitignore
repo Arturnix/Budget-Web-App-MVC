@@ -6,3 +6,6 @@ App/PHPMailer_Config.php
 App/CAPTCHA_Config.php
 
 /logs
+
+Config.php
+App/Config.php
