@@ -26,14 +26,11 @@ class Balances extends \Core\Controller
 
         View::renderTemplate('Balances/index.html', [
             'timePeriod' => "bieżący miesiąc",
-            'incomesAmount' => Balance::getIncomes($dateStart, $dateEnd),
-            'categoryIds' => Balance::getIncomeCategories($dateStart, $dateEnd),
-            'incomesSumCategoriesId' => Balance::getIncomeForCategoryId($dateStart, $dateEnd),
-            'expensesAmount' => Balance::getExpenses($dateStart, $dateEnd),
-            'expenseCategoryIds' => Balance::getExpenseCategories($dateStart, $dateEnd),
-            'expensesSumCategoriesId' => Balance::getExpenseForCategoryId($dateStart, $dateEnd),
-            'balance' => Balance::calculateBalance($dateStart, $dateEnd),
-            'expenseNameSum' => Balance::getNameAndSumExpenses($dateStart, $dateEnd)
+            'incomesData' => Balance::getIncomesData($dateStart, $dateEnd),
+            'incomeNamesAndSum' => Balance::getIncomeNamesAndSum($dateStart, $dateEnd),
+            'expensesData' => Balance::getExpensesData($dateStart, $dateEnd),
+            'expenseNamesAndSum' => Balance::getExpenseNamesAndSum($dateStart, $dateEnd),
+            'balance' => Balance::calculateBalance($dateStart, $dateEnd)
         ]);
     }
 
@@ -49,14 +46,11 @@ class Balances extends \Core\Controller
 
         View::renderTemplate('Balances/index.html', [
             'timePeriod' => "poprzedni miesiąc",
-            'incomesAmount' => Balance::getIncomes($dateStart, $dateEnd),
-            'categoryIds' => Balance::getIncomeCategories($dateStart, $dateEnd),
-            'incomesSumCategoriesId' => Balance::getIncomeForCategoryId($dateStart, $dateEnd),
-            'expensesAmount' => Balance::getExpenses($dateStart, $dateEnd),
-            'expenseCategoryIds' => Balance::getExpenseCategories($dateStart, $dateEnd),
-            'expensesSumCategoriesId' => Balance::getExpenseForCategoryId($dateStart, $dateEnd),
-            'balance' => Balance::calculateBalance($dateStart, $dateEnd),
-            'expenseNameSum' => Balance::getNameAndSumExpenses($dateStart, $dateEnd)
+            'incomesData' => Balance::getIncomesData($dateStart, $dateEnd),
+            'incomeNamesAndSum' => Balance::getIncomeNamesAndSum($dateStart, $dateEnd),
+            'expensesData' => Balance::getExpensesData($dateStart, $dateEnd),
+            'expenseNamesAndSum' => Balance::getExpenseNamesAndSum($dateStart, $dateEnd),
+            'balance' => Balance::calculateBalance($dateStart, $dateEnd)
         ]);
     }
 
@@ -72,14 +66,11 @@ class Balances extends \Core\Controller
 
         View::renderTemplate('Balances/index.html', [
             'timePeriod' => "bieżący rok",
-            'incomesAmount' => Balance::getIncomes($dateStart, $dateEnd),
-            'categoryIds' => Balance::getIncomeCategories($dateStart, $dateEnd),
-            'incomesSumCategoriesId' => Balance::getIncomeForCategoryId($dateStart, $dateEnd),
-            'expensesAmount' => Balance::getExpenses($dateStart, $dateEnd),
-            'expenseCategoryIds' => Balance::getExpenseCategories($dateStart, $dateEnd),
-            'expensesSumCategoriesId' => Balance::getExpenseForCategoryId($dateStart, $dateEnd),
-            'balance' => Balance::calculateBalance($dateStart, $dateEnd),
-            'expenseNameSum' => Balance::getNameAndSumExpenses($dateStart, $dateEnd)
+            'incomesData' => Balance::getIncomesData($dateStart, $dateEnd),
+            'incomeNamesAndSum' => Balance::getIncomeNamesAndSum($dateStart, $dateEnd),
+            'expensesData' => Balance::getExpensesData($dateStart, $dateEnd),
+            'expenseNamesAndSum' => Balance::getExpenseNamesAndSum($dateStart, $dateEnd),
+            'balance' => Balance::calculateBalance($dateStart, $dateEnd)
         ]);
     }
 
@@ -100,14 +91,11 @@ class Balances extends \Core\Controller
 
         View::renderTemplate('Balances/index.html', [
             'timePeriod' => "zakres wybrany przez użytkonika",
-            'incomesAmount' => Balance::getIncomes($dateStart, $dateEnd),
-            'categoryIds' => Balance::getIncomeCategories($dateStart, $dateEnd),
-            'incomesSumCategoriesId' => Balance::getIncomeForCategoryId($dateStart, $dateEnd),
-            'expensesAmount' => Balance::getExpenses($dateStart, $dateEnd),
-            'expenseCategoryIds' => Balance::getExpenseCategories($dateStart, $dateEnd),
-            'expensesSumCategoriesId' => Balance::getExpenseForCategoryId($dateStart, $dateEnd),
-            'balance' => Balance::calculateBalance($dateStart, $dateEnd),
-            'expenseNameSum' => Balance::getNameAndSumExpenses($dateStart, $dateEnd)
+            'incomesData' => Balance::getIncomesData($dateStart, $dateEnd),
+            'incomeNamesAndSum' => Balance::getIncomeNamesAndSum($dateStart, $dateEnd),
+            'expensesData' => Balance::getExpensesData($dateStart, $dateEnd),
+            'expenseNamesAndSum' => Balance::getExpenseNamesAndSum($dateStart, $dateEnd),
+            'balance' => Balance::calculateBalance($dateStart, $dateEnd)
         ]);
     }
 }

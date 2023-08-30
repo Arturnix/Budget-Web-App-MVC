@@ -206,32 +206,22 @@ body %} {% if current_user %}
     </div>
     <div class="card-body">
 
-      {% if incomesAmount is empty %}
+      {% if incomesData is empty %}
       <p>Brak dodanych przychodów w zadanym okresie</p>
 
       {% else %}
 
+     {% for name in incomeNamesAndSum %}
       <ul class="balanceHeader">
-
-        {% for categoryId in categoryIds %}
-
-        <li class="mb-3">{{ categoryId.name }}: 
-         {% for incomeCategorySum in incomesSumCategoriesId %} 
-         {% if categoryId.id == incomeCategorySum.income_category_assigned_to_user_id %}
-         <span class="incomeSumColor">{{ incomeCategorySum.amount }}</span> zł</li>
-          {% endif %} {% endfor %}
-
-        <ul class="balanceList">
-          {% for incomeAmount in incomesAmount %} {% if categoryId.id ==
-          incomeAmount.income_category_assigned_to_user_id %}
-          <li class="mb-1">{{ incomeAmount.date_of_income }} {{ incomeAmount.income_comment }} <span class="incomeColor">{{ incomeAmount.amount }}</span> zł</li>
-          {% endif %} {% endfor %}
-        </ul>
-      </br>
-        {% endfor %}
+      <li class="mb-3">{{ name.name }}: <span class="incomeSumColor">{{ name.sumIncomeCategory }}</span> zł</li>
+      </ul>
+      <ul class="balanceList">
+      {% for data in incomesData %} {% if name.id == data.income_category_assigned_to_user_id %}
+      <li class="mb-1">{{ data.date_of_income }} {{ data.income_comment }} <span class="incomeColor">{{ data.amount }}</span> zł</li>
+      {% endif %} {% endfor %}
       </ul>
 
-      {% endif %}
+    {% endfor %} {% endif %}
 
     </div>
   </div>
@@ -242,32 +232,22 @@ body %} {% if current_user %}
     </div>
     <div class="card-body">
 
-      {% if expensesAmount is empty %}
+      {% if expensesData is empty %}
       <p>Brak dodanych wydatków w zadanym okresie</p>
 
       {% else %}
 
+      {% for name in expenseNamesAndSum %}
       <ul class="balanceHeader">
-
-        {% for expenseCategoryId in expenseCategoryIds %}
-
-        <li class="mb-3">{{ expenseCategoryId.name }}: 
-         {% for expenseCategorySum in expensesSumCategoriesId %} 
-         {% if expenseCategoryId.id == expenseCategorySum.expense_category_assigned_to_user_id %}
-         <span class="expenseSumColor">{{ expenseCategorySum.amount }}</span> zł</li>
-         {% endif %} {% endfor %}
-          
-        <ul class="balanceList">
-          {% for expenseAmount in expensesAmount %} {% if expenseCategoryId.id ==
-            expenseAmount.expense_category_assigned_to_user_id %}
-          <li class="mb-1">{{ expenseAmount.date_of_expense }} {{ expenseAmount.expense_comment }} <span class="expenseColor">{{ expenseAmount.amount }}</span> zł</li>
-          {% endif %} {% endfor %}
-        </ul>
-      </br>
-        {% endfor %}
+      <li class="mb-3">{{ name.name }}: <span class="expenseSumColor">{{ name.sumExpenseCategory }}</span> zł</li>
+      </ul>
+      <ul class="balanceList">
+      {% for data in expensesData %} {% if name.id == data.expense_category_assigned_to_user_id %}
+      <li class="mb-1">{{ data.date_of_expense }} {{ data.expense_comment }} <span class="expenseColor">{{ data.amount }}</span> zł</li>
+      {% endif %} {% endfor %}
       </ul>
 
-      {% endif %}
+    {% endfor %} {% endif %}
 
     </div>
   </div>
@@ -278,7 +258,7 @@ body %} {% if current_user %}
     </div>
     <div class="card-body">
 
-      {% if expensesAmount is not empty or incomesAmount is not empty %}
+      {% if expensesData is not empty or incomesData is not empty %}
       <p>Bilans: <span class="balanceColor">{{ balance }}</span> zł</p>
       {% if balance >= 0 %}
         <p class="balanceColorPlus">Gratulacje. Świetnie zarządzasz finansami!</p>
@@ -292,7 +272,7 @@ body %} {% if current_user %}
 
     </div>
 
-    {% if expenseNameSum is not empty %}
+    {% if expenseNamesAndSum is not empty %}
 
      <!-- doughnut chart-->
   <div>
@@ -303,10 +283,10 @@ body %} {% if current_user %}
 
   <script>
 
-    var expensesName = JSON.parse('{{ expenseNameSum | json_encode | raw }}');
+    var expensesName = JSON.parse('{{ expenseNamesAndSum | json_encode | raw }}');
     var expeneseNames = [];
 
-    var expensesAmounts = JSON.parse('{{ expenseNameSum | json_encode | raw }}');
+    var expensesAmounts = JSON.parse('{{ expenseNamesAndSum | json_encode | raw }}');
     var expensesSum = [];
 
     for(var i = 0; i < expensesName.length; i++){
@@ -314,7 +294,7 @@ body %} {% if current_user %}
      }
 
     for(var i = 0; i < expensesAmounts.length; i++){
-      expensesSum[i] = expensesAmounts[i]['amount'];
+      expensesSum[i] = expensesAmounts[i]['sumExpenseCategory'];
     }
 
     var barColors = [
