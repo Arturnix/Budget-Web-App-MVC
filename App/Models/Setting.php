@@ -42,13 +42,16 @@ class Setting extends \Core\Model
      */
     public static function getIncomeName() {
 
-        $sql = 'SELECT name, id
-                FROM incomes_category_default';
+        $sql = 'SELECT id, name
+                FROM incomes_category_assigned_to_users
+                WHERE user_id = :loggedUserId';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
 
         $stmt->execute();
 
@@ -63,12 +66,15 @@ class Setting extends \Core\Model
     public static function getExpenseName() {
 
         $sql = 'SELECT name
-                FROM expenses_category_default';
+                FROM expenses_category_assigned_to_users
+                WHERE user_id = :loggedUserId';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
 
         $stmt->execute();
 
@@ -82,13 +88,16 @@ class Setting extends \Core\Model
      */
     public static function getPaymentMethods() {
 
-        $sql = 'SELECT name, id
-                FROM payment_methods_default';
+        $sql = 'SELECT id, name
+                FROM payment_methods_assigned_to_users
+                WHERE user_id = :loggedUserId';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
 
         $stmt->execute();
 
