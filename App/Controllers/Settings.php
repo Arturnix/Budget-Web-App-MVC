@@ -87,4 +87,55 @@ class Settings extends \Core\Controller
 
         }
     }
+
+    public function addNewIncomeCategoryAction() {
+
+        $newIncomeName = $_POST['newIncomeName'];
+           
+        if (Setting::addNewIncomeCategory($newIncomeName)) {
+
+            Flash::addMessage('Dodano nową kategorię przychodu');
+            $this->redirect('/settings/index');
+
+        } else {
+
+            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            $this->redirect('/settings/index');
+
+        }
+    }
+
+    public function addNewExpenseCategoryAction() {
+
+        $newExpanseName = $_POST['newExpenseName'];
+           
+        if (Setting::addNewExpenseCategory($newExpanseName)) {
+
+            Flash::addMessage('Dodano nową kategorię wydatku');
+            $this->redirect('/settings/index');
+
+        } else {
+
+            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            $this->redirect('/settings/index');
+
+        }
+    }
+
+    public function addNewPaymentMethodAction() {
+
+        $newPaymentMethod = $_POST['newPaymentMethod'];
+           
+        if (Setting::addNewPaymentMethod($newPaymentMethod)) {
+
+            Flash::addMessage('Dodano nową metodę płatności');
+            $this->redirect('/settings/index');
+
+        } else {
+
+            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            $this->redirect('/settings/index');
+
+        }
+    }
 }

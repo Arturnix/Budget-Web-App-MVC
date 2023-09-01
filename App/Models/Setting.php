@@ -154,4 +154,46 @@ class Setting extends \Core\Model
         
         return $stmt->execute();
     }
+
+    public static function addNewIncomeCategory($newIncomeName) {
+
+        $sql = 'INSERT INTO incomes_category_assigned_to_users (user_id, name)
+                VALUES (:user_id, :newIncomeCategory)';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':newIncomeCategory', $newIncomeName, PDO::PARAM_STR);
+        
+        return $stmt->execute();
+    }
+
+    public static function addNewExpenseCategory($newExpanseName) {
+
+        $sql = 'INSERT INTO expenses_category_assigned_to_users (user_id, name)
+                VALUES (:user_id, :newExpenseCategory)';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':newExpenseCategory', $newExpanseName, PDO::PARAM_STR);
+        
+        return $stmt->execute();
+    }
+
+    public static function addNewPaymentMethod($newPaymentMethod) {
+
+        $sql = 'INSERT INTO payment_methods_assigned_to_users (user_id, name)
+                VALUES (:user_id, :newPaymentMethod)';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':newPaymentMethod', $newPaymentMethod, PDO::PARAM_STR);
+        
+        return $stmt->execute();
+    }
 }
