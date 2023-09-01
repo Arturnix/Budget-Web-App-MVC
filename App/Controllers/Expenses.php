@@ -22,8 +22,8 @@ class Expenses extends \Core\Controller
     public function indexAction()
     {   
         View::renderTemplate('Expenses/index.html', [
-            'paymentMethodsDefault' => Expense::getPaymentMethodsDefault(),
-            'expenseCategoriesDefault' => Expense::getExpenseCategoriesDefault()
+            'paymentMethodsDefault' => Expense::getPaymentMethodsAssignedToUser(),
+            'expenseCategoriesDefault' => Expense::getExpenseCategoriesAssignedToUser()
         ]);
     }
 

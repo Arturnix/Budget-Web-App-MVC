@@ -136,9 +136,11 @@ class Balance extends \Core\Model
      */
     public static function getExpenseNamesAndSum($dateStart, $dateEnd) {
 
-        $sql = 'SELECT SUM(expenses.amount) as sumExpenseCategory, expenses_category_default.name, expenses_category_default.id
-                FROM expenses, expenses_category_default
-                WHERE user_id = :loggedUserId AND expenses.expense_category_assigned_to_user_id = expenses_category_default.id AND date_of_expense BETWEEN :dateStart AND :dateEnd
+        $sql = 'SELECT SUM(expenses.amount) as sumExpenseCategory, expenses_category_assigned_to_users.name, expenses_category_assigned_to_users.id
+                FROM expenses, expenses_category_assigned_to_users
+                WHERE expenses.user_id = :loggedUserId AND expenses_category_assigned_to_users.user_id = :loggedUserId
+                AND expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id 
+                AND date_of_expense BETWEEN :dateStart AND :dateEnd
                 GROUP BY expenses.expense_category_assigned_to_user_id
                 ORDER BY sumExpenseCategory DESC';
 

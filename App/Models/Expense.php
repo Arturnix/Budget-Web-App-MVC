@@ -36,18 +36,21 @@ class Expense extends \Core\Model
     }
 
     /**
-     * Get payment methods from database
+     * Get payment methods assigned to logged user from database
      * 
      * @return array
      */
-    public static function getPaymentMethodsDefault () {
+    public static function getPaymentMethodsAssignedToUser() {
 
-        $sql = 'SELECT * FROM payment_methods_default';
+        $sql = 'SELECT name FROM payment_methods_assigned_to_users
+                WHERE user_id = :loggedUserId';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
-        $stmt->setFetchMode(PDO::FETCH_COLUMN, 1);
+        $stmt->setFetchMode(PDO::FETCH_COLUMN, 0);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
 
         $stmt->execute();
 
@@ -55,18 +58,21 @@ class Expense extends \Core\Model
     }
 
     /**
-     * Get expenses categories from database
+     * Get expenses categories assigned to logged user from database
      * 
      * @return array
      */
-    public static function getExpenseCategoriesDefault () {
+    public static function getExpenseCategoriesAssignedToUser() {
         
-        $sql = 'SELECT * FROM expenses_category_default ORDER BY id';
+        $sql = 'SELECT name FROM expenses_category_assigned_to_users 
+                WHERE user_id = :loggedUserId';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
-        $stmt->setFetchMode(PDO::FETCH_COLUMN, 1);
+        $stmt->setFetchMode(PDO::FETCH_COLUMN, 0);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
 
         $stmt->execute();
 
@@ -80,16 +86,17 @@ class Expense extends \Core\Model
      * 
      * @return int $expenseCategoryId category id corresponding with subbmited category name
      */
-    private static function getExpenseCategoryId ($expenseCategoryName) {
+    private static function getExpenseCategoryId($expenseCategoryName) {
 
-        $sql = 'SELECT id FROM expenses_category_default 
-                WHERE name = :expenseCategoryName';
+        $sql = 'SELECT id FROM expenses_category_assigned_to_users 
+                WHERE user_id = :loggedUserId AND name = :expenseCategoryName';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
         $stmt->setFetchMode(PDO::FETCH_COLUMN, 0);
 
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
         $stmt->bindValue(':expenseCategoryName', $expenseCategoryName, PDO::PARAM_STR);
 
         $stmt->execute();
@@ -104,16 +111,17 @@ class Expense extends \Core\Model
      * 
      * @return int $paymentMethodId method id corresponding with subbmited method name
      */
-    private static function getPaymentMethodId ($paymentMethodName) {
+    private static function getPaymentMethodId($paymentMethodName) {
 
-        $sql = 'SELECT id FROM payment_methods_default 
-                WHERE name = :paymentMethodName';
+        $sql = 'SELECT id FROM payment_methods_assigned_to_users 
+                WHERE user_id = :loggedUserId AND name = :paymentMethodName';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
         $stmt->setFetchMode(PDO::FETCH_COLUMN, 0);
 
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
         $stmt->bindValue(':paymentMethodName', $paymentMethodName, PDO::PARAM_STR);
 
         $stmt->execute();

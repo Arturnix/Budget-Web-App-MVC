@@ -36,27 +36,7 @@ class Income extends \Core\Model
     }
 
     /**
-     * Get income categories from database
-     * 
-     * @return array
-     */
-    /*public static function getIncomeCategoriesDefault () {
-
-        $sql = 'SELECT * FROM incomes_category_default
-                ORDER BY id';
-
-        $db = static::getDB();
-        $stmt = $db->prepare($sql);
-
-        $stmt->setFetchMode(PDO::FETCH_COLUMN, 1);
-
-        $stmt->execute();
-
-        return $incomeCategoriesDefault = $stmt->fetchAll();
-    }*/
-
-    /**
-     * Get income categories from database
+     * Get income categories assigned to logged user from database
      * 
      * @return array
      */
