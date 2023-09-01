@@ -152,9 +152,9 @@ body %} {% if current_user %}
           <div class="form-group-modal mt-4 mb-4">
             <label>Wybierz kategorię do zmiany nazwy:</label>
 
-            <select class="form-select" aria-label="Default select example">
+            <select class="form-select" name="editExpanseName" aria-label="Default select example">
               {% for expenseCategory in expensesCategories %}
-              <option name="editExpanseName">{{ expenseCategory.name }}</option>
+              <option value="{{ expenseCategory.id }}">{{ expenseCategory.name }}</option>
               {% endfor %}
             </select>
           </div>

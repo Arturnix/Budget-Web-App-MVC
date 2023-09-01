@@ -65,7 +65,7 @@ class Setting extends \Core\Model
      */
     public static function getExpenseName() {
 
-        $sql = 'SELECT name
+        $sql = 'SELECT id, name
                 FROM expenses_category_assigned_to_users
                 WHERE user_id = :loggedUserId';
 
@@ -116,6 +116,23 @@ class Setting extends \Core\Model
 
         $stmt->bindValue(':newName', $newIncomeName['newName'], PDO::PARAM_STR);
         $stmt->bindValue(':oldName', $newIncomeName['oldName'], PDO::PARAM_INT);
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        
+        return $stmt->execute();
+    }
+
+    public static function editExpanseName($newExpanseName) {
+
+        $sql = 'UPDATE expenses_category_assigned_to_users
+                SET name = :newName
+                WHERE id = :oldName
+                AND user_id = :loggedUserId';
+        
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':newName', $newExpanseName['newName'], PDO::PARAM_STR);
+        $stmt->bindValue(':oldName', $newExpanseName['oldName'], PDO::PARAM_INT);
         $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
         
         return $stmt->execute();

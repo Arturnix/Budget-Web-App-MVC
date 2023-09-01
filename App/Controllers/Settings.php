@@ -30,8 +30,6 @@ class Settings extends \Core\Controller
 
     public function editIncomeNameAction() {
 
-        var_dump($_POST);
-
         $newIncomeName = [
             'newName' => $_POST['newIncomeName'],
             'oldName' => $_POST['editIncomeName']
@@ -40,6 +38,28 @@ class Settings extends \Core\Controller
         if (Setting::editIncomeName($newIncomeName)) {
 
             Flash::addMessage('Zamieniono nazwę przychodu');
+            $this->redirect('/settings/index');
+
+        } else {
+
+            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            $this->redirect('/settings/index');
+
+        }
+    }
+
+    public function editExpenseNameAction() {
+
+        
+
+        $newExpanseName = [
+            'newName' => $_POST['newExpenseName'],
+            'oldName' => $_POST['editExpanseName']
+        ];
+
+        if (Setting::editExpanseName($newExpanseName)) {
+
+            Flash::addMessage('Zamieniono nazwę wydatku');
             $this->redirect('/settings/index');
 
         } else {
