@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Models\Setting;
+use \App\Flash;
 
 /**
  * Settings controller
@@ -29,11 +30,23 @@ class Settings extends \Core\Controller
 
     public function editIncomeNameAction() {
 
-        //var_dump($_POST);
+        var_dump($_POST);
 
         $newIncomeName = [
             'newName' => $_POST['newIncomeName'],
             'oldName' => $_POST['editIncomeName']
         ];
+
+        if (Setting::editIncomeName($newIncomeName)) {
+
+            Flash::addMessage('Zamieniono nazwę przychodu');
+            $this->redirect('/settings/index');
+
+        } else {
+
+            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            $this->redirect('/settings/index');
+
+        }
     }
 }
