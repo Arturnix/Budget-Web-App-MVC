@@ -67,10 +67,101 @@ class User extends \Core\Model
             $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
             $stmt->bindValue(':activation_hash', $hashed_token, PDO::PARAM_STR);
 
-            return $stmt->execute();
+            $savedUser = $stmt->execute();
+
+            $newUserId = $this->getNewUserId($this->email);
+            $this->addNewUserIncomeNames($newUserId);
+            $this->addNewUserExpenseNames($newUserId);
+            $this->addNewUserPaymentMethodNames($newUserId);
+
+            return $savedUser;
         }
 
         return false;
+    }
+
+    /**
+     * Get new user id after creating its instance
+     *
+     * @param string $email email address of new created user account
+     * 
+     * @return int
+     */
+    protected function getNewUserId($email) {
+
+        $sql = 'SELECT id FROM users WHERE email = :email';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $stmt->execute();
+        $fetchNewUserId = $stmt->fetch();
+
+        return $newUserId = $fetchNewUserId['id'];
+    }
+
+    /**
+     * Add default records to the table incomes_category_assigned_to_users with records assigned to this specific user
+     *
+     * @param int $newUserId id of new created user
+     * 
+     * @return void
+     */
+    protected function addNewUserIncomeNames($newUserId) {
+
+        $sql = 'INSERT INTO incomes_category_assigned_to_users(user_id, name)
+                SELECT :newUserId AS user_id, name FROM incomes_category_default';
+                
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':newUserId', $newUserId, PDO::PARAM_INT);
+
+        $stmt->execute();
+    }
+
+    /**
+     * Add default records to the table expenses_category_assigned_to_users with records assigned to this specific user
+     *
+     * @param int $newUserId id of new created user
+     * 
+     * @return void
+     */
+    protected function addNewUserExpenseNames($newUserId) {
+
+        $sql = 'INSERT INTO expenses_category_assigned_to_users(user_id, name)
+                SELECT :newUserId AS user_id, name FROM expenses_category_default';
+                
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':newUserId', $newUserId, PDO::PARAM_INT);
+
+        $stmt->execute();
+    }
+
+    /**
+     * Add default records to the table payment_methods_assigned_to_users with records assigned to this specific user
+     *
+     * @param int $newUserId id of new created user
+     * 
+     * @return void
+     */
+    protected function addNewUserPaymentMethodNames($newUserId) {
+
+        $sql = 'INSERT INTO payment_methods_assigned_to_users(user_id, name)
+                SELECT :newUserId AS user_id, name FROM payment_methods_default';
+                
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':newUserId', $newUserId, PDO::PARAM_INT);
+
+        $stmt->execute();
     }
 
     /**

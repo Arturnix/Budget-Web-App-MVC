@@ -75,9 +75,11 @@ class Balance extends \Core\Model
      */
     public static function getIncomeNamesAndSum($dateStart, $dateEnd) {
 
-        $sql = 'SELECT SUM(incomes.amount) as sumIncomeCategory, incomes_category_default.name, incomes_category_default.id
-                FROM incomes, incomes_category_default
-                WHERE user_id = :loggedUserId AND incomes.income_category_assigned_to_user_id = incomes_category_default.id AND date_of_income BETWEEN :dateStart AND :dateEnd
+        $sql = 'SELECT SUM(incomes.amount) as sumIncomeCategory, incomes_category_assigned_to_users.name, incomes_category_assigned_to_users.id
+                FROM incomes, incomes_category_assigned_to_users
+                WHERE incomes.user_id = :loggedUserId AND incomes_category_assigned_to_users.user_id = :loggedUserId 
+                AND incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id 
+                AND date_of_income BETWEEN :dateStart AND :dateEnd
                 GROUP BY incomes.income_category_assigned_to_user_id
                 ORDER BY sumIncomeCategory DESC';
 

@@ -22,7 +22,7 @@ class Incomes extends \Core\Controller
     public function indexAction()
     {   
         View::renderTemplate('Incomes/index.html', [
-            'incomeCategoriesDefault' => Income::getIncomeCategoriesDefault()
+            'incomeCategoriesDefault' => Income::getIncomeCategoriesAssignedToUser()
         ]);
     }
 
@@ -44,7 +44,6 @@ class Incomes extends \Core\Controller
 
             Flash::addMessage('Dodano nowy przychód');
             $this->redirect('/incomes/index');
-            var_dump($newIncomeData);
 
         } else {
 

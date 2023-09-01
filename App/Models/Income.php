@@ -40,7 +40,7 @@ class Income extends \Core\Model
      * 
      * @return array
      */
-    public static function getIncomeCategoriesDefault () {
+    /*public static function getIncomeCategoriesDefault () {
 
         $sql = 'SELECT * FROM incomes_category_default
                 ORDER BY id';
@@ -49,6 +49,29 @@ class Income extends \Core\Model
         $stmt = $db->prepare($sql);
 
         $stmt->setFetchMode(PDO::FETCH_COLUMN, 1);
+
+        $stmt->execute();
+
+        return $incomeCategoriesDefault = $stmt->fetchAll();
+    }*/
+
+    /**
+     * Get income categories from database
+     * 
+     * @return array
+     */
+    public static function getIncomeCategoriesAssignedToUser() {
+
+        $sql = 'SELECT name FROM incomes_category_assigned_to_users
+                WHERE user_id = :loggedUserId
+                ORDER BY id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->setFetchMode(PDO::FETCH_COLUMN, 0);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
 
         $stmt->execute();
 
@@ -64,14 +87,15 @@ class Income extends \Core\Model
      */
     private static function getIncomeCategoryId ($incomeCategoryName) {
 
-        $sql = 'SELECT id FROM incomes_category_default 
-                WHERE name = :incomeCategoryName';
+        $sql = 'SELECT id FROM incomes_category_assigned_to_users 
+                WHERE user_id = :loggedUserId AND name = :incomeCategoryName';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
         $stmt->setFetchMode(PDO::FETCH_COLUMN, 0);
 
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
         $stmt->bindValue(':incomeCategoryName', $incomeCategoryName, PDO::PARAM_STR);
 
         $stmt->execute();
