@@ -137,4 +137,21 @@ class Setting extends \Core\Model
         
         return $stmt->execute();
     }
+
+    public static function editPaymentMethodName($newPaymentName) {
+
+        $sql = 'UPDATE payment_methods_assigned_to_users
+                SET name = :newName
+                WHERE id = :oldName
+                AND user_id = :loggedUserId';
+        
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':newName', $newPaymentName['newName'], PDO::PARAM_STR);
+        $stmt->bindValue(':oldName', $newPaymentName['oldName'], PDO::PARAM_INT);
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        
+        return $stmt->execute();
+    }
 }

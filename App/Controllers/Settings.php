@@ -50,8 +50,6 @@ class Settings extends \Core\Controller
 
     public function editExpenseNameAction() {
 
-        
-
         $newExpanseName = [
             'newName' => $_POST['newExpenseName'],
             'oldName' => $_POST['editExpanseName']
@@ -60,6 +58,26 @@ class Settings extends \Core\Controller
         if (Setting::editExpanseName($newExpanseName)) {
 
             Flash::addMessage('Zamieniono nazwę wydatku');
+            $this->redirect('/settings/index');
+
+        } else {
+
+            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            $this->redirect('/settings/index');
+
+        }
+    }
+
+    public function editPaymentMethodNameAction() {
+
+        $newPaymentName = [
+            'newName' => $_POST['newPaymentName'],
+            'oldName' => $_POST['editPaymentMethod']
+        ];
+
+        if (Setting::editPaymentMethodName($newPaymentName)) {
+
+            Flash::addMessage('Zamieniono nazwę sposobu płatności');
             $this->redirect('/settings/index');
 
         } else {
