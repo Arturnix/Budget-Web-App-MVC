@@ -196,4 +196,46 @@ class Setting extends \Core\Model
         
         return $stmt->execute();
     }
+
+    public static function deleteIncomeCategory($incomeCategoryToDelete) {
+
+        $sql = 'DELETE FROM incomes_category_assigned_to_users
+                WHERE user_id = :user_id AND id = :incomeCategoryToDelete';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':incomeCategoryToDelete', $incomeCategoryToDelete, PDO::PARAM_INT);
+        
+        return $stmt->execute();
+    }
+
+    public static function deleteExpenseCategory($expenseCategoryToDelete) {
+
+        $sql = 'DELETE FROM expenses_category_assigned_to_users
+                WHERE user_id = :user_id AND id = :expenseCategoryToDelete';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':expenseCategoryToDelete', $expenseCategoryToDelete, PDO::PARAM_INT);
+        
+        return $stmt->execute();
+    }
+
+    public static function deletePaymentMethod($paymentMethodToDelete) {
+
+        $sql = 'DELETE FROM payment_methods_assigned_to_users
+                WHERE user_id = :user_id AND id = :paymentMethodToDelete';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':paymentMethodToDelete', $paymentMethodToDelete, PDO::PARAM_INT);
+        
+        return $stmt->execute();
+    }
 }

@@ -138,4 +138,55 @@ class Settings extends \Core\Controller
 
         }
     }
+
+    public function deleteIncomeCategoryAction() {
+
+        $incomeCategoryToDelete = $_POST['incomeCategoryToDelete'];
+           
+        if (Setting::deleteIncomeCategory($incomeCategoryToDelete)) {
+
+            Flash::addMessage('Usunięto kategorię przychodu');
+            $this->redirect('/settings/index');
+
+        } else {
+
+            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            $this->redirect('/settings/index');
+
+        }
+    }
+
+    public function deleteExpenseCategoryAction() {
+
+        $expenseCategoryToDelete = $_POST['deleteExpanseCategory'];
+           
+        if (Setting::deleteExpenseCategory($expenseCategoryToDelete)) {
+
+            Flash::addMessage('Usunięto kategorię wydatku');
+            $this->redirect('/settings/index');
+
+        } else {
+
+            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            $this->redirect('/settings/index');
+
+        }
+    }
+
+    public function deletePaymentMethodAction() {
+
+        $paymentMethodToDelete = $_POST['deletePaymentMethod'];
+           
+        if (Setting::deletePaymentMethod($paymentMethodToDelete)) {
+
+            Flash::addMessage('Usunięto metodę płatności');
+            $this->redirect('/settings/index');
+
+        } else {
+
+            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            $this->redirect('/settings/index');
+
+        }
+    }
 }
