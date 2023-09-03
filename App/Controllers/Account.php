@@ -19,7 +19,7 @@ class Account extends \Core\Controller
      *
      * @return void
      */
-    public function validateEmailAction()
+   public function validateEmailAction()
     {
         $is_valid = ! User::emailExists($_GET['email'], $_GET['ignore_id'] ?? null);
 

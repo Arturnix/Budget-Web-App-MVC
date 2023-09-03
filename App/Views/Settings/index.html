@@ -36,10 +36,57 @@
         $("#error" + name).append($error);
       },
     });
+
+    $("#formEditUserName").validate({
+      rules: {
+        newUserName: {
+          required: true,
+          maxlength: 20,
+        },
+      },
+      messages: {
+        newUserName: {
+          required: "Pole wymagane",
+          maxlength: "Imię max. 20 znaków",
+        },
+      },
+
+      errorClass: "text-danger",
+      errorPlacement: function ($error, $element) {
+        var name = $element.attr("name");
+
+        $("#error" + name).append($error);
+      },
+    });
+
+    $("#formEditUserEmail").validate({
+      rules: {
+        newUserEmail: {
+          required: true,
+          email: true,
+          remote: "/account/validate-email",
+        },
+      },
+      messages: {
+        newUserEmail: {
+          required: "Pole wymagane",
+          email: "Podaj poprawny adres email",
+          remote: "Dla podanego adresu email przypisane jest już inne konto",
+        },
+      },
+
+      errorClass: "text-danger",
+      errorPlacement: function ($error, $element) {
+        var name = $element.attr("name");
+
+        $("#error" + name).append($error);
+      },
+    });
+
   });
 
   function onSubmit(token) {
-    document.getElementById("formEditUserPassword").submit();
+    document.getElementById("formEditUserPassword", "formEditUserName", "formEditUserEmail").submit();
   }
 </script>
 
@@ -661,7 +708,7 @@
       </div>
       <div class="modal-body">
 
-        <form action="/settings/editUserName" method="post">
+        <form action="/settings/editUserName" method="post" id="formEditUserName">
 
           <div class="form-group-modal mt-4 mb-4">
             <label>Podaj nowe imię:</label>
@@ -674,6 +721,8 @@
                 required
               />
             </div>
+            <small id="errornewUserName"></small>
+            <small class="text-danger">{{ user.errors.newUserName }}</small>
           </div>
 
       </div>
@@ -700,7 +749,7 @@
       </div>
       <div class="modal-body">
 
-        <form action="/settings/editUserEmail" method="post">
+        <form action="/settings/editUserEmail" method="post" id="formEditUserEmail">
 
           <div class="form-group-modal mt-4 mb-4">
             <label>Podaj nowy email:</label>
@@ -708,11 +757,13 @@
               <input
                 id="newUserEmail"
                 name="newUserEmail"
-                type="text"
+                type="email"
                 class="form-control mb-2 mt-2"
                 required
               />
             </div>
+            <small id="errornewUserEmail"></small>
+            <small class="text-danger">{{ user.errors.newUserEmail }}</small>
           </div>
 
       </div>
@@ -762,7 +813,7 @@
               </div>
             </div>
             <small id="errornewUserPassword"></small>
-            <small class="text-danger">{{ user.errors.password }}</small>
+            <small class="text-danger">{{ user.errors.newUserPassword }}</small>
           </div>
 
       </div>

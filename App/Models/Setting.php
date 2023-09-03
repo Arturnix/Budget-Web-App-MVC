@@ -4,6 +4,7 @@ namespace App\Models;
 
 use PDO;
 use \Core\View;
+use \App\Models\User;
 
 /**
  * User model
@@ -239,24 +240,66 @@ class Setting extends \Core\Model
         return $stmt->execute();
     }
 
+    public static function validateEditUserName($newUserName) {
+
+        $errors = '';
+
+        if ($newUserName == '') {
+            $errors .= "Imię jest wymagane;\r\n";
+        }
+
+        if (strlen($newUserName) < 2) {
+            $errors .= "Imię musi składać się przynajmniej z 2 znaków;\r\n";
+        }
+
+        if (! preg_match('/.*\d+.*/i', $newUserName) == 0) {
+            $errors .= "Imię nie może zawierać cyfry;\r\n";
+        }
+
+        return $errors;
+    }
+
     public static function editUserName($newUserName) {
 
-        $sql = 'UPDATE users
-                SET name = :newName
-                WHERE id = :loggedUserId';
-        
-        $db = static::getDB();
-        $stmt = $db->prepare($sql);
+        if (empty(Setting::validateEditUserName($newUserName))) {
 
-        $stmt->bindValue(':newName', $newUserName, PDO::PARAM_STR);
-        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
-        
-        return $stmt->execute();
+            $sql = 'UPDATE users
+            SET name = :newName
+            WHERE id = :loggedUserId';
+    
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':newName', $newUserName, PDO::PARAM_STR);
+            $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+            
+            return $stmt->execute();
+        } else {
+            return false;
+        }
+    }
+
+    public static function validateEditUserEmail($newUserEmail) {
+
+        $errors = '';
+
+        if (filter_var($newUserEmail, FILTER_VALIDATE_EMAIL) === false) {
+            $errors .= "Podaj poprawny adres email;\r\n";
+        }
+        if (User::emailExists($newUserEmail)) {
+            $errors .= "Dla podanego adresu email przypisane jest już inne konto;\r\n";
+        }
+
+        return $errors;
     }
 
     public static function editUserEmail($newUserEmail) {
 
-        $sql = 'UPDATE users
+        $editEmailError = Setting::validateEditUserEmail($newUserEmail);
+
+        if(empty($editEmailError)) {
+
+            $sql = 'UPDATE users
                 SET email  = :newEmail
                 WHERE id = :loggedUserId';
         
@@ -267,6 +310,11 @@ class Setting extends \Core\Model
         $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
         
         return $stmt->execute();
+
+        } else {
+
+            return false;
+        }
     }
 
     public static function validateEditUserPassword($newUserPassword) {
