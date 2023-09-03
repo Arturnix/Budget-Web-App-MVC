@@ -238,4 +238,79 @@ class Setting extends \Core\Model
         
         return $stmt->execute();
     }
+
+    public static function editUserName($newUserName) {
+
+        $sql = 'UPDATE users
+                SET name = :newName
+                WHERE id = :loggedUserId';
+        
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':newName', $newUserName, PDO::PARAM_STR);
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        
+        return $stmt->execute();
+    }
+
+    public static function editUserEmail($newUserEmail) {
+
+        $sql = 'UPDATE users
+                SET email  = :newEmail
+                WHERE id = :loggedUserId';
+        
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':newEmail', $newUserEmail, PDO::PARAM_STR);
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        
+        return $stmt->execute();
+    }
+
+    public static function validateEditUserPassword($newUserPassword) {
+
+        $errors = '';
+
+        if (strlen($newUserPassword) < 6 || strlen($newUserPassword) > 20) {
+            $errors .= "Hasło musi składać się z 6 do 20 znaków;\r\n";
+        }
+
+        if (preg_match('/.*[a-z]+.*/i', $newUserPassword) == 0) {
+            $errors .= "Hasło musi zawierać literę;\r\n";
+        }
+
+        if (preg_match('/.*\d+.*/i', $newUserPassword) == 0) {
+            $errors .= "Hasło musi zawierać cyfrę;\r\n";
+        }
+
+        return $errors;
+    }
+
+    public static function editUserPassword($newUserPassword) {
+
+        $editPasswordError = Setting::validateEditUserPassword($newUserPassword);
+
+        if(empty($editPasswordError)) {
+
+            $password_hash = password_hash($newUserPassword, PASSWORD_DEFAULT);
+
+            $sql = 'UPDATE users
+                    SET password_hash  = :newPassword
+                    WHERE id = :loggedUserId';
+            
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+    
+            $stmt->bindValue(':newPassword', $password_hash, PDO::PARAM_STR);
+            $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+            
+            return $stmt->execute();
+
+        } else {
+
+            return false;
+        }
+    }
 }

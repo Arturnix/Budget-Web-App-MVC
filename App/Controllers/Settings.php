@@ -189,4 +189,56 @@ class Settings extends \Core\Controller
 
         }
     }
+
+    public function editUserNameAction() {
+
+        $newUserName = $_POST['newUserName'];
+
+        if (Setting::editUserName($newUserName)) {
+
+            Flash::addMessage('Zamieniono imię użytkownika');
+            $this->redirect('/settings/index');
+
+        } else {
+
+            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            $this->redirect('/settings/index');
+
+        }
+    }
+
+    public function editUserEmailAction() {
+
+        $newUserEmail = $_POST['newUserEmail'];
+
+        if (Setting::editUserEmail($newUserEmail)) {
+
+            Flash::addMessage('Zamieniono email użytkownika');
+            $this->redirect('/settings/index');
+
+        } else {
+
+            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            $this->redirect('/settings/index');
+
+        }
+    }
+
+    public function editUserPasswordAction() {
+
+        $newUserPassword = $_POST['newUserPassword'];
+
+        if (Setting::editUserPassword($newUserPassword)) {
+
+            Flash::addMessage('Zamieniono hasło użytkownika');
+            $this->redirect('/settings/index');
+
+        } else {
+
+            //Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            Flash::addMessage(Setting::validateEditUserPassword($newUserPassword), Flash::WARNING);
+            $this->redirect('/settings/index');
+
+        }
+    }
 }
