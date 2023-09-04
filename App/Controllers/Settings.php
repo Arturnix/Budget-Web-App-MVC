@@ -5,6 +5,7 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Models\Setting;
 use \App\Flash;
+use \App\Auth;
 
 /**
  * Settings controller
@@ -261,6 +262,21 @@ class Settings extends \Core\Controller
 
             Flash::addMessage(Setting::validateEditUserPassword($newUserPassword), Flash::WARNING);
             $this->redirect('/settings/index');
+        }
+    }
+
+    public function deleteUserAction() {
+
+        if (Setting::deleteUser()) {
+
+            Auth::logout();
+            $this->redirect('/login/show-delete-user-message');
+
+        } else {
+
+            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            $this->redirect('/settings/index');
+
         }
     }
 }

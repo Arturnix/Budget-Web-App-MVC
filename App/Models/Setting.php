@@ -361,4 +361,62 @@ class Setting extends \Core\Model
             return false;
         }
     }
+
+    private static function deleteUserDataFromAssignedTables() {
+
+        $sql = 'DELETE e, i, p
+                FROM expenses_category_assigned_to_users AS e, 
+                    incomes_category_assigned_to_users AS i,
+                    payment_methods_assigned_to_users AS p
+                WHERE e.user_id = :loggedUserId 
+                AND i.user_id = :loggedUserId
+                AND p.user_id = :loggedUserId';
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+    
+            $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+            
+            return $stmt->execute();
+    }
+
+    private static function deleteUserData() {
+
+        $sql = 'DELETE e, i, r
+                FROM expenses as e,
+                     incomes as i,
+                     remembered_logins as r
+                WHERE e.user_id = :loggedUserId
+                AND i.user_id = :loggedUserId
+                AND r.user_id = :loggedUserId';
+                            
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+    
+            $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+            
+            return $stmt->execute();
+    }
+
+    private static function deleteUserFromUsersTable() {
+
+        $sql = 'DELETE FROM users
+                WHERE id = :loggedUserId';
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+
+                $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+
+                return $stmt->execute();
+    }
+
+    public static function deleteUser() {
+
+        if(static::deleteUserDataFromAssignedTables() && static::deleteUserData() && static::deleteUserFromUsersTable()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

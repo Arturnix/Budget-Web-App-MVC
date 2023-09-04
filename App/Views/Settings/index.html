@@ -64,14 +64,14 @@
         newUserEmail: {
           required: true,
           email: true,
-          remote: "/account/validate-email",
+          //remote: "/account/validate-email",
         },
       },
       messages: {
         newUserEmail: {
           required: "Pole wymagane",
           email: "Podaj poprawny adres email",
-          remote: "Dla podanego adresu email przypisane jest już inne konto",
+          //remote: "Dla podanego adresu email przypisane jest już inne konto",
         },
       },
 
@@ -872,6 +872,36 @@
     </div>
   </div>
 
+<!-- Delete user -->
+<!-- Modal delete user -->
+<div class="modal fade" id="deleteUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Czy chcesz usunąć konto?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+      <form method="post" action="/settings/deleteUser">
+
+        <div class="btn-toolbar d-flex justify-content-left mb-3 mt-3">
+          <button type="submit" class="btn-group btn btn-danger me-3">
+            Tak
+          </button>
+          <button type="button" class="btn-group btn btn-success" data-bs-dismiss="modal">
+            Nie
+          </button>
+        </div>
+
+      </form>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
   <div class="card mb-4">
     <div class="card-header">
       <h3 class="header-expenses">Usuń konto użytkownika</h3>
@@ -884,7 +914,7 @@
         aria-haspopup="true"
         aria-expanded="false"
         data-bs-toggle="modal" 
-        data-bs-target="#editIncomeName"
+        data-bs-target="#deleteUser"
       >
         Usuń swoje konto
       </button>

@@ -89,4 +89,11 @@ class Login extends \Core\Controller
 
         $this->redirect('/');
     }
+
+    public function showDeleteUserMessageAction()
+    {
+        Flash::addMessage('Konto usunięte');
+
+        $this->redirect('/');
+    }
 }
