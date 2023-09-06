@@ -105,6 +105,25 @@ class Setting extends \Core\Model
         return $incomes = $stmt->fetchAll();
     }
 
+    public static function isNewIncomeNameAvailable($newIncomeName) {
+
+        $sql = 'SELECT name FROM incomes_category_assigned_to_users
+                WHERE user_id = :loggedUserId
+                AND name = :newName';
+        
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':newName', $newIncomeName['newName'], PDO::PARAM_STR);
+        
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
     public static function editIncomeName($newIncomeName) {
 
         $sql = 'UPDATE incomes_category_assigned_to_users
@@ -122,6 +141,25 @@ class Setting extends \Core\Model
         return $stmt->execute();
     }
 
+    public static function isNewExpenseNameAvailable($newExpenseName) {
+
+        $sql = 'SELECT name FROM expenses_category_assigned_to_users
+                WHERE user_id = :loggedUserId
+                AND name = :newName';
+        
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':newName', $newExpenseName['newName'], PDO::PARAM_STR);
+        
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
     public static function editExpanseName($newExpanseName) {
 
         $sql = 'UPDATE expenses_category_assigned_to_users
@@ -137,6 +175,25 @@ class Setting extends \Core\Model
         $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
         
         return $stmt->execute();
+    }
+
+    public static function isNewPaymentMethodNameAvailable($newPaymentName) {
+
+        $sql = 'SELECT name FROM payment_methods_assigned_to_users
+                WHERE user_id = :loggedUserId
+                AND name = :newName';
+        
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':newName', $newPaymentName['newName'], PDO::PARAM_STR);
+        
+        $stmt->execute();
+
+        return $stmt->fetchAll();
     }
 
     public static function editPaymentMethodName($newPaymentName) {

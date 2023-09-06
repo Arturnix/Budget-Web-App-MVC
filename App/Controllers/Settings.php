@@ -36,34 +36,51 @@ class Settings extends \Core\Controller
             'oldName' => $_POST['editIncomeName']
         ];
 
-        if (Setting::editIncomeName($newIncomeName)) {
+       if (empty(Setting::isNewIncomeNameAvailable($newIncomeName))) {
 
-            Flash::addMessage('Zamieniono nazwę przychodu');
-            $this->redirect('/settings/index');
+            if (Setting::editIncomeName($newIncomeName)) {
+
+                Flash::addMessage('Zamieniono nazwę przychodu');
+                $this->redirect('/settings/index');
+
+            } else {
+
+                Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+                $this->redirect('/settings/index');
+
+            }
 
         } else {
 
-            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            Flash::addMessage("Podana nazwa jest już zajeta. Podaj inną nazwę.", Flash::WARNING);
             $this->redirect('/settings/index');
-
         }
     }
 
     public function editExpenseNameAction() {
 
-        $newExpanseName = [
+        $newExpenseName = [
             'newName' => $_POST['newExpenseName'],
             'oldName' => $_POST['editExpanseName']
         ];
 
-        if (Setting::editExpanseName($newExpanseName)) {
+        if (empty(Setting::isNewExpenseNameAvailable($newExpenseName))) {
 
-            Flash::addMessage('Zamieniono nazwę wydatku');
-            $this->redirect('/settings/index');
+            if (Setting::editExpanseName($newExpenseName)) {
+
+                Flash::addMessage('Zamieniono nazwę wydatku');
+                $this->redirect('/settings/index');
+    
+            } else {
+    
+                Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+                $this->redirect('/settings/index');
+    
+            }
 
         } else {
 
-            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            Flash::addMessage("Podana nazwa jest już zajeta. Podaj inną nazwę.", Flash::WARNING);
             $this->redirect('/settings/index');
 
         }
@@ -76,16 +93,23 @@ class Settings extends \Core\Controller
             'oldName' => $_POST['editPaymentMethod']
         ];
 
-        if (Setting::editPaymentMethodName($newPaymentName)) {
+        if (empty(Setting::isNewPaymentMethodNameAvailable($newPaymentName))) {
 
-            Flash::addMessage('Zamieniono nazwę sposobu płatności');
-            $this->redirect('/settings/index');
+            if (Setting::editPaymentMethodName($newPaymentName)) {
 
+                Flash::addMessage('Zamieniono nazwę sposobu płatności');
+                $this->redirect('/settings/index');
+    
+            } else {
+    
+                Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+                $this->redirect('/settings/index');
+    
+            }
         } else {
 
-            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            Flash::addMessage("Podana nazwa jest już zajeta. Podaj inną nazwę.", Flash::WARNING);
             $this->redirect('/settings/index');
-
         }
     }
 
@@ -143,6 +167,8 @@ class Settings extends \Core\Controller
     public function deleteIncomeCategoryAction() {
 
         $incomeCategoryToDelete = $_POST['incomeCategoryToDelete'];
+
+        var_dump($incomeCategoryToDelete = $_POST['incomeCategoryToDelete']);
            
         if (Setting::deleteIncomeCategory($incomeCategoryToDelete)) {
 
