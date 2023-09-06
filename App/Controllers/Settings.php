@@ -36,7 +36,7 @@ class Settings extends \Core\Controller
             'oldName' => $_POST['editIncomeName']
         ];
 
-       if (empty(Setting::isNewIncomeNameAvailable($newIncomeName))) {
+       if (empty(Setting::isNewIncomeNameAvailable($newIncomeName['newName']))) {
 
             if (Setting::editIncomeName($newIncomeName)) {
 
@@ -64,7 +64,7 @@ class Settings extends \Core\Controller
             'oldName' => $_POST['editExpanseName']
         ];
 
-        if (empty(Setting::isNewExpenseNameAvailable($newExpenseName))) {
+        if (empty(Setting::isNewExpenseNameAvailable($newExpenseName['newName']))) {
 
             if (Setting::editExpanseName($newExpenseName)) {
 
@@ -93,7 +93,7 @@ class Settings extends \Core\Controller
             'oldName' => $_POST['editPaymentMethod']
         ];
 
-        if (empty(Setting::isNewPaymentMethodNameAvailable($newPaymentName))) {
+        if (empty(Setting::isNewPaymentMethodNameAvailable($newPaymentName['newName']))) {
 
             if (Setting::editPaymentMethodName($newPaymentName)) {
 
@@ -116,51 +116,74 @@ class Settings extends \Core\Controller
     public function addNewIncomeCategoryAction() {
 
         $newIncomeName = $_POST['newIncomeName'];
-           
-        if (Setting::addNewIncomeCategory($newIncomeName)) {
 
-            Flash::addMessage('Dodano nową kategorię przychodu');
-            $this->redirect('/settings/index');
+        if (empty(Setting::isNewIncomeNameAvailable($newIncomeName))) {
 
+            if (Setting::addNewIncomeCategory($newIncomeName)) {
+
+                Flash::addMessage('Dodano nową kategorię przychodu');
+                $this->redirect('/settings/index');
+    
+            } else {
+    
+                Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+                $this->redirect('/settings/index');
+    
+            }
         } else {
 
-            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            Flash::addMessage("Podana nazwa jest już zajeta. Podaj inną nazwę.", Flash::WARNING);
             $this->redirect('/settings/index');
-
         }
     }
 
     public function addNewExpenseCategoryAction() {
 
-        $newExpanseName = $_POST['newExpenseName'];
-           
-        if (Setting::addNewExpenseCategory($newExpanseName)) {
+        $newExpenseName = $_POST['newExpenseName'];
 
-            Flash::addMessage('Dodano nową kategorię wydatku');
-            $this->redirect('/settings/index');
+        if (empty(Setting::isNewExpenseNameAvailable($newExpenseName))) {
 
+            if (Setting::addNewExpenseCategory($newExpenseName)) {
+
+                Flash::addMessage('Dodano nową kategorię wydatku');
+                $this->redirect('/settings/index');
+    
+            } else {
+    
+                Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+                $this->redirect('/settings/index');
+    
+            }
         } else {
 
-            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            Flash::addMessage("Podana nazwa jest już zajeta. Podaj inną nazwę.", Flash::WARNING);
             $this->redirect('/settings/index');
-
         }
+           
+        
     }
 
     public function addNewPaymentMethodAction() {
 
         $newPaymentMethod = $_POST['newPaymentMethod'];
-           
-        if (Setting::addNewPaymentMethod($newPaymentMethod)) {
 
-            Flash::addMessage('Dodano nową metodę płatności');
-            $this->redirect('/settings/index');
+        if (empty(Setting::isNewPaymentMethodNameAvailable($newPaymentMethod))) {
 
+            if (Setting::addNewPaymentMethod($newPaymentMethod)) {
+
+                Flash::addMessage('Dodano nową metodę płatności');
+                $this->redirect('/settings/index');
+    
+            } else {
+    
+                Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+                $this->redirect('/settings/index');
+    
+            }
         } else {
 
-            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            Flash::addMessage("Podana nazwa jest już zajeta. Podaj inną nazwę.", Flash::WARNING);
             $this->redirect('/settings/index');
-
         }
     }
 
@@ -168,8 +191,6 @@ class Settings extends \Core\Controller
 
         $incomeCategoryToDelete = $_POST['incomeCategoryToDelete'];
 
-        var_dump($incomeCategoryToDelete = $_POST['incomeCategoryToDelete']);
-           
         if (Setting::deleteIncomeCategory($incomeCategoryToDelete)) {
 
             Flash::addMessage('Usunięto kategorię przychodu');

@@ -117,7 +117,7 @@ class Setting extends \Core\Model
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
         $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
-        $stmt->bindValue(':newName', $newIncomeName['newName'], PDO::PARAM_STR);
+        $stmt->bindValue(':newName', $newIncomeName, PDO::PARAM_STR);
         
         $stmt->execute();
 
@@ -153,7 +153,7 @@ class Setting extends \Core\Model
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
         $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
-        $stmt->bindValue(':newName', $newExpenseName['newName'], PDO::PARAM_STR);
+        $stmt->bindValue(':newName', $newExpenseName, PDO::PARAM_STR);
         
         $stmt->execute();
 
@@ -189,7 +189,7 @@ class Setting extends \Core\Model
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
         $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
-        $stmt->bindValue(':newName', $newPaymentName['newName'], PDO::PARAM_STR);
+        $stmt->bindValue(':newName', $newPaymentName, PDO::PARAM_STR);
         
         $stmt->execute();
 
