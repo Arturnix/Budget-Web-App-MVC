@@ -25,8 +25,11 @@ class Settings extends \Core\Controller
         View::renderTemplate('Settings/index.html', [
             'incomesCategories' => Setting::getIncomeName(),
             'expensesCategories' => Setting::getExpenseName(),
-            'paymentMethods' => Setting::getPaymentMethods()
-        ]);     
+            'paymentMethods' => Setting::getPaymentMethods(),
+            'incomeCategoryUsed' => Setting::usedIncomeCategory(),
+            'expenseCategoryUsed' => Setting::usedExpenseCategory(),
+            'paymentMethodUsed' => Setting::usedPaymentMethod()
+        ]);   
     }
 
     public function editIncomeNameAction() {
@@ -186,6 +189,15 @@ class Settings extends \Core\Controller
             $this->redirect('/settings/index');
         }
     }
+
+    //delete category
+
+    public function usedIncomeCategory() {
+
+        var_dump(Setting::usedIncomeCategory());
+    }
+
+    
 
     public function deleteIncomeCategoryAction() {
 

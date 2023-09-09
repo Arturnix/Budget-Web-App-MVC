@@ -90,6 +90,100 @@
   }
 </script>
 
+<script>
+  $('#incomeDeleteCategoryBtn').click(function() {
+    
+    let deleteIncomeCategory = $('input[name="incomeCategoryToDelete"]:checked').val();
+    let usedIncomeCategory = JSON.parse('{{ incomeCategoryUsed | json_encode | raw }}');
+    let usedIncomeCategories = [];
+
+    if (usedIncomeCategory == '') {
+      document.getElementById("deleteIncomeCategoryWarning").innerHTML = 'Czy napewno chcesz usunąć kategorię?';
+    } else {
+
+    for(var i = 0; i < usedIncomeCategory.length; i++){
+      usedIncomeCategories[i] = usedIncomeCategory[i]['income_category_assigned_to_user_id'];
+     }
+
+     for (var i = 0; i < usedIncomeCategories.length; i++) {
+      if (deleteIncomeCategory == usedIncomeCategories[i]) {
+        document.getElementById("deleteIncomeCategoryWarning").innerHTML = 'Wybrana kategoria zawiera wpisy w budżecie, które zostaną usunięte. Czy napewno chcesz usunąć kategorię?';
+        break;
+      } else {
+        document.getElementById("deleteIncomeCategoryWarning").innerHTML = 'Czy napewno chcesz usunąć kategorię?';
+      }
+     }
+    }
+});
+
+$('#submitIncomeDeleteCategoryBtn').click(function(){
+    /* when the submit button in the modal is clicked, submit the form */
+   $('#deleteIncomeCategoryForm').submit();
+});
+</script>
+
+<script>
+$('#expenseDeleteCategoryBtn').click(function() {
+    
+    let deleteExpenseCategory = $('option[name="expenseCategoryToDelete"]:checked').val();
+    let usedExpenseCategory = JSON.parse('{{ expenseCategoryUsed | json_encode | raw }}');
+    let usedExpenseCategories = [];
+
+    if (usedExpenseCategory == '') {
+      document.getElementById("deleteExpenseCategoryWarning").innerHTML = 'Czy napewno chcesz usunąć kategorię?';
+    } else {
+    for(var i = 0; i < usedExpenseCategory.length; i++){
+      usedExpenseCategories[i] = usedExpenseCategory[i]['expense_category_assigned_to_user_id'];
+     }
+
+     for (var i = 0; i < usedExpenseCategories.length; i++) {
+      if (deleteExpenseCategory == usedExpenseCategories[i]) {
+        document.getElementById("deleteExpenseCategoryWarning").innerHTML = 'Wybrana kategoria zawiera wpisy w budżecie, które zostaną usunięte. Czy napewno chcesz usunąć kategorię?';
+        break;
+      } else {
+        document.getElementById("deleteExpenseCategoryWarning").innerHTML = 'Czy napewno chcesz usunąć kategorię?';
+      }
+     }
+    }
+});
+
+$('#submitExpenseDeleteCategoryBtn').click(function(){
+  /* when the submit button in the modal is clicked, submit the form */
+ $('#deleteExpenseCategoryFrom').submit();
+});
+</script>
+
+<script>
+  $('#paymentMethodDeleteBtn').click(function() {
+      
+      let deletePaymentMethod = $('input[name="deletePaymentMethod"]:checked').val();
+      let usedPaymentMethod = JSON.parse('{{ paymentMethodUsed | json_encode | raw }}');
+      let usedPaymentMethods = [];
+  
+      if (usedPaymentMethod == '') {
+        document.getElementById("deletePaymentMethodWarning").innerHTML = 'Czy napewno chcesz usunąć kategorię?';
+      } else {
+      for(var i = 0; i < usedPaymentMethod.length; i++){
+        usedPaymentMethods[i] = usedPaymentMethod[i]['payment_method_assigned_to_user_id'];
+       }
+  
+       for (var i = 0; i < usedPaymentMethods.length; i++) {
+        if (deletePaymentMethod == usedPaymentMethods[i]) {
+          document.getElementById("deletePaymentMethodWarning").innerHTML = 'Wybrana kategoria zawiera wpisy w budżecie, które zostaną usunięte. Czy napewno chcesz usunąć kategorię?';
+          break;
+        } else {
+          document.getElementById("deletePaymentMethodWarning").innerHTML = 'Czy napewno chcesz usunąć kategorię?';
+        }
+       }
+      }
+  });
+  
+  $('#submitPaymentMethodDeleteBtn').click(function(){
+    /* when the submit button in the modal is clicked, submit the form */
+   $('#deletePaymentMethodFrom').submit();
+  });
+  </script>
+
 <footer>
   © 2023
   <img src="/img/favicon.ico" alt="Arturnix icon" /> Arturnix.
@@ -531,6 +625,21 @@
   </div>
 
 <!-- delete -->
+<!-- Modal delete income cofirm -->
+<div class="modal fade" id="confirm-delete-income-submit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div id="deleteIncomeCategoryWarning" class="modal-body"></div>
+
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-bs-dismiss="modal">Anuluj</button>
+              <a href="#" id="submitIncomeDeleteCategoryBtn" class="btn btn-success success">Usuń</a>
+          </div>
+      </div>
+  </div>
+</div>
+
 <!-- Modal delete income category -->
 <div class="modal fade" id="deleteIncomeCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -541,7 +650,7 @@
       </div>
       <div class="modal-body">
 
-        <form action="/settings/deleteIncomeCategory" method="post">
+        <form id="deleteIncomeCategoryForm" action="/settings/deleteIncomeCategory" method="post">
           <div class="form-group-modal mt-4 mb-4">
             <label>Wybierz kategorię, którą chcesz usunąć:</label>
             <div class="input-container">
@@ -549,7 +658,7 @@
             <ul>
               {% for incomeCategory in incomesCategories %}
               <div class="form-check">
-                <input class="form-check-input" type="radio" value="{{ incomeCategory.id }}" name="incomeCategoryToDelete" id="incomeDelete{{ incomeCategory.id }}" required>
+                <input class="form-check-input" type="radio" value="{{ incomeCategory.id }}" name="incomeCategoryToDelete" id="incomeDelete{{ incomeCategory.id }}" required checked>
                 <label class="form-check-label" for="incomeDelete{{ incomeCategory.id }}">
                   {{ incomeCategory.name }}
                 </label>
@@ -561,17 +670,29 @@
           </div>
       </div>
       <div class="modal-footer">
-        <div class="modal-content">
-          Jeśli wybrana kategoria zawiera dodane pozycje to zostaną usuniętę.
-        </div>
         <div class="btn-toolbar justify-content-left mb-3">
-          <button type="submit" class="btn-group btn btn-success">
+          <button type="button" name="btn" value="Submit" id="incomeDeleteCategoryBtn" data-bs-toggle="modal" data-bs-target="#confirm-delete-income-submit" class="btn-group btn btn-success">
             Usuń
           </button>
         </div>
       </div>
      </form>
     </div>
+  </div>
+</div>
+
+<!-- Modal delete expense cofirm -->
+<div class="modal fade" id="confirm-delete-expense-submit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div id="deleteExpenseCategoryWarning" class="modal-body"></div>
+
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-bs-dismiss="modal">Anuluj</button>
+              <a href="#" id="submitExpenseDeleteCategoryBtn" class="btn btn-success success">Usuń</a>
+          </div>
+      </div>
   </div>
 </div>
 
@@ -585,25 +706,22 @@
       </div>
       <div class="modal-body">
 
-        <form action="/settings/deleteExpenseCategory" method="post">
+        <form id="deleteExpenseCategoryFrom" action="/settings/deleteExpenseCategory" method="post">
 
           <div class="form-group-modal mt-4 mb-4">
             <label>Wybierz kategorię, którą chcesz usunąć:</label>
 
             <select class="form-select" name="deleteExpanseCategory" aria-label="Default select example">
               {% for expenseCategory in expensesCategories %}
-              <option value="{{ expenseCategory.id }}">{{ expenseCategory.name }}</option>
+              <option name="expenseCategoryToDelete" value="{{ expenseCategory.id }}">{{ expenseCategory.name }}</option>
               {% endfor %}
             </select>
           </div>
       </div>
 
       <div class="modal-footer">
-        <div class="modal-content">
-          Jeśli wybrana kategoria zawiera dodane pozycje to zostaną usuniętę.
-        </div>
         <div class="btn-toolbar justify-content-left mb-3">
-          <button type="submit" class="btn-group btn btn-success">
+          <button type="button" name="btn" value="Submit" id="expenseDeleteCategoryBtn" data-bs-toggle="modal" data-bs-target="#confirm-delete-expense-submit" class="btn-group btn btn-success">
             Usuń
           </button>
           
@@ -611,6 +729,21 @@
       </div>
      </form>
     </div>
+  </div>
+</div>
+
+<!-- Modal delete payment method cofirm -->
+<div class="modal fade" id="confirm-delete-payment-submit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div id="deletePaymentMethodWarning" class="modal-body"></div>
+
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-bs-dismiss="modal">Anuluj</button>
+              <a href="#" id="submitPaymentMethodDeleteBtn" class="btn btn-success success">Usuń</a>
+          </div>
+      </div>
   </div>
 </div>
 
@@ -624,7 +757,7 @@
       </div>
       <div class="modal-body">
 
-        <form action="/settings/deletePaymentMethod" method="post">
+        <form id="deletePaymentMethodFrom" action="/settings/deletePaymentMethod" method="post">
 
           <div class="form-group-modal mt-4 mb-4">
             <label>Wybierz metodę płatności, którą chcesz usunąć:</label>
@@ -633,7 +766,7 @@
             <ul>
               {% for paymentMethod in paymentMethods %}
               <div class="form-check">
-                <input class="form-check-input" type="radio" value="{{ paymentMethod.id }}" name="deletePaymentMethod" id="paymentDelete{{ paymentMethod.id }}" required>
+                <input class="form-check-input" type="radio" value="{{ paymentMethod.id }}" name="deletePaymentMethod" id="paymentDelete{{ paymentMethod.id }}" required checked>
                 <label class="form-check-label" for="paymentDelete{{ paymentMethod.id }}">
                   {{ paymentMethod.name }}
                 </label>
@@ -646,11 +779,8 @@
       </div>
 
       <div class="modal-footer">
-        <div class="modal-content">
-          Jeśli wybrana kategoria zawiera dodane pozycje to zostaną usuniętę.
-        </div>
         <div class="btn-toolbar justify-content-left mb-3">
-          <button type="submit" class="btn-group btn btn-success">
+          <button type="button" name="btn" value="Submit" id="paymentMethodDeleteBtn" data-bs-toggle="modal" data-bs-target="#confirm-delete-payment-submit" class="btn-group btn btn-success">
             Usuń
           </button>
           

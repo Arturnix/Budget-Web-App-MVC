@@ -255,10 +255,65 @@ class Setting extends \Core\Model
         return $stmt->execute();
     }
 
+    //delete verification
+
+    public static function usedIncomeCategory() {
+
+        $sql = 'SELECT DISTINCT income_category_assigned_to_user_id FROM incomes
+                WHERE user_id = :loggedUserId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
+    public static function usedExpenseCategory() {
+
+        $sql = 'SELECT DISTINCT expense_category_assigned_to_user_id FROM expenses
+                WHERE user_id = :loggedUserId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
+    public static function usedPaymentMethod() {
+
+        $sql = 'SELECT DISTINCT payment_method_assigned_to_user_id FROM expenses
+                WHERE user_id = :loggedUserId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
     public static function deleteIncomeCategory($incomeCategoryToDelete) {
 
         $sql = 'DELETE FROM incomes_category_assigned_to_users
-                WHERE user_id = :user_id AND id = :incomeCategoryToDelete';
+                WHERE user_id = :user_id AND id = :incomeCategoryToDelete;
+                DELETE FROM incomes
+                WHERE user_id = :user_id AND income_category_assigned_to_user_id = :incomeCategoryToDelete';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
@@ -272,7 +327,9 @@ class Setting extends \Core\Model
     public static function deleteExpenseCategory($expenseCategoryToDelete) {
 
         $sql = 'DELETE FROM expenses_category_assigned_to_users
-                WHERE user_id = :user_id AND id = :expenseCategoryToDelete';
+                WHERE user_id = :user_id AND id = :expenseCategoryToDelete;
+                DELETE FROM expenses
+                WHERE user_id = :user_id AND expense_category_assigned_to_user_id = :expenseCategoryToDelete';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
@@ -287,7 +344,7 @@ class Setting extends \Core\Model
 
         $sql = 'DELETE FROM payment_methods_assigned_to_users
                 WHERE user_id = :user_id AND id = :paymentMethodToDelete';
-
+                
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
