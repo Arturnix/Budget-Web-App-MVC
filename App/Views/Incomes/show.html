@@ -7,68 +7,6 @@ block body %} {% if current_user %}
     <script src="/js/bootstrap-datepicker.pl.min.js"></script>
   </head>
 
-    <header>
-      <div id="title">
-        <img class="header-budget-img" id="budgetImg" src="/img/budget.png" alt="budget-img" />
-        <h1 class="header-title">Zaplanuj swój budżet i zacznij oszczędzać!</h1>
-      </div>
-
-      <nav id="navigation-bar" class="navbar navbar-expand-lg navbar-light">
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNavAltMarkup"
-          aria-controls="navbarNavAltMarkup"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="/home/show"
-                ><i class="nav-icon fa-solid fa-house-chimney"></i>Strona
-                główna</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/incomes/show"
-                ><i class="nav-icon fa-solid fa-sack-dollar"></i>Dodaj
-                przychód</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/expenses/show"
-                ><i class="nav-icon fa-solid fa-cash-register"></i>Dodaj
-                wydatek</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/balances/show"
-                ><i class="nav-icon fa-solid fa-scale-unbalanced"></i>Przeglądaj
-                bilans</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/settings/show"
-                ><i class="nav-icon fa-solid fa-screwdriver-wrench"></i
-                >Ustawienia</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/logout"
-                ><i class="nav-icon fa-solid fa-arrow-up-right-from-square"></i
-                >Wyloguj się</a
-              >
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </header>
-
-  
     <!-- expenses section  -->
     <h2 class="header-section pb-4">Wprowadź dane nowego przychodu:</h2>
     <form action="/incomes/create" method="post">
