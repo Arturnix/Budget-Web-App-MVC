@@ -19,12 +19,12 @@ class Balances extends \Core\Controller
      *
      * @return void
      */
-    public function indexAction()
+    public function showAction()
     {
         $dateStart = date('Y-m-01');
         $dateEnd = date('Y-m-t');
 
-        View::renderTemplate('Balances/index.html', [
+        View::renderTemplate('Balances/show.html', [
             'timePeriod' => "bieżący miesiąc",
             'incomesData' => Balance::getIncomesData($dateStart, $dateEnd),
             'incomeNamesAndSum' => Balance::getIncomeNamesAndSum($dateStart, $dateEnd),
@@ -44,7 +44,7 @@ class Balances extends \Core\Controller
         $dateStart = date('Y-m-d', strtotime(date('Y-m')." -1 month"));
         $dateEnd = date('Y-m-t', strtotime(date('Y-m')." -1 month"));
 
-        View::renderTemplate('Balances/index.html', [
+        View::renderTemplate('Balances/show.html', [
             'timePeriod' => "poprzedni miesiąc",
             'incomesData' => Balance::getIncomesData($dateStart, $dateEnd),
             'incomeNamesAndSum' => Balance::getIncomeNamesAndSum($dateStart, $dateEnd),
@@ -64,7 +64,7 @@ class Balances extends \Core\Controller
         $dateStart = date('Y-m-d', strtotime('first day of january this year'));
         $dateEnd = date('Y-m-d', strtotime('last day of december this year'));
 
-        View::renderTemplate('Balances/index.html', [
+        View::renderTemplate('Balances/show.html', [
             'timePeriod' => "bieżący rok",
             'incomesData' => Balance::getIncomesData($dateStart, $dateEnd),
             'incomeNamesAndSum' => Balance::getIncomeNamesAndSum($dateStart, $dateEnd),
@@ -89,7 +89,7 @@ class Balances extends \Core\Controller
             $dateEnd = $_POST['balanceDateStart'];
         }
 
-        View::renderTemplate('Balances/index.html', [
+        View::renderTemplate('Balances/show.html', [
             'timePeriod' => "zakres wybrany przez użytkonika",
             'incomesData' => Balance::getIncomesData($dateStart, $dateEnd),
             'incomeNamesAndSum' => Balance::getIncomeNamesAndSum($dateStart, $dateEnd),

@@ -25,7 +25,7 @@ class Login extends \Core\Controller
         
         if(Auth::isLoggedIn()) {
 
-			$this->redirect('/home/index');
+			$this->redirect('/home/show');
 
 		} else {
 

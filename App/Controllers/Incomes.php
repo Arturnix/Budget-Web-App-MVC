@@ -19,9 +19,9 @@ class Incomes extends \Core\Controller
      *
      * @return void
      */
-    public function indexAction()
+    public function showAction()
     {   
-        View::renderTemplate('Incomes/index.html', [
+        View::renderTemplate('Incomes/show.html', [
             'incomeCategoriesDefault' => Income::getIncomeCategoriesAssignedToUser()
         ]);
     }
@@ -43,12 +43,12 @@ class Incomes extends \Core\Controller
         if (Income::transferNewIncomeData($newIncomeData)) {
 
             Flash::addMessage('Dodano nowy przychód');
-            $this->redirect('/incomes/index');
+            $this->redirect('/incomes/show');
 
         } else {
 
             Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
-            $this->redirect('/incomes/index');
+            $this->redirect('/incomes/show');
 
         }
     }

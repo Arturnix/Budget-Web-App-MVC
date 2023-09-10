@@ -39,28 +39,28 @@ body %} {% if current_user %}
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="/home/index"
+          <a class="nav-link" href="/home/show"
             ><i class="nav-icon fa-solid fa-house-chimney"></i>Strona główna</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/incomes/index"
+          <a class="nav-link" href="/incomes/show"
             ><i class="nav-icon fa-solid fa-sack-dollar"></i>Dodaj przychód</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/expenses/index"
+          <a class="nav-link" href="/expenses/show"
             ><i class="nav-icon fa-solid fa-cash-register"></i>Dodaj wydatek</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/balances/index"
+          <a class="nav-link" href="/balances/show"
             ><i class="nav-icon fa-solid fa-scale-unbalanced"></i>Przeglądaj
             bilans</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/settings/index"
+          <a class="nav-link" href="/settings/show"
             ><i class="nav-icon fa-solid fa-screwdriver-wrench"></i
             >Ustawienia</a
           >
@@ -91,7 +91,7 @@ body %} {% if current_user %}
         Okres bilansu
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="/balances/index">Bieżący miesiąc</a>
+        <a class="dropdown-item" href="/balances/show">Bieżący miesiąc</a>
         <a class="dropdown-item" href="/balances/showPreviousMonth">Poprzedni miesiąc</a>
         <a class="dropdown-item" href="/balances/showCurrentYear">Bieżący rok</a>
         <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#myModal" href="#">Wybierz sam</a>

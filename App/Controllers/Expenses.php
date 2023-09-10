@@ -19,9 +19,9 @@ class Expenses extends \Core\Controller
      *
      * @return void
      */
-    public function indexAction()
+    public function showAction()
     {   
-        View::renderTemplate('Expenses/index.html', [
+        View::renderTemplate('Expenses/show.html', [
             'paymentMethodsDefault' => Expense::getPaymentMethodsAssignedToUser(),
             'expenseCategoriesDefault' => Expense::getExpenseCategoriesAssignedToUser()
         ]);
@@ -45,12 +45,12 @@ class Expenses extends \Core\Controller
         if (Expense::transferNewExpenseData($newExpenseData)) {
 
             Flash::addMessage('Dodano nowy wydatek');
-            $this->redirect('/expenses/index');
+            $this->redirect('/expenses/show');
 
         } else {
 
             Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
-            $this->redirect('/expenses/index');
+            $this->redirect('/expenses/show');
 
         }
     }
