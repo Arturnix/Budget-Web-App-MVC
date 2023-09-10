@@ -1,4 +1,5 @@
 {% extends "base.html" %} {% block title %}Error{% endblock %} {% block body %}
+{% if current_user %}
 
 <section class="reset-password-fit">
   <div class="container py-3">
@@ -8,8 +9,30 @@
         <br />
       </h1>
       <p>Przepraszamy, nie możemy załadować tej strony.</p>
+      <br /><br />
+    </div>
+    <div class="d-flex align-items-center justify-content-center my-3">
+      <a href="/home/index"> Powrót do strony głównej </a>
     </div>
   </div>
 </section>
 
-{% endblock %}
+{% else %}
+
+<section class="reset-password-fit">
+  <div class="container py-3">
+    <div id="accessDeniedMessage">
+      <h1>
+        Wystąpił błąd
+        <br />
+      </h1>
+      <p>Przepraszamy, nie możemy załadować tej strony.</p>
+      <br /><br />
+    </div>
+    <div class="d-flex align-items-center justify-content-center my-3">
+      <a href="/"> Powrót do strony logowania </a>
+    </div>
+  </div>
+</section>
+
+{% endif %} {% endblock %}

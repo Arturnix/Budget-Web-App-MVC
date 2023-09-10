@@ -345,7 +345,7 @@ $('#submitExpenseDeleteCategoryBtn').click(function(){
           <div class="form-group-modal mt-4 mb-4">
             <label>Wybierz kategorię do zmiany nazwy:</label>
 
-            <select class="form-select" name="editExpanseName" aria-label="Default select example">
+            <select class="form-select" name="editExpanseName" aria-label="Default select example" required>
               {% for expenseCategory in expensesCategories %}
               <option value="{{ expenseCategory.id }}">{{ expenseCategory.name }}</option>
               {% endfor %}
@@ -711,7 +711,7 @@ $('#submitExpenseDeleteCategoryBtn').click(function(){
           <div class="form-group-modal mt-4 mb-4">
             <label>Wybierz kategorię, którą chcesz usunąć:</label>
 
-            <select class="form-select" name="deleteExpanseCategory" aria-label="Default select example">
+            <select class="form-select" name="deleteExpanseCategory" aria-label="Default select example" required>
               {% for expenseCategory in expensesCategories %}
               <option name="expenseCategoryToDelete" value="{{ expenseCategory.id }}">{{ expenseCategory.name }}</option>
               {% endfor %}
