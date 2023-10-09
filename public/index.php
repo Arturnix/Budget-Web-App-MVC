@@ -31,10 +31,13 @@ session_start();
 $router = new Core\Router();
 
 // Add the routes
+$router->add('api/limit/{category:[\wżźćńółęąśŻŹĆŃÓŁĘĄŚ ]+}', ['controller' => 'Expenses', 'action' => 'limit']);
+$router->add('api/monthlySum/{category:[\wżźćńółęąśŻŹĆŃÓŁĘĄŚ ]+}', ['controller' => 'Expenses', 'action' => 'monthlySum']);
 $router->add('', ['controller' => 'Login', 'action' => 'new']);
 $router->add('login', ['controller' => 'Login', 'action' => 'new']);
 $router->add('home', ['controller' => 'Home', 'action' => 'index']);
-$router->add('balance', ['controller' => 'Balance', 'action' => 'index']);
+$router->add('setting', ['controller' => 'Settings', 'action' => 'show']);
+$router->add('balance', ['controller' => 'Balances', 'action' => 'show']);
 $router->add('logout', ['controller' => 'Login', 'action' => 'destroy']);
 $router->add('password/reset/{token:[\da-f]+}', ['controller' => 'Password', 'action' => 'reset']);
 $router->add('signup/activate/{token:[\da-f]+}', ['controller' => 'Signup', 'action' => 'activate']);

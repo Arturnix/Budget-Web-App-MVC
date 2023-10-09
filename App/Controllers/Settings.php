@@ -190,8 +190,6 @@ class Settings extends \Core\Controller
         }
     }
 
-    //delete category
-
     public function usedIncomeCategory() {
 
         var_dump(Setting::usedIncomeCategory());
@@ -336,6 +334,39 @@ class Settings extends \Core\Controller
             Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
             $this->redirect('/settings/show');
 
+        }
+    }
+
+    public function setLimitAction() {
+
+        $category = $_POST['setLimitCategory'];
+        $limit = $_POST['setLimitValue'];
+
+        if (Setting::setLimit($category, $limit)) {
+
+            Flash::addMessage('Ustawiono limit wydatku');
+            $this->redirect('/settings/show');
+
+        } else {
+
+            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            $this->redirect('/settings/show');
+        } 
+    }
+
+    public function deleteLimitAction() {
+
+        $category = $_POST['deleteLimitCategory'];
+
+        if (Setting::deleteLimit($category)) {
+
+            Flash::addMessage('Zniesniono limit wydatków');
+            $this->redirect('/settings/show');
+
+        } else {
+
+            Flash::addMessage('Operacja nie powiodła się. Spróbuj ponownie.', Flash::WARNING);
+            $this->redirect('/settings/show');
         }
     }
 }

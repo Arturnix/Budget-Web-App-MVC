@@ -217,7 +217,8 @@ form {
   list-style-type: none;
 }
 
-.incomeSumColor {
+.incomeSumColor,
+.limitRemainPlus {
   color: #3e7c17;
   font-weight: 600;
 }
@@ -227,7 +228,8 @@ form {
   font-weight: 600;
 }
 
-.expenseSumColor {
+.expenseSumColor,
+.limitRemainMinus {
   color: #dc3535;
   font-weight: 600;
 }
@@ -237,7 +239,8 @@ form {
   font-weight: 600;
 }
 
-.balanceColor {
+.balanceColor,
+.expenseLimit {
   color: #3c79f5;
   font-weight: 600;
 }
@@ -321,7 +324,7 @@ form {
 /* Flash messages */
 
 .alert {
-  position: fixed;
+  position: absolute;
   right: 25%;
   width: 50%;
   z-index: 1;
@@ -368,3 +371,21 @@ form {
 }
 
 /* Settings */
+
+/* Flex */
+.flex-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.expense-limit-info {
+  justify-content: flex-end;
+}
+
+#show-limit {
+  display: none;
+}
+
+.expenseLimitSpend {
+  font-weight: 600;
+}

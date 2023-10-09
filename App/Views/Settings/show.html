@@ -8,7 +8,7 @@
 
 
 <script>
-  $('#incomeDeleteCategoryBtn').click(function() {
+  $('#incomeDeleteCategoryBtn').click (function() {
     
     let deleteIncomeCategory = $('input[name="incomeCategoryToDelete"]:checked').val();
     let usedIncomeCategory = JSON.parse('{{ incomeCategoryUsed | json_encode | raw }}');
@@ -153,7 +153,7 @@ $('#submitExpenseDeleteCategoryBtn').click(function(){
       </div>
       <div class="modal-footer">
         <div class="btn-toolbar justify-content-left mb-3">
-          <button type="submit" class="btn-group btn btn-success">
+          <button type="submit" class="btn-group btn btn-primary">
             Zmień nazwę
           </button>
           
@@ -202,7 +202,7 @@ $('#submitExpenseDeleteCategoryBtn').click(function(){
 
       <div class="modal-footer">
         <div class="btn-toolbar justify-content-left mb-3">
-          <button type="submit" class="btn-group btn btn-success">
+          <button type="submit" class="btn-group btn btn-primary">
             Zmień nazwę
           </button>
           
@@ -259,7 +259,7 @@ $('#submitExpenseDeleteCategoryBtn').click(function(){
 
       <div class="modal-footer">
         <div class="btn-toolbar justify-content-left mb-3">
-          <button type="submit" class="btn-group btn btn-success">
+          <button type="submit" class="btn-group btn btn-primary">
             Zmień nazwę
           </button>
           
@@ -518,7 +518,7 @@ $('#submitExpenseDeleteCategoryBtn').click(function(){
       </div>
       <div class="modal-footer">
         <div class="btn-toolbar justify-content-left mb-3">
-          <button type="button" name="btn" value="Submit" id="incomeDeleteCategoryBtn" data-bs-toggle="modal" data-bs-target="#confirm-delete-income-submit" class="btn-group btn btn-success">
+          <button type="button" name="btn" value="Submit" id="incomeDeleteCategoryBtn" data-bs-toggle="modal" data-bs-target="#confirm-delete-income-submit" class="btn-group btn btn-danger">
             Usuń
           </button>
         </div>
@@ -568,7 +568,7 @@ $('#submitExpenseDeleteCategoryBtn').click(function(){
 
       <div class="modal-footer">
         <div class="btn-toolbar justify-content-left mb-3">
-          <button type="button" name="btn" value="Submit" id="expenseDeleteCategoryBtn" data-bs-toggle="modal" data-bs-target="#confirm-delete-expense-submit" class="btn-group btn btn-success">
+          <button type="button" name="btn" value="Submit" id="expenseDeleteCategoryBtn" data-bs-toggle="modal" data-bs-target="#confirm-delete-expense-submit" class="btn-group btn btn-danger">
             Usuń
           </button>
           
@@ -627,7 +627,7 @@ $('#submitExpenseDeleteCategoryBtn').click(function(){
 
       <div class="modal-footer">
         <div class="btn-toolbar justify-content-left mb-3">
-          <button type="button" name="btn" value="Submit" id="paymentMethodDeleteBtn" data-bs-toggle="modal" data-bs-target="#confirm-delete-payment-submit" class="btn-group btn btn-success">
+          <button type="button" name="btn" value="Submit" id="paymentMethodDeleteBtn" data-bs-toggle="modal" data-bs-target="#confirm-delete-payment-submit" class="btn-group btn btn-danger">
             Usuń
           </button>
           
@@ -680,6 +680,127 @@ $('#submitExpenseDeleteCategoryBtn').click(function(){
   </div>
 </div>
 
+<!-- Limit -->
+<!-- Modal add limit -->
+<div class="modal fade" id="setLimit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Ustaw limit wydatków dla kategorii</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form action="/settings/setLimit" method="post" id="formSetLimit">
+
+          <div class="form-group-modal mt-4 mb-4">
+            <label>Wybierz kategorię:</label>
+
+            <select class="form-select" name="setLimitCategory" aria-label="Default select example" required>
+              {% for expenseCategory in expensesCategories %}
+              <option name="setLimitCategory" value="{{ expenseCategory.id }}">{{ expenseCategory.name }}</option>
+              {% endfor %}
+            </select>
+            <br>
+            
+            <label for="setLimitValue">Limit:</label>
+              <div class="input-container">
+                <input
+                  id="setLimitValue"
+                  name="setLimitValue"
+                  class="form-control"
+                  placeholder="Podaj wartość limitu"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  required
+                  pattern="^\d*(\.\d{0,2})?$"
+                />
+              </div>
+          </div>
+
+      </div>
+      <div class="modal-footer">
+        <div class="btn-toolbar justify-content-left mb-3">
+          <button type="submit" class="btn-group btn btn-success">
+            Ustaw limit
+          </button>
+          
+        </div>
+      </div>
+     </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal remove limit -->
+<div class="modal fade" id="deleteLimit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Usuń limit wydatków dla kategorii</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form action="/settings/deleteLimit" method="post" id="formDeleteLimit">
+
+          <div class="form-group-modal mt-4 mb-4">
+            <label>Wybierz kategorię:</label>
+
+            <select class="form-select" name="deleteLimitCategory" aria-label="Default select example" required>
+              {% for expenseCategory in expensesCategories %}
+              {% if expenseCategory.limit_expense != null %}
+              <option name="deleteLimitCategory" value="{{ expenseCategory.id }}">{{ expenseCategory.name }}</option>
+              {% endif %}{% endfor %}
+            </select>
+          </div>
+
+      </div>
+      <div class="modal-footer">
+        <div class="btn-toolbar justify-content-left mb-3">
+          <button type="submit" class="btn-group btn btn-danger">
+            Usuń limit
+          </button>
+          
+        </div>
+      </div>
+     </form>
+    </div>
+  </div>
+</div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <h3 class="header-balance">Zarządzaj limitem wydatków</h3>
+    </div>
+    <div class="card-body d-flex flex-column flex-lg-row align-items-center justify-content-around justify-content-center">
+
+      <button
+        class="btn btn-success my-2"
+        type="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        data-bs-toggle="modal" 
+        data-bs-target="#setLimit"
+      >
+        Ustaw limit
+      </button>
+
+      <button
+        class="btn btn-danger my-2"
+        type="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        data-bs-toggle="modal" 
+        data-bs-target="#deleteLimit"
+      >
+        Usuń limit
+      </button>
+
+    </div>
+  </div>
+
 <!-- Edit user data -->
 <!-- Modal edit user name -->
 <div class="modal fade" id="editUserName" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -711,7 +832,7 @@ $('#submitExpenseDeleteCategoryBtn').click(function(){
       </div>
       <div class="modal-footer">
         <div class="btn-toolbar justify-content-left mb-3">
-          <button type="submit" class="btn-group btn btn-success">
+          <button type="submit" class="btn-group btn btn-primary">
             Zmień imię
           </button>
           
@@ -752,7 +873,7 @@ $('#submitExpenseDeleteCategoryBtn').click(function(){
       </div>
       <div class="modal-footer">
         <div class="btn-toolbar justify-content-left mb-3">
-          <button type="submit" class="btn-group btn btn-success">
+          <button type="submit" class="btn-group btn btn-primary">
             Zmień email
           </button>
           
@@ -802,7 +923,7 @@ $('#submitExpenseDeleteCategoryBtn').click(function(){
       </div>
       <div class="modal-footer">
         <div class="btn-toolbar justify-content-left mb-3">
-          <button type="submit" class="btn-group btn btn-success">
+          <button type="submit" class="btn-group btn btn-primary">
             Zmień hasło
           </button>
           
@@ -905,6 +1026,8 @@ $('#submitExpenseDeleteCategoryBtn').click(function(){
   </div>
 
 </div>
+
+<script src="/js/numberInputPattern.js"></script>
 
 {% else %}
 

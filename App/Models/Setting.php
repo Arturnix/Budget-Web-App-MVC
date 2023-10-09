@@ -66,7 +66,7 @@ class Setting extends \Core\Model
      */
     public static function getExpenseName() {
 
-        $sql = 'SELECT id, name
+        $sql = 'SELECT id, name, limit_expense
                 FROM expenses_category_assigned_to_users
                 WHERE user_id = :loggedUserId';
 
@@ -532,5 +532,35 @@ class Setting extends \Core\Model
         } else {
             return false;
         }
+    }
+
+    public static function setLimit($category, $limit) {
+
+        $sql = 'UPDATE expenses_category_assigned_to_users
+                SET limit_expense  = :limitValue
+                WHERE id = :category AND user_id = :loggedUserId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':limitValue', $limit, PDO::PARAM_STR);
+        $stmt->bindValue(':category', $category, PDO::PARAM_INT);
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+       
+        return $stmt->execute();
+    }
+
+    public static function deleteLimit($category) {
+        $sql = 'UPDATE expenses_category_assigned_to_users
+                SET limit_expense  = null
+                WHERE id = :category AND user_id = :loggedUserId';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':category', $category, PDO::PARAM_INT);
+        $stmt->bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+       
+        return $stmt->execute();
     }
 }

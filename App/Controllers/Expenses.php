@@ -54,4 +54,21 @@ class Expenses extends \Core\Controller
 
         }
     }
+
+    public function limitAction() {
+        
+        $user_id = $_SESSION['user_id'];
+        $category = $this->route_params['category'];
+       
+        echo json_encode(Expense::getLimit($user_id, $category), JSON_UNESCAPED_UNICODE);
+    }
+
+    public function monthlySumAction() {
+
+        $user_id = $_SESSION['user_id'];
+        $category = $this->route_params['category'];
+
+        echo json_encode(Expense::getMonthlySum($user_id, $category), JSON_UNESCAPED_UNICODE);
+    }
+
 }

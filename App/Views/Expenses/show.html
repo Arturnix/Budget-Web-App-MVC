@@ -23,9 +23,23 @@ block body %} {% if current_user %}
             min="0"
             step="0.01"
             required
+            pattern="^\d*(\.\d{0,2})?$"
           />
         </div>
       </div>
+
+       <!-- limit section  -->
+      <div class="form-group" id="show-limit">
+        <div class="input-container expenseLimit" id="limit">
+        </div>
+
+        <div class="input-container expenseLimitSpend" id="limit-spend">
+        </div>
+
+        <div class="input-container" id="limit-remain">
+        </div>
+      </div>
+
       <div class="form-group">
         <label for="todays-date">Data wydatku:</label>
         <div class="input-container date" id="datepicker">
@@ -60,7 +74,7 @@ block body %} {% if current_user %}
         <label for="expenseCategory">Cel wydatku:</label>
         <br />
         <select id="expenseCategory" name="expenseCategory" class="form-control" required>
-        
+          <option disabled selected value> -- Wybierz kategorię z listy -- </option>
           {% for expenseCategory in expenseCategoriesDefault %}
             <option>{{ expenseCategory }}</option>
           {% endfor %}
@@ -108,5 +122,7 @@ block body %} {% if current_user %}
       today = yyyy + "-" + mm + "-" + dd;
       $("#todays-date").attr("value", today);
     </script>
+    <script src="/js/limit.js"></script>
+    <script src="/js/numberInputPattern.js"></script>
 
 {% endif %} {% endblock %}

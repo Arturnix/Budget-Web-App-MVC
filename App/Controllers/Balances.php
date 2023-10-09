@@ -21,17 +21,22 @@ class Balances extends \Core\Controller
      */
     public function showAction()
     {
-        $dateStart = date('Y-m-01');
-        $dateEnd = date('Y-m-t');
+            if(isset($_SESSION['user_id'])) {
+                
+            $dateStart = date('Y-m-01');
+            $dateEnd = date('Y-m-t');
 
-        View::renderTemplate('Balances/show.html', [
-            'timePeriod' => "bieżący miesiąc",
-            'incomesData' => Balance::getIncomesData($dateStart, $dateEnd),
-            'incomeNamesAndSum' => Balance::getIncomeNamesAndSum($dateStart, $dateEnd),
-            'expensesData' => Balance::getExpensesData($dateStart, $dateEnd),
-            'expenseNamesAndSum' => Balance::getExpenseNamesAndSum($dateStart, $dateEnd),
-            'balance' => Balance::calculateBalance($dateStart, $dateEnd)
-        ]);
+            View::renderTemplate('Balances/show.html', [
+                'timePeriod' => "bieżący miesiąc",
+                'incomesData' => Balance::getIncomesData($dateStart, $dateEnd),
+                'incomeNamesAndSum' => Balance::getIncomeNamesAndSum($dateStart, $dateEnd),
+                'expensesData' => Balance::getExpensesData($dateStart, $dateEnd),
+                'expenseNamesAndSum' => Balance::getExpenseNamesAndSum($dateStart, $dateEnd),
+                'balance' => Balance::calculateBalance($dateStart, $dateEnd)
+            ]);
+         } else {
+            View::renderTemplate('Balances/show.html');
+        }
     }
 
     /**
@@ -41,17 +46,22 @@ class Balances extends \Core\Controller
      */
     public function showPreviousMonthAction() {
 
-        $dateStart = date('Y-m-d', strtotime(date('Y-m')." -1 month"));
-        $dateEnd = date('Y-m-t', strtotime(date('Y-m')." -1 month"));
+        if(isset($_SESSION['user_id'])) {
 
-        View::renderTemplate('Balances/show.html', [
-            'timePeriod' => "poprzedni miesiąc",
-            'incomesData' => Balance::getIncomesData($dateStart, $dateEnd),
-            'incomeNamesAndSum' => Balance::getIncomeNamesAndSum($dateStart, $dateEnd),
-            'expensesData' => Balance::getExpensesData($dateStart, $dateEnd),
-            'expenseNamesAndSum' => Balance::getExpenseNamesAndSum($dateStart, $dateEnd),
-            'balance' => Balance::calculateBalance($dateStart, $dateEnd)
-        ]);
+            $dateStart = date('Y-m-d', strtotime(date('Y-m')." -1 month"));
+            $dateEnd = date('Y-m-t', strtotime(date('Y-m')." -1 month"));
+
+            View::renderTemplate('Balances/show.html', [
+                'timePeriod' => "poprzedni miesiąc",
+                'incomesData' => Balance::getIncomesData($dateStart, $dateEnd),
+                'incomeNamesAndSum' => Balance::getIncomeNamesAndSum($dateStart, $dateEnd),
+                'expensesData' => Balance::getExpensesData($dateStart, $dateEnd),
+                'expenseNamesAndSum' => Balance::getExpenseNamesAndSum($dateStart, $dateEnd),
+                'balance' => Balance::calculateBalance($dateStart, $dateEnd)
+            ]);
+        } else {
+            View::renderTemplate('Balances/show.html');
+        }
     }
 
     /**
@@ -61,17 +71,22 @@ class Balances extends \Core\Controller
      */
     public function showCurrentYearAction() {
 
-        $dateStart = date('Y-m-d', strtotime('first day of january this year'));
-        $dateEnd = date('Y-m-d', strtotime('last day of december this year'));
+        if(isset($_SESSION['user_id'])) {
 
-        View::renderTemplate('Balances/show.html', [
-            'timePeriod' => "bieżący rok",
-            'incomesData' => Balance::getIncomesData($dateStart, $dateEnd),
-            'incomeNamesAndSum' => Balance::getIncomeNamesAndSum($dateStart, $dateEnd),
-            'expensesData' => Balance::getExpensesData($dateStart, $dateEnd),
-            'expenseNamesAndSum' => Balance::getExpenseNamesAndSum($dateStart, $dateEnd),
-            'balance' => Balance::calculateBalance($dateStart, $dateEnd)
-        ]);
+            $dateStart = date('Y-m-d', strtotime('first day of january this year'));
+            $dateEnd = date('Y-m-d', strtotime('last day of december this year'));
+
+            View::renderTemplate('Balances/show.html', [
+                'timePeriod' => "bieżący rok",
+                'incomesData' => Balance::getIncomesData($dateStart, $dateEnd),
+                'incomeNamesAndSum' => Balance::getIncomeNamesAndSum($dateStart, $dateEnd),
+                'expensesData' => Balance::getExpensesData($dateStart, $dateEnd),
+                'expenseNamesAndSum' => Balance::getExpenseNamesAndSum($dateStart, $dateEnd),
+                'balance' => Balance::calculateBalance($dateStart, $dateEnd)
+            ]);
+        } else {
+            View::renderTemplate('Balances/show.html');
+        }
     }
 
     /**
@@ -81,21 +96,26 @@ class Balances extends \Core\Controller
      */
     public function showRangeAction() {
 
-        $dateStart = $_POST['balanceDateStart'];
-        $dateEnd = $_POST['balanceDateEnd'];
+            if(isset($_SESSION['user_id'])) {
 
-        if ($dateStart > $dateEnd) {
-            $dateStart = $_POST['balanceDateEnd'];
-            $dateEnd = $_POST['balanceDateStart'];
+                $dateStart = $_POST['balanceDateStart'];
+                $dateEnd = $_POST['balanceDateEnd'];
+
+                if ($dateStart > $dateEnd) {
+                    $dateStart = $_POST['balanceDateEnd'];
+                    $dateEnd = $_POST['balanceDateStart'];
+                }
+
+                View::renderTemplate('Balances/show.html', [
+                    'timePeriod' => "zakres wybrany przez użytkonika",
+                    'incomesData' => Balance::getIncomesData($dateStart, $dateEnd),
+                    'incomeNamesAndSum' => Balance::getIncomeNamesAndSum($dateStart, $dateEnd),
+                    'expensesData' => Balance::getExpensesData($dateStart, $dateEnd),
+                    'expenseNamesAndSum' => Balance::getExpenseNamesAndSum($dateStart, $dateEnd),
+                    'balance' => Balance::calculateBalance($dateStart, $dateEnd)
+                ]);
+        } else {
+            View::renderTemplate('Balances/show.html');
         }
-
-        View::renderTemplate('Balances/show.html', [
-            'timePeriod' => "zakres wybrany przez użytkonika",
-            'incomesData' => Balance::getIncomesData($dateStart, $dateEnd),
-            'incomeNamesAndSum' => Balance::getIncomeNamesAndSum($dateStart, $dateEnd),
-            'expensesData' => Balance::getExpensesData($dateStart, $dateEnd),
-            'expenseNamesAndSum' => Balance::getExpenseNamesAndSum($dateStart, $dateEnd),
-            'balance' => Balance::calculateBalance($dateStart, $dateEnd)
-        ]);
     }
 }
