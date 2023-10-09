@@ -7,6 +7,7 @@ Try it using guest account on https://www.budget.artur-zgodka.profesjonalnyprogr
 
 Email: guest@test.com
 
-Password: Test123!
+Password: Test123! </br>
+*There may occur an issue with first logging in using Chrome browser. Please, check "Remeber me" to proceed successfully with first log in.
 
 There are also implemented account activation mailig mechanics when creating new user account and reset password functionality for acitve users.
