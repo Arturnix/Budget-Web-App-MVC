@@ -176,11 +176,17 @@ class Expense extends \Core\Model
         return $stmt->fetch();
     }
 
-    public static function getMonthlySum($user_id, $category) {
+    public static function getMonthlySum($user_id, $category, $date) {
         
         $expanseCategoryId = Expense::getExpenseCategoryId($category);
-        $dateStart = date('Y-m-01');
-        $dateEnd = date('Y-m-t');
+        
+        $dateStart = date_create($date)
+       ->modify('first day of this month')
+       ->format('Y-m-d');
+
+       $dateEnd = date_create($date)
+       ->modify('last day of this month')
+       ->format('Y-m-d');
 
         $sql = 'SELECT SUM(expenses.amount) as expenseSumForSelectedCategory 
                 FROM expenses 

@@ -32,7 +32,7 @@ $router = new Core\Router();
 
 // Add the routes
 $router->add('api/limit/{category:[\wżźćńółęąśŻŹĆŃÓŁĘĄŚ ]+}', ['controller' => 'Expenses', 'action' => 'limit']);
-$router->add('api/monthlySum/{category:[\wżźćńółęąśŻŹĆŃÓŁĘĄŚ ]+}', ['controller' => 'Expenses', 'action' => 'monthlySum']);
+$router->add('api/monthlySum/{category:[\wżźćńółęąśŻŹĆŃÓŁĘĄŚ ]+}/{date:[0-9\-]+}', ['controller' => 'Expenses', 'action' => 'monthlySum']);
 $router->add('', ['controller' => 'Login', 'action' => 'new']);
 $router->add('login', ['controller' => 'Login', 'action' => 'new']);
 $router->add('home', ['controller' => 'Home', 'action' => 'index']);

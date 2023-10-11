@@ -47,13 +47,15 @@ block body %} {% if current_user %}
             <i class="fa-regular fa-calendar-days icon"></i>
           </div>
           <input
-            id="todays-date"
-            name="todays-date"
-            onkeydown="return false"
-            class="form-control"
-            placeholder="Wybierz datę z kalendarza"
-            required
-          />
+          type="text"
+          id="todays-date"
+          name="todays-date"
+          onkeydown="return false"
+          class="form-control"
+          placeholder="Wybierz datę z kalendarza"
+          required
+        />
+          
           <div class="input-group-addon">
             <span class="glyphicon glyphicon-th"></span>
           </div>

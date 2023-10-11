@@ -67,8 +67,8 @@ class Expenses extends \Core\Controller
 
         $user_id = $_SESSION['user_id'];
         $category = $this->route_params['category'];
+        $date = $this->route_params['date'];
 
-        echo json_encode(Expense::getMonthlySum($user_id, $category), JSON_UNESCAPED_UNICODE);
+        echo json_encode(Expense::getMonthlySum($user_id, $category, $date), JSON_UNESCAPED_UNICODE);
     }
-
 }

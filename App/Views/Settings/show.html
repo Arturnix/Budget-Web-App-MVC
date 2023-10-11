@@ -747,8 +747,8 @@ $('#submitExpenseDeleteCategoryBtn').click(function(){
 
           <div class="form-group-modal mt-4 mb-4">
             <label>Wybierz kategorię:</label>
-
-            <select class="form-select" name="deleteLimitCategory" aria-label="Default select example" required>
+            
+            <select class="form-select" id="limitsList" name="deleteLimitCategory" aria-label="Default select example" required>
               {% for expenseCategory in expensesCategories %}
               {% if expenseCategory.limit_expense != null %}
               <option name="deleteLimitCategory" value="{{ expenseCategory.id }}">{{ expenseCategory.name }}</option>

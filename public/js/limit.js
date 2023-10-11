@@ -1,40 +1,43 @@
+//const declarations
+const putLimit = document.querySelector("#limit");
+const limitSpend = document.querySelector("#limit-spend");
+const limitRemain = document.querySelector("#limit-remain");
+const expenseCategorySelected = document.querySelector("#expenseCategory");
+const typeMoneyToSpend = document.querySelector("#expenseAmount");
+const showLimitField = document.querySelector("#show-limit");
+const dateSelected = document.querySelector("#todays-date");
+
+//api
 const getLimitForCategory = async (category) => {
   try {
     const res = await fetch(`../api/limit/${category}`);
-    const data = await res.json();
-    return data;
+    return (data = await res.json());
   } catch (e) {
     console.log("ERROR", e);
   }
 };
 
-const getMonthlySumForCategory = async (category) => {
+const getMonthlySumForCategory = async (category, date) => {
   try {
-    const res = await fetch(`../api/monthlySum/${category}`);
-    const data = await res.json();
-    return data;
+    const res = await fetch(`../api/monthlySum/${category}/${date}`);
+    return (data = await res.json());
   } catch (e) {
     console.log("ERROR", e);
   }
 };
 
-const showLimitForCategory = async (expenseCategorySelected) => {
-  const putLimit = document.querySelector("#limit");
+//const function assignment
+const showLimitForCategory = async (limitToBeShown) => {
   putLimit.innerHTML =
-    "Miesięczny limit wybranej kategorii: " +
-    (await getLimitForCategory(expenseCategorySelected)) +
-    " zł";
+    "Miesięczny limit wybranej kategorii: " + limitToBeShown + " zł";
 };
 
-const showMonthlyMoneySpendForCategory = async (expenseCategorySelected) => {
-  const limitSpend = document.querySelector("#limit-spend");
-  if ((await getMonthlySumForCategory(expenseCategorySelected)) === null) {
+const showMonthlyMoneySpendForCategory = async (moneySpendInSelectedMonth) => {
+  if (moneySpendInSelectedMonth === null) {
     limitSpend.innerHTML = "Misięczna suma wydatków: " + 0 + " zł";
   } else {
     limitSpend.innerHTML =
-      "Misięczna suma wydatków: " +
-      (await getMonthlySumForCategory(expenseCategorySelected)) +
-      " zł";
+      "Misięczna suma wydatków: " + moneySpendInSelectedMonth + " zł";
   }
 };
 
@@ -51,11 +54,12 @@ const showLimitBalancePlusOrMinus = (
   }
 };
 
-const showMoneyRemainForCategory = async (expenseCategorySelected) => {
-  const limitRemain = document.querySelector("#limit-remain");
+const showMoneyRemainForCategory = async (
+  limitToBeShown,
+  moneySpendInSelectedMonth
+) => {
   let moneyRemainToSpendInCategory = (
-    (await getLimitForCategory(expenseCategorySelected)) -
-    (await getMonthlySumForCategory(expenseCategorySelected))
+    limitToBeShown - moneySpendInSelectedMonth
   ).toFixed(2);
 
   showLimitBalancePlusOrMinus(moneyRemainToSpendInCategory, limitRemain);
@@ -64,44 +68,88 @@ const showMoneyRemainForCategory = async (expenseCategorySelected) => {
     "Pozostało do wydania: " + moneyRemainToSpendInCategory + " zł";
 };
 
-const showLimit = document.querySelector("#expenseCategory");
-showLimit.addEventListener("change", async (e) => {
+//event listeners
+expenseCategorySelected.addEventListener("change", async (e) => {
   e.preventDefault();
 
-  const expenseCategorySelected =
-    document.querySelector("#expenseCategory").value;
+  const category = expenseCategorySelected.value;
+  const date = dateSelected.value;
 
-  if ((await getLimitForCategory(expenseCategorySelected)) === null) {
-    document.getElementById("show-limit").style.display = "none";
+  const limitToBeShown = await getLimitForCategory(category);
+  const moneySpendInSelectedMonth = await getMonthlySumForCategory(
+    category,
+    date
+  );
+
+  showLimitField.style.display = "block";
+
+  if (limitToBeShown === null) {
+    putLimit.innerHTML = "Nie ustawiono limitu dla wybranej kategorii";
+    limitSpend.style.display = "none";
+    limitRemain.style.display = "none";
   } else {
-    document.getElementById("show-limit").style.display = "block";
-
-    showLimitForCategory(expenseCategorySelected);
-    showMonthlyMoneySpendForCategory(expenseCategorySelected);
-    showMoneyRemainForCategory(expenseCategorySelected);
+    limitSpend.style.display = "block";
+    limitRemain.style.display = "block";
+    showLimitForCategory(limitToBeShown);
+    showMonthlyMoneySpendForCategory(moneySpendInSelectedMonth);
+    showMoneyRemainForCategory(limitToBeShown, moneySpendInSelectedMonth);
   }
 });
 
-const typeMoneyToSpend = document.querySelector("#expenseAmount");
 typeMoneyToSpend.addEventListener("keyup", async (e) => {
   e.preventDefault();
 
-  const moneyValueTyped = document.querySelector("#expenseAmount").value;
-
-  const expenseCategorySelected =
-    document.querySelector("#expenseCategory").value;
+  const moneyValueTyped = typeMoneyToSpend.value;
+  const category = expenseCategorySelected.value;
+  const date = dateSelected.value;
+  const limitToBeShown = await getLimitForCategory(category);
+  const moneySpendInSelectedMonth = await getMonthlySumForCategory(
+    category,
+    date
+  );
 
   let moneyRemainToSpendInCategory = (
-    (await getLimitForCategory(expenseCategorySelected)) -
-    (await getMonthlySumForCategory(expenseCategorySelected))
+    limitToBeShown - moneySpendInSelectedMonth
   ).toFixed(2);
 
   let moneySpendBalance = (
     moneyRemainToSpendInCategory - moneyValueTyped
   ).toFixed(2);
 
-  const limitRemain = document.querySelector("#limit-remain");
   showLimitBalancePlusOrMinus(moneySpendBalance, limitRemain);
 
   limitRemain.innerHTML = "Pozostało do wydania: " + moneySpendBalance + " zł";
 });
+
+$("#datepicker")
+  .datepicker()
+  .on("change", async (e) => {
+    e.preventDefault();
+
+    const category = expenseCategorySelected.value;
+    const date = dateSelected.value;
+
+    const limitToBeShown = await getLimitForCategory(category);
+    const moneySpendInSelectedMonth = await getMonthlySumForCategory(
+      category,
+      date
+    );
+
+    if (category === "") {
+      showLimitField.style.display = "none";
+    } else {
+      showLimitField.style.display = "block";
+
+      if (limitToBeShown === null) {
+        putLimit.innerHTML = "Nie ustawiono limitu dla wybranej kategorii";
+        limitSpend.style.display = "none";
+        limitRemain.style.display = "none";
+      } else {
+        limitSpend.style.display = "block";
+        limitRemain.style.display = "block";
+        showLimitForCategory(limitToBeShown);
+        showMonthlyMoneySpendForCategory(moneySpendInSelectedMonth);
+        showMoneyRemainForCategory(limitToBeShown, moneySpendInSelectedMonth);
+      }
+    }
+  });
