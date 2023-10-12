@@ -34,6 +34,10 @@ block footer %}
       },
     });
   });
+
+  function onSubmit(token) {
+    document.getElementById("formPassword").submit();
+  }
 </script>
 
 <footer>
@@ -71,14 +75,16 @@ block footer %}
       <small id="errorpassword"></small>
       <span>{{ user.errors.password }}</span>
 
-      <div
-        class="g-recaptcha"
-        data-sitekey="6Lc9J70mAAAAADhwxqGNgQ7u6RAbmrfaN6bWdLsB"
-      ></div>
-      <small class="text-danger">{{ user.errors.captcha }}</small>
-
       <div class="d-flex align-items-center justify-content-center my-3">
-        <button type="submit" class="btn btn-warning">Zresetuj hasło</button>
+        <button
+          class="g-recaptcha btn btn-warning"
+          data-sitekey="6Lc9J70mAAAAADhwxqGNgQ7u6RAbmrfaN6bWdLsB"
+          data-callback="onSubmit"
+          data-action="submit"
+        >
+          Zresetuj hasło
+        </button>
+        <small class="text-danger">{{ user.errors.captcha }}</small>
       </div>
       <hr />
     </div>
