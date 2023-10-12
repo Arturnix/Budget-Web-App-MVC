@@ -1,5 +1,5 @@
-Twoja aplikacja budżetowa - reset hasła
+Twoja aplikacja budżetowa - reset hasła,
 
-Proszę, kliknij w link aby zresetować swoje hasło:
+kliknij w link aby zresetować swoje hasło:
 
 {{ url }}
